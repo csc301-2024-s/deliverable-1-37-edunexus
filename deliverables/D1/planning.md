@@ -45,11 +45,68 @@ Persona 1: Ms. Alpha Mazda
     * How does this align with your partner's organization's values/mission/mandate?
 
 #### Q4: What are the user stories that make up the Minumum Viable Product (MVP)?
+#### 1. User Story: Report Generation
 
- * At least 5 user stories concerning the main features of the application - note that this can broken down further
- * You must follow proper user story format (as taught in lecture) ```As a <user of the app>, I want to <do something in the app> in order to <accomplish some goal>```
- * User stories must contain acceptance criteria. Examples of user stories with different formats can be found here: https://www.justinmind.com/blog/user-story-examples/. **It is important that you provide a link to an artifact containing your user stories**.
- * If you have a partner, these must be reviewed and accepted by them. You need to include the evidence of partner approval (e.g., screenshot from email) or at least communication to the partner (e.g., email you sent)
+* As a teacher, I want to generate detailed report forms for each student, so that I can provide them with personalized feedback and assessments quickly.
+
+* Acceptance Criteria:
+The app allows the teacher to generate a report with a single click.
+The generated reports include personalized comments and academic metrics.
+The teacher can download or print the reports directly from the app.
+
+#### 2. User Story: Automation
+
+* As a teacher, I want to automatically generate student report cards in the app, so that I can save time on administrative tasks and have more time for classroom activities.
+
+* Acceptance Criteria:
+Teachers can select a class and term.
+The app auto-populates student performance data into a report template.
+Teachers can review and finalize the report cards within the app.
+
+#### 3. User Story: Data Visualization
+
+* As a teacher, I want to visualize student performance data through charts and graphs, so that I can easily interpret and convey academic progress to students and parents.
+
+* Acceptance Criteria:
+The app generates visual representations of student data.
+Teachers can customize the data points to be visualized.
+The visuals can be easily included in or attached to the report cards.
+
+#### 4. User Story: Personalized Feedback
+
+* As a teacher, I want to add personalized comments to each student's report card, in order to provide individualized feedback that supports their learning journey.
+
+* Acceptance Criteria:
+The app allows for input of custom comments for each student.
+The system stores commonly used phrases to suggest to the teacher.
+Teachers can edit or approve suggested comments before finalizing the report.
+
+#### 5. User Story: Class Statistics
+
+* As an administrative teacher, I want to calculate and review class statistics such as average scores and rankings, in order to assess overall class performance.
+
+* Acceptance Criteria:
+The app calculates class averages, highest and lowest scores, and rankings.
+The administrator can access these statistics through a dedicated section.
+The statistics are presented in a clear and understandable format.
+
+#### 6. User Story: Access and Share Reports
+
+* As a teacher, I want to access and share the generated report cards with students and parents online, to ensure timely and efficient communication of student progress.
+
+* Acceptance Criteria:
+The app allows teachers to securely access the finalized report cards.
+Teachers can send report cards directly to students and parents from the app.
+The app confirms successful delivery of the report cards to the recipients.
+
+#### 7. User Story: Multilingual Support
+
+* As a bilingual teacher, I want to create report cards in multiple languages, so that I can communicate effectively with students and parents who speak different languages.
+
+* Acceptance Criteria:
+The app provides an option to select the language for the report card.
+The app supports at least two languages for report generation.
+The generated report card accurately reflects the selected language.
 
 #### Q5: Have you decided on how you will build it? Share what you know now or tell us the options you are considering.
 
