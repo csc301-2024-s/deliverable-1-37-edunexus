@@ -81,10 +81,13 @@ Briefly describe which option you have agreed to.
 
 #### Q6: Have you met with your team?
 
-Do a team-building activity in-person or online. This can be playing an online game, meeting for bubble tea, lunch, or any other activity you all enjoy.
-* Get to know each other on a more personal level.
-* Provide a few sentences on what you did and share a picture or other evidence of your team building activity.
-* Share at least three fun facts from members of you team (total not 3 for each member).
+In order to break the ice and get to know each other better, we decided to play a game of skribbl.io, an online drawing game. In this game, every round, one of the players draws a chosen word while others guess what the word is for points.
+
+![Skribbl](https://github.com/csc301-2024-s/deliverable-1-37-edunexus/assets/34868792/6d779f73-2a47-491b-9955-fba3568f5a24)
+
+#### Fun Facts:
+* Arthur: has skiied off a 12 ft cliff and his legs are still there! Additionally, of the 26 flights that he took this year, only 3 departed on time.
+* Jaffar: has been 3 different continents.
 
 
 #### Q7: What are the roles & responsibilities on the team?
