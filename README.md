@@ -38,7 +38,7 @@ EduNexus is an educational support application designed to automate and personal
 ### Testing
 *pending coding*
 
-## Our Standards
+## Collaboration Standards
 To keep on top of any Git Spaghetti that might happen, please stick to these Git Standards when working on your code. Remember if something gets tangled, it's up to the group to untangle it so sticking to these guidelines ensures that that happens as infrequently as possible!
 - We will be developing using VS Code and PyCharm. Both can be used for all aspects of development and will be chosen based on personal preference. Compatability with both environments will be mantained.
 ### Commit Standards
