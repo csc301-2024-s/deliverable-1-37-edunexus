@@ -30,9 +30,20 @@ EduNexus focuses on what it can deliver to its users: a streamlined administrati
 
 #### Q2: Who are your target users?
 
-  > Short (1 - 2 min' read max)
- * Be specific (e.g. a 'a third-year university student studying Computer Science' and not 'a student')
- * **Feel free to use personas. You can create your personas as part of this Markdown file, or add a link to an external site (for example, [Xtensio](https://xtensio.com/user-persona/)).**
+EduNexus is a web-based application tailored to assist teachers in underprivileged and crisis-impacted regions with automated and personalized student report generation.
+
+The core problem that EduNexus solves is the overwhelming difficulty faced by educators in these areas, who often deal with inadequate resources for report creation and high student-teacher ratios. This situation leads to a lack of personalized educational feedback for students, which is crucial for their academic development.
+
+In partnership with non-profit organizations that help these schools on a daily basis dedicated to educational equity, EduNexus will provide a solution specifically designed to meet the needs of these challenging educational environments.
+
+We are building a responsive web application that will enable teachers, such as Ms. Kokoro Simba, a grade 5 educator at a rural middle school with limited access to technology, to efficiently create comprehensive and motivational report forms for her students. For instance, after a semester of teaching a class of 150 students, Ms. Simba will use EduNexus to quickly generate individualized reports that not only reflect each student's performance but also provide constructive feedback and visual analytics of their progress.
+
+By focusing on the user experience of educators like Ms. Simba, EduNexus aims to deliver a product that simplifies the administrative workload, promotes educational insight, and supports the mission of providing quality education under challenging circumstances.
+
+Persona 1: Ms. Alpha Mazda
+  Demographics: 28-year-old, grade 3 middle school teacher in a rural area.
+  Behaviors: Struggles with time management due to high administrative workload, values efficiency, and is motivated by her students' success.
+  Needs: A tool that reduces the time spent on creating report cards, provides error-free academic reports, and allows for personalized feedback to support student growth.
 
 #### Q3: Why would your users choose your product? What are they using today to solve their problem/need?
 
