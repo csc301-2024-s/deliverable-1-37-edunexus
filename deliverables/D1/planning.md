@@ -100,6 +100,8 @@ Describe meetings (and other events) you are planning to have.
  * You should have 2 meetings with your project partner (if you have one) before D1 is due. Describe them here:
    * You must keep track of meeting minutes and add them to your repo under "deliverables/minutes" folder
    * You must have a regular meeting schedule established for the rest of the term.  
+
+We will have two weekly meetings on Thursdays 7:30 to 9:00 pm and on Fridays 6:00 to 7:00 pm. Our Thursday meetings will cover what each of us would be doing for the following week and our Friday meetings will cover what each of us have done for the previous week. Coding sessions will happen anytime of the week where a small group of the team members will work together either in-person or online for a short amount of time.
   
 #### Q9: How will you organize your team?
 
