@@ -200,14 +200,9 @@ List/describe the artifacts you will produce in order to organize your team.
    * How do you determine the status of work from inception to completion?
 
 #### Q10: What are the rules regarding how your team works?
-
-**Communications:**
- * What is the expected frequency? What methods/channels will be used? 
- * If you have a partner project, what is your process for communicating with your partner?
- 
-**Collaboration: (Share your responses to Q8 & Q9 from A1)**
- * How are people held accountable for attending meetings, completing action items? Is there a moderator or process?
- * How will you address the issue if one person doesn't contribute or is not responsive?
+ We will use Discord as our main communication channel. We will have weekly meetings on Discord to discuss our progress and plan for the upcoming week. We do not have a partner for this project. 
+ First in order to hold our group members accountable for the weekly meetings, we set our meeting times to have as little conflicts as possible for everyone. Also, we will use Github issues to give each member their own tasks to complete, which is their responsibility. All the tasks for the following week will be assigned during the Thursday weekly meetings.
+ If one group member does not contribute or is not responsive, we will first try to contact them through Discord. If they still do not respond, we will contact them through email. If they still do not respond, we will contact the TA for help.
 
 ## Organisation Details
 
