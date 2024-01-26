@@ -3,7 +3,7 @@
  > **This document will serve as a master plan between your team, your partner and your TA.**
 
 ## Product Details
- 
+
 #### Q1: What is the product?
 
 EduNexus is an educational application designed to automate and personalize the report generation process for schools in underprivileged and crisis-stricken regions.
@@ -157,11 +157,36 @@ The generated report card accurately reflects the selected language.
 
 #### Q5: Have you decided on how you will build it? Share what you know now or tell us the options you are considering.
 
-> Short (1-2 min' read max)
- * What is the technology stack? Specify languages, frameworks, libraries, PaaS products or tools to be used or being considered. 
- * How will you deploy the application?
- * Describe the architecture - what are the high level components or patterns you will use? Diagrams are useful here. 
- * Will you be using third party applications or APIs? If so, what are they?
+For the EduNexus project, we have decided on a technology stack that balances robustness with ease of use, considering the constraints of our target environments.
+
+**Technology Stack:**
+
+- **Backend**: We will use Flask, a lightweight and flexible Python web framework, which is well-suited for our needs in rapid development and easy deployment.
+- **PDF Generation**: ReportLab for creating PDF reports, offering extensive customization options for report layouts.
+- **Data Visualization**: Matplotlib for generating charts and graphs, which will be used to visually represent student performance data.
+- **Image Processing**: PIL (Python Imaging Library) for handling image files, which may be used in report customization.
+- **Frontend**: For the frontend, we are considering React.js due to its component-based architecture, which will allow us to create a dynamic and responsive user interface.
+- **Database**: PostgreSQL is our choice for the database to manage and store data securely and efficiently, given its strong reputation for reliability.
+- **Deployment**: The application will be deployed on Heroku, which simplifies the deployment process and offers scalability. This is subject to change in the future.
+- **Version Control**: Git will be used for version control, with GitHub as the central repository for code collaboration, management, and version control.
+
+**Architecture:**
+
+- The application will follow a **microservices architecture** pattern, with separate services for user management, report generation, and data visualization. This will allow us to scale parts of the system independently as demand grows.
+- We will implement **RESTful APIs** for communication between the frontend and backend services, ensuring a clear separation of concerns and ease of integration.
+- **Containerization** with Docker may be used to encapsulate our services, ensuring consistency across development, testing, and production environments.
+
+**Third-Party Applications and APIs:**
+
+- We are considering directly integrating **Matplotlib** into the service for rendering the academic progress visualizations on the frontend.
+- For PDF generation, we will integrate **ReportLab** service to convert report data into downloadable document versions.
+- If necessary, we will use **OAuth** for secure authentication, potentially integrating with Google or Microsoft accounts to streamline the login process for users.
+
+**Deployment Strategy:**
+
+- The deployment will be automated using **Continuous Integration/Continuous Deployment (CI/CD) pipelines**, likely through GitHub Actions, which will automate testing and deployment processes. This will get clearer with time.
+
+In the coming weeks, we will refine this technology stack and architecture, ensuring that it aligns with the needs of our users and the goals of our partner organizations.
 
 ----
 ## Intellectual Property Confidentiality Agreement 
