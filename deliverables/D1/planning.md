@@ -164,8 +164,6 @@ For the EduNexus project, we have decided on a technology stack that balances ro
 
 - The deployment will be automated using **Continuous Integration/Continuous Deployment (CI/CD) pipelines**, likely through GitHub Actions, which will automate testing and deployment processes. This will get clearer with time.
 
-EduNexus will provide a seamless transition from Excel to a more efficient, error-resistant, and user-friendly platform for exam report generation. It will offer educators a dedicated tool for creating, managing, and sharing student performance reports with ease, thereby enhancing the educational experience for both teachers and students.
-
 In the coming weeks, we will refine this technology stack and architecture, ensuring that it aligns with the needs of our users and the goals of our partner organizations.
 
 ----
