@@ -45,6 +45,28 @@ Persona 1: Ms. Alpha Mazda
   Behaviors: Struggles with time management due to high administrative workload, values efficiency, and is motivated by her students' success.
   Needs: A tool that reduces the time spent on creating report cards, provides error-free academic reports, and allows for personalized feedback to support student growth.
 
+Persona 2: Mr. Beta Rex
+  Demographics: 35-year-old, experienced educator and administrator at a school in a conflict-affected region.
+  Behaviors: Tech-savvy, seeks innovative solutions to improve school operations, and advocates for data-driven decision-making.
+  Needs: A robust system that can manage student data securely, generate reports quickly, and analyze class performance to aid in resource allocation.
+
+Persona 3: Mr. Gamma Singh
+  Demographics: 40-year-old, middle school science teacher in an rural school with a high student-teacher ratio.
+  Behaviors: Enthusiastic about integrating technology into teaching, but overwhelmed by the manual process of report generation.
+  Needs: An automated system that simplifies the creation of individualized student reports, enabling more time for interactive science experiments and student mentorship.
+
+Persona 4: Ms. Delta Choi
+  Demographics: 32-year-old, English teacher at an underfunded school with limited access to technology.
+  Behaviours: Creative in her teaching approach, often spends evenings preparing lesson plans and grading papers.
+  Needs: A user-friendly platform that streamlines the report generation process, making it accessible even with limited tech resources.
+
+Persona 5: Mr. Epsilon Mwangi
+  Demographics: 45-year-old, geography teacher who often conducts fieldwork with students in remote areas.
+  Behaviors: Passionate about providing hands-on learning experiences but constrained by administrative tasks.
+  Needs: A mobile-responsive tool that allows for quick and easy report generation on-the-go, even in areas with unstable internet connectivity.
+
+By considering a diverse range of personas, EduNexus is being designed to be a versatile and inclusive tool that can adapt to various educational settings and meet the needs of a broad spectrum of educators especially in underprivileged areas.
+
 #### Q3: Why would your users choose your product? What are they using today to solve their problem/need?
 
 > Short (1 - 2 min' read max)
