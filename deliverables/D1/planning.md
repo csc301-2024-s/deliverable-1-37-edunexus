@@ -171,14 +171,12 @@ Describe meetings (and other events) you are planning to have.
   
 #### Q9: How will you organize your team?
 
-List/describe the artifacts you will produce in order to organize your team.       
-
- * Artifacts can be To-Do lists, Task boards, schedule(s), meeting minutes, etc.
- * We want to understand:
-   * How do you keep track of what needs to get done? (You must grant your TA and partner access to systems you use to manage work)
-   * **How do you prioritize tasks?**
-   * How do tasks get assigned to team members?
-   * How do you determine the status of work from inception to completion?
+ - Meeting Minutes will be taken by ***fill*** and when they're not available, ***fill***
+   - Meeting Minutes should contain name of all attendees and all actionable items from meetings
+ - GitHub Issues will be used to track actionable items
+ - Task organization and prioritization will be done in weekly meetings and will be displayed on GitHub Projects
+ - Team members will have the freedom to "pick up" tasks in their area(s) of expertise
+ - Tasks are complete when two other team members have reviewed them and they are merged to the `dev` branch
 
 #### Q10: What are the rules regarding how your team works?
 
