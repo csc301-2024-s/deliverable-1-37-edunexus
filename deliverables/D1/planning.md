@@ -1,4 +1,4 @@
-# YOUR PRODUCT/TEAM NAME
+# EduNexus
 > _Note:_ This document will evolve throughout your project. You commit regularly to this file while working on the project (especially edits/additions/deletions to the _Highlights_ section). 
  > **This document will serve as a master plan between your team, your partner and your TA.**
 
@@ -18,6 +18,15 @@
    For example: This is not the time or the place to talk about which programming language and/or framework you are planning to use.
  * **Feel free (and very much encouraged) to include useful diagrams, mock-ups and/or links**.
 
+EduNexus is an educational application designed to automate and personalize the report generation process for schools in underprivileged and crisis-stricken regions.
+
+The problem EduNexus addresses is the significant challenge that educational institutions in crisis-stricken areas face: the lack of infrastructure for creating and managing student report forms. These schools struggle with high student-teacher ratios and manual, error-prone processes that hinder the provision of individualized attention and feedback to students.
+
+Our project is in collaboration with middle schools, focused on educational advancement in these regions. By partnering with them, we aim to ensure that the application meets the real-world needs of its users.
+
+We are planning to build a responsive web-based application that enables educators to efficiently generate detailed and motivational student report forms. A typical use case might involve a teacher who needs to quickly produce end-of-term reports for a large class, where the application would facilitate the creation of these reports in a standardized format, complete with personalized comments and visual performance analytics.
+
+EduNexus focuses on what it can deliver to its users: a streamlined administrative process, accurate and informative report forms, and a tool that supports educators in their mission to provide quality education, despite the challenging circumstances they face.
 
 #### Q2: Who are your target users?
 
