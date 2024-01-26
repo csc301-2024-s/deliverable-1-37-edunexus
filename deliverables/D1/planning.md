@@ -36,11 +36,11 @@ EduNexus focuses on what it can deliver to its users: a streamlined administrati
 
 #### Q3: Why would your users choose your product? What are they using today to solve their problem/need?
 
-##### Connecting the Dots: Product Fit and User Needs
+#### Connecting the Dots: Product Fit and User Needs
 
 EduNexus is not just an application; it's a solution crafted to meet the specific needs of educators like Ms. Alpha Mazda, Mr. Beta Rex, Mr. Gamma Singh, Ms. Delta Choi, and Mr. Epsilon Mwangi. Each persona represents a unique set of challenges that are addressed by the features and benefits of EduNexus.
 
-##### How EduNexus Meets User Needs
+#### How EduNexus Meets User Needs
 
 - **For Ms. Alpha Mazda**, who struggles with time management due to a high administrative workload, EduNexus drastically reduces report generation time from weeks to mere seconds through automation, allowing her to focus more on teaching and less on paperwork.
 
