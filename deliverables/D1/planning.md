@@ -6,18 +6,6 @@
  
 #### Q1: What is the product?
 
- > Short (1 - 2 min' read)
- * Start with a single sentence, high-level description of the product.
- * Be clear - Describe the problem you are solving in simple terms.
- * Specify if you have a partner and who they are.
- * Be concrete. For example:
-    * What are you planning to build? Is it a website, mobile app, browser extension, command-line app, etc.?      
-    * When describing the problem/need, give concrete examples of common use cases.
-    * Assume your the reader knows nothing about the partner or the problem domain and provide the necessary context. 
- * Focus on *what* your product does, and avoid discussing *how* you're going to implement it.      
-   For example: This is not the time or the place to talk about which programming language and/or framework you are planning to use.
- * **Feel free (and very much encouraged) to include useful diagrams, mock-ups and/or links**.
-
 EduNexus is an educational application designed to automate and personalize the report generation process for schools in underprivileged and crisis-stricken regions.
 
 The problem EduNexus addresses is the significant challenge that educational institutions in crisis-stricken areas face: the lack of infrastructure for creating and managing student report forms. These schools struggle with high student-teacher ratios and manual, error-prone processes that hinder the provision of individualized attention and feedback to students.
