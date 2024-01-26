@@ -214,7 +214,7 @@ In order to break the ice and get to know each other better, we decided to play 
 ![Skribbl](https://github.com/csc301-2024-s/deliverable-1-37-edunexus/assets/34868792/6d779f73-2a47-491b-9955-fba3568f5a24)
 
 #### Fun Facts:
-* Arthur: has skiied off a 12 ft cliff and his legs are still there! Additionally, of the 26 flights that he took this year, only 3 departed on time.
+* Arthur: has skiied off a 12 ft cliff and his legs are still there! Additionally, of the 26 flights that he took last year, only 3 departed on time.
 * Carson: compiles a list of his personal Academy Awards selections every year. While few would consider this fun, it is indisputably a fact.
 * Jaffar: has been 3 different continents.
 
