@@ -236,7 +236,7 @@ Min Jae David Park - Software Engineer
 - Handle data visualization and image processing
 - Members chosen for prior experience working with front-end development
 
-**Server-side developers: Keikei Jaffar and Oswin Gan**
+**Server-side developers: Kenneth Shen and Oswin Gan**
 - Maintains reliable software using DevOps practices
 - Integrate server-side code with front-end components
 - Perform automated testing and deployment operations
