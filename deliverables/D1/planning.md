@@ -220,16 +220,35 @@ In order to break the ice and get to know each other better, we decided to play 
 
 #### Q7: What are the roles & responsibilities on the team?
 
-Describe the different roles on the team and the responsibilities associated with each role. 
- * Roles should reflect the structure of your team and be appropriate for your project. One person may have multiple roles.  
- * Add role(s) to your Team-[Team_Number]-[Team_Name].csv file on the main folder.
- * At least one person must be identified as the dedicated partner liaison. They need to have great organization and communication skills.
- * Everyone must contribute to code. Students who don't contribute to code enough will receive a lower mark at the end of the term.
+Arthur Gao - Scrum Leader/Front End Developer
+Oswin Gan - UI/UX Lead
+Kevin Shen - Software Developer
+Kenneth Chan - Database Engineer
+Carson Zhang - Server Side Developer
+Keikei Jaffar - Server Side Lead Engineer
+Min Jae David Park - Software Engineer
 
-List each team member and:
- * A description of their role(s) and responsibilities including the components they'll work on and non-software related work
- * Why did you choose them to take that role? Specify if they are interested in learning that part, experienced in it, or any other reasons. Do no make things up. This part is not graded but may be reviewed later.
+**Front-end developers: Arthur Gao and Oswin Gan**
+- Create visually appealing and functional UI/UX designs
+- API integration between front and back end (React + Flask) and third-party applications
+- Handle data visualization and image processing
+- Members chosen for prior experience working with front-end development
+**Server-side developers: Carson Zhang and Keikei Jaffar**
+- Maintains reliable software using DevOps practices
+- Integrate server-side code with front-end components
+- Perform automated testing and deployment operations
+- Members are selected for their management and leadership skills, along with expertise in DevOps
+**Software developers: Kevin Shen and David Park**
+- Develops features and functionalities for the application
+- Ensure adherence to clean architecture
+- Members chosen for their robust skillset, allowing them to be flexible in the tasks they are able to take on
+**Database developers: Kenneth Chan**
+- Designs and models the structure of the database to store and manage data
+- Implements database using PostgreSQL
+- Optimize database performance and ensure safety of data
+- Student has taken CSC343 so they have previous experience with databases
 
+We have chosen Arthur as our Scrum Leader, who leads development cycles in our Agile working environment. This involves bi-weekly meetings to plan for the upcoming sprint and reflect upon progress. All team members were chosen for their role based on prior experience, making it easier for everyone to adapt to their responsibilities. We do not expect anyone to be an expert in their field, as we are all students. The goal is for everyone to pick up knowledge on their assigned specialties throughout the project and become more proficient by the end. Members are expected to be flexible in terms of the tasks they take on, and roles may change throughout the course of development as circumstances demand. 
 
 #### Q8: How will you work as a team?
 
