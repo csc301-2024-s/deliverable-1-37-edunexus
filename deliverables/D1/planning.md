@@ -161,13 +161,14 @@ For the EduNexus project, we have decided on a technology stack that balances ro
 
 **Technology Stack:**
 
-- **Backend**: We will use Flask, a lightweight and flexible Python web framework, which is well-suited for our needs in rapid development and easy deployment.
-- **PDF Generation**: ReportLab for creating PDF reports, offering extensive customization options for report layouts.
-- **Data Visualization**: Matplotlib for generating charts and graphs, which will be used to visually represent student performance data.
-- **Image Processing**: PIL (Python Imaging Library) for handling image files, which may be used in report customization.
+Since one of the primary goals of our app is for it to be used in underprivileged areas, internet connectivity is not guaranteed. Therefore, we want to make the app run entirely locally and will be using [Electron](https://electronjs.org) to build the app. This approach allows the app to function locally without the need to internet connectivity.
+
+- **Backend**: Node.js, a JavaScript runtime that seamlessly integrates with Electron allowing for a unified language and tech stack across frontend and backend. 
+- **PDF Generation**: PDFKit, a PDF generation library for Node.js, which is well-suited for creating complex, multi-page, and interactive documents.
+- **Data Visualization**: D3.js, a JavaScript library for producing dynamic, interactive data visualizations in the web browser. It's compatible with Electron and provides more flexibility and customization for web-based interfaces.
+- **Image Processing**: Sharp, a high-performance Node.js module for resizing, converting, and manipulating images.
 - **Frontend**: For the frontend, we are considering React.js due to its component-based architecture, which will allow us to create a dynamic and responsive user interface.
-- **Database**: PostgreSQL is our choice for the database to manage and store data securely and efficiently, given its strong reputation for reliability.
-- **Deployment**: The application will be deployed on Heroku, which simplifies the deployment process and offers scalability. This is subject to change in the future.
+- **Database**: SQLite, a lightweight database that can be nicely bundled with an electron application and therefore does not require an external server.
 - **Version Control**: Git will be used for version control, with GitHub as the central repository for code collaboration, management, and version control.
 
 **Architecture:**
@@ -214,7 +215,7 @@ In order to break the ice and get to know each other better, we decided to play 
 ![Skribbl](https://github.com/csc301-2024-s/deliverable-1-37-edunexus/assets/34868792/6d779f73-2a47-491b-9955-fba3568f5a24)
 
 #### Fun Facts:
-* Arthur: has skiied off a 12 ft cliff and his legs are still there! Additionally, of the 26 flights that he took last year, only 3 departed on time.
+* Arthur: has skied off a 12 ft cliff and his legs are still there! Additionally, of the 26 flights that he took last year, only 3 departed on time.
 * Carson: compiles a list of his personal Academy Awards selections every year. While few would consider this fun, it is indisputably a fact.
 * Jaffar: has been 3 different continents.
 
