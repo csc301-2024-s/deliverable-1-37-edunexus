@@ -1,0 +1,8 @@
+Deliverable 1 Final Meeting
+January 26, 2024
+6:00PM - 8:00PM
+
+- Reviewed deliverable submissions from group members
+- Ensured all requirements for D1 were met
+- Decided on Electron framework for project
+- Changed members' assigned roles
