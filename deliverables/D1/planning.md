@@ -222,13 +222,13 @@ In order to break the ice and get to know each other better, we decided to play 
 
 #### Q7: What are the roles & responsibilities on the team?
 
-Arthur Gao - Scrum Leader/Front End Developer
-Oswin Gan - UI/UX Lead
+Arthur Gao - Scrum Leader/UI/UX Lead
+Oswin Gan - Server Side Engineer
 Kevin Shen - Software Developer
-Kenneth Chan - Database Engineer
-Carson Zhang - Server Side Developer
-Keikei Jaffar - Server Side Lead Engineer
-Min Jae David Park - Software Engineer
+Kenneth Chan - Server Side Lead Engineer
+Carson Zhang - Database Lead
+Keikei Jaffar - Front End Engineer
+Min Jae David Park - Software Developer
 
 **Front-end developers: Arthur Gao and Keikei Jaffar**
 - Create visually appealing and functional UI/UX designs
