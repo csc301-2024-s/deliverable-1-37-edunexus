@@ -26,7 +26,7 @@ EduNexus is an educational support application designed to automate and personal
 1. To be filled out when we start coding...
 
 ### Frameworks
-- **Database:** [PostgreSQL](https://www.sqlite.org/index.html)
+- **Database:** [SQLite](https://www.sqlite.org/index.html)
 - **Main App:** [Electron](https://electronjs.org)
   - **Server (part of electron):** [Node.js](https://nodejs.org/)
   - **Frontend:** [React](https://react.dev/)
