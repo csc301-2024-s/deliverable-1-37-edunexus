@@ -232,7 +232,7 @@ Min Jae David Park - Software Engineer
 
 **Front-end developers: Arthur Gao and Keikei Jaffar**
 - Create visually appealing and functional UI/UX designs
-- API integration between front and back end (React + Flask) and third-party applications
+- Building IPC pipeline between main and rendering processes of Electron
 - Handle data visualization and image processing
 - Members chosen for prior experience working with front-end development
 
@@ -276,8 +276,6 @@ We will have two weekly meetings (both online) on Thursdays 7:30 to 9:00 pm and 
 ## Organisation Details
 
 #### Q11. How does your team fit within the overall team organisation of the partner?
-Question 11 (Altered):
-
 As our group does not have a partner, we will have to manage the entirety of the product development process ourselves. While we had considered searching for a similarly-focused partner to manage some of the processes involved, we are confident that the crucial divisions of the work involved—the development, testing, and maintenance of our software—can be managed effectively via internal processes in the group. The roles in our group have been comfortably divided into each member's strong suit, and as such each of us will have the most expertise in our field when it comes to the development and testing of the product. Moreover, as the technical elements required of our tasks and the background experience we have has a great deal of overlap; consequently, it will be no challenge for group members to work together to solve problems that cannot be done individually.
 #### Q12. How does your project fit within the overall product from the partner?
 Our project is the first step towards building this product, as we do not have a partner. Therefore, our product is a full-stack commitment which we will be managing on both frontend and backend. We will be responsible for building the core feature set ourselves, as well as a release pipeline. Although this compounds the responsibilities that our team will have to manage, this also allows us much more lateral freedom in the development of our product, and allows us to take full ownership of the work that we put out. 
