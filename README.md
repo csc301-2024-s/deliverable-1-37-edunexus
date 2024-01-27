@@ -7,14 +7,9 @@
 
 EduNexus is an educational support application designed to automate and personalize the report generation and student grade keeping process for schools in underprivileged and crisis-stricken regions. We are completing this project **without** a partner organization.
 ## Key Features
-- Feature 1
-- Feature 2
-- Feature 3
-
-#### Roadmap
-- Future feature 1
-- Future feature 2
-- Future feature 3
+- Offline result tracking and report generation 
+- Visualize student results
+- Lightweight and easy to use
 
 ## Useful Links
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/u3U9Ll19)
@@ -31,9 +26,10 @@ EduNexus is an educational support application designed to automate and personal
 1. To be filled out when we start coding...
 
 ### Frameworks
-- **Database:** [PostgreSQL](https://www.postgresql.org/)
-- **Server:** [Python Flask](https://flask.palletsprojects.com/en/3.0.x/)
-- **Frontend:** [React](https://react.dev/)
+- **Database:** [SQLite](https://www.sqlite.org/index.html)
+- **Main App:** [Electron](https://electronjs.org)
+  - **Server (part of electron):** [Node.js](https://nodejs.org/)
+  - **Frontend:** [React](https://react.dev/)
 
 ### Testing
 *pending coding*
