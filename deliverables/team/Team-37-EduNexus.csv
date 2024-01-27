@@ -1,8 +1,8 @@
 Member number,Utorid, Student name, Githubid, Status, Role
-1,gaoarthu,Arthur Gao,Affixrevy,Enrolled,Scrum Leader/Front End Developer
-2,ganoswin,Oswin Gan,Eggathin,Enrolled,UI/UX Lead
+1,gaoarthu,Arthur Gao,Affixrevy,Enrolled,Scrum Leader/UI/UX Lead
+2,ganoswin,Oswin Gan,Eggathin,Enrolled,Software Developer
 3,shenkev7,Kevin Shen,kevinzshen,Enrolled,Software Developer
-4,chanc220,Kenneth Chan ,yo7o,Enrolled,Database Engineer
-5,zha10122,Carson Zhang,czcodes,Enrolled,Server Side Developer
-6,jafarsam,Keikei Jaffar,jaffarkeikei,Enrolled,Server Side Lead Engineer
-7,parkmi71,Min Jae David Park,minjaedavidpark,Enrolled,Software Engineer
+4,chanc220,Kenneth Chan ,yo7o,Enrolled,Server Side Lead Engineer
+5,zha10122,Carson Zhang,czcodes,Enrolled,Database Lead
+6,jafarsam,Keikei Jaffar,jaffarkeikei,Enrolled,Front End Engineer
+7,parkmi71,Min Jae David Park,minjaedavidpark,Enrolled,Software Developer
