@@ -51,7 +51,7 @@ Persona 4: Ms. Delta Choi
 Persona 5: Mr. Epsilon Mwangi
   Demographics: 45-year-old, geography teacher who often conducts fieldwork with students in remote areas.
   Behaviors: Passionate about providing hands-on learning experiences but constrained by administrative tasks.
-  Needs: A mobile-responsive tool that allows for quick and easy report generation on-the-go, even in areas with unstable internet connectivity.
+  Needs: A offline tool that allows for quick and easy report generation on-the-go, even in areas with unstable internet connectivity.
 
 By considering a diverse range of personas, EduNexus is being designed to be a versatile and inclusive tool that can adapt to various educational settings and meet the needs of a broad spectrum of educators especially in underprivileged areas.
 
@@ -69,7 +69,7 @@ EduNexus is not just an application; it's a solution crafted to meet the specifi
 
 - **For Mr. Gamma Singh**, who values inclusivity, EduNexus offers a multilingual interface that respects the diverse cultural contexts of his students, enabling him to provide feedback that resonates with each student's background.
 
-- **For Ms. Delta Choi**, working in resource-limited settings, EduNexus's low-bandwidth and mobile-friendly design ensure that she can access and share student progress reports, overcoming the challenge of limited access to computers.
+- **For Ms. Delta Choi**, working in resource-limited settings, EduNexus's low-bandwidth design ensure that she can access and share student progress reports, overcoming the challenge of limited access to computers.
 
 - **Mr. Epsilon Mwangi**, focused on STEM education, EduNexus introduces visual tools like graphs for easy interpretation of student performance in STEM subjects, helping him tailor his teaching strategies to student needs.
 
