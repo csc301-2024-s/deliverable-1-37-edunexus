@@ -5,11 +5,29 @@
 
 *TODO: License Info Here*
 
-EduNexus is an educational support application designed to automate and personalize the report generation and student grade keeping process for schools in underprivileged and crisis-stricken regions. We are completing this project **without** a partner organization.
+EduNexus is an educational support application designed to automate and personalize the exams report generation and student grade keeping process for schools in underprivileged and crisis-stricken regions. We are completing this project **without** a partner organization.
 ## Key Features
-- Offline result tracking and report generation 
-- Visualize student results
-- Lightweight and easy to use
+### Report Generation
+- **Automated Reports**: Quickly generate detailed student report forms with a few clicks.
+- **PDF Generator**: Create and share printable or digital PDF reports for each student.
+- **Performance Analyzer**: Offer personalized feedback by analyzing performance metrics to highlight strengths and weaknesses.
+
+### Student Information System
+- **Data Management**: Securely input and manage student data, including personal details, enrollment information, and academic records.
+- **Progress Monitoring**: Track student progress across various subjects and time periods.
+- **Visual Analytics**: Utilize bar and line graphs for a clear visual representation of academic performance.
+
+### Visualization of Student Results
+- **Graphical Displays**: Tools to graphically display student results, aiding in the comprehension of academic progress for both students and teachers.
+
+### Lightweight and User-Friendly
+- **Ease of Use**: A focus on user-friendly design allows for quick adoption by educators with minimal training.
+- **Optimized Performance**: Runs efficiently on various hardware, ensuring accessibility even in regions with limited technological infrastructure.
+
+### User Management
+- **Access Control**: Manage user roles with different access levels to maintain data security and privacy.
+- **Simplified Workflow**: Easily upload data, generate reports, and download PDFs through a streamlined interface.
+
 
 ## Useful Links
 [![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/u3U9Ll19)
