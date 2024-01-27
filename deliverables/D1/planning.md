@@ -214,7 +214,8 @@ In order to break the ice and get to know each other better, we decided to play 
 ![Skribbl](https://github.com/csc301-2024-s/deliverable-1-37-edunexus/assets/34868792/6d779f73-2a47-491b-9955-fba3568f5a24)
 
 #### Fun Facts:
-* Arthur: has skiied off a 12 ft cliff and his legs are still there! Additionally, of the 26 flights that he took this year, only 3 departed on time.
+* Arthur: has skiied off a 12 ft cliff and his legs are still there! Additionally, of the 26 flights that he took last year, only 3 departed on time.
+* Carson: compiles a list of his personal Academy Awards selections every year. While few would consider this fun, it is indisputably a fact.
 * Jaffar: has been 3 different continents.
 
 
@@ -271,12 +272,7 @@ We will have two weekly meetings (both online) on Thursdays 7:30 to 9:00 pm and 
 ## Organisation Details
 
 #### Q11. How does your team fit within the overall team organisation of the partner?
-* Given the team structure of your partner, what role do you think your team will play?
-* Examples include product development that includes developing new features, or quality assurance that includes developing features that test the product reliability, or software maintenance that includes fixing crucial bugs in the product.
-* Provide examples of why you think you fit this role.
+ As our group does not have a partner, we will have to manage the entirety of the product development process ourselves. While we had considered searching for a similarly-focused partner to manage some of the processes involved, we are confident that the crucial divisions of the work involved—the development, testing, and maintenance of our software—can be managed effectively via internal processes in the group. The roles in our group have been comfortably divided into each member's strong suit, and as such each of us will have the most expertise in our field when it comes to the development and testing of the product. Moreover, as the technical elements required of our tasks and the background experience we have has a great deal of overlap; consequently, it will be no challenge for group members to work together to solve problems that cannot be done individually. For instance, Jaffar and I are both working on aspects of the server side development, and thus we have similar responsibilities and programming backgrounds that make it easy for us to help each other out. 
 
 #### Q12. How does your project fit within the overall product from the partner?
-* Look at the big picture of the product and think about how your project fits into this product.
-* Is your project the first step towards building this product? Is it the first prototype? Are you developing the frontend of a product whose backend is developed by the partner? Are you building the release pipelines for a product that is developed by the partner? Are you building a core feature set and take full ownership of these features?
-* You should also provide details of who else is contributing to what parts of the product, if you have this information. This is more important if the project that you will be working on has strong coupling with parts that will be contributed to by members other than your team (e.g. from partner).
-* You can be creative for these questions and even use a graphical or pictorial representation to demonstrate the fit.
+Our project is the first step towards building this product, as we do not have a partner. Therefore, our product is a full-stack commitment which we will be managing on both frontend and backend. We will be responsible for building the core feature set ourselves, as well as a release pipeline. Although this compounds the responsibilities that our team will have to manage, this also allows us much more lateral freedom in the development of our product, and allows us to take full ownership of the work that we put out. 
