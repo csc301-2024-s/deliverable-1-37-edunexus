@@ -229,21 +229,24 @@ Carson Zhang - Server Side Developer
 Keikei Jaffar - Server Side Lead Engineer
 Min Jae David Park - Software Engineer
 
-**Front-end developers: Arthur Gao and Oswin Gan**
+**Front-end developers: Arthur Gao and Keikei Jaffar**
 - Create visually appealing and functional UI/UX designs
 - API integration between front and back end (React + Flask) and third-party applications
 - Handle data visualization and image processing
 - Members chosen for prior experience working with front-end development
-**Server-side developers: Carson Zhang and Keikei Jaffar**
+
+**Server-side developers: Keikei Jaffar and Oswin Gan**
 - Maintains reliable software using DevOps practices
 - Integrate server-side code with front-end components
 - Perform automated testing and deployment operations
 - Members are selected for their management and leadership skills, along with expertise in DevOps
+
 **Software developers: Kevin Shen and David Park**
 - Develops features and functionalities for the application
 - Ensure adherence to clean architecture
 - Members chosen for their robust skillset, allowing them to be flexible in the tasks they are able to take on
-**Database developers: Kenneth Chan**
+
+**Database developers: Carson Zhang**
 - Designs and models the structure of the database to store and manage data
 - Implements database using PostgreSQL
 - Optimize database performance and ensure safety of data
