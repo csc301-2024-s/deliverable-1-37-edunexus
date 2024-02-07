@@ -2,7 +2,7 @@ const sqlite3 = require('sqlite3').verbose();
 const path = require('path');
 
 // Create a new database if it does not exist, and open database for read and write
-let db = new sqlite3.Database('./database/edunexus.db', (err) => {
+let db = new sqlite3.Database('./edunexus.db', (err) => {
   if (err) {
     console.error('Error opening database', err.message);
   } else {
