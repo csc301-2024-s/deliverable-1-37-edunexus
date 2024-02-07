@@ -51,7 +51,7 @@ Persona 4: Ms. Delta Choi
 Persona 5: Mr. Epsilon Mwangi
   Demographics: 45-year-old, geography teacher who often conducts fieldwork with students in remote areas.
   Behaviors: Passionate about providing hands-on learning experiences but constrained by administrative tasks.
-  Needs: A mobile-responsive tool that allows for quick and easy report generation on-the-go, even in areas with unstable internet connectivity.
+  Needs: A offline tool that allows for quick and easy report generation on-the-go, even in areas with unstable internet connectivity.
 
 By considering a diverse range of personas, EduNexus is being designed to be a versatile and inclusive tool that can adapt to various educational settings and meet the needs of a broad spectrum of educators especially in underprivileged areas.
 
@@ -69,7 +69,7 @@ EduNexus is not just an application; it's a solution crafted to meet the specifi
 
 - **For Mr. Gamma Singh**, who values inclusivity, EduNexus offers a multilingual interface that respects the diverse cultural contexts of his students, enabling him to provide feedback that resonates with each student's background.
 
-- **For Ms. Delta Choi**, working in resource-limited settings, EduNexus's low-bandwidth and mobile-friendly design ensure that she can access and share student progress reports, overcoming the challenge of limited access to computers.
+- **For Ms. Delta Choi**, working in resource-limited settings, EduNexus's low-bandwidth design ensure that she can access and share student progress reports, overcoming the challenge of limited access to computers.
 
 - **Mr. Epsilon Mwangi**, focused on STEM education, EduNexus introduces visual tools like graphs for easy interpretation of student performance in STEM subjects, helping him tailor his teaching strategies to student needs.
 
@@ -161,13 +161,14 @@ For the EduNexus project, we have decided on a technology stack that balances ro
 
 **Technology Stack:**
 
-- **Backend**: We will use Flask, a lightweight and flexible Python web framework, which is well-suited for our needs in rapid development and easy deployment.
-- **PDF Generation**: ReportLab for creating PDF reports, offering extensive customization options for report layouts.
-- **Data Visualization**: Matplotlib for generating charts and graphs, which will be used to visually represent student performance data.
-- **Image Processing**: PIL (Python Imaging Library) for handling image files, which may be used in report customization.
+Since one of the primary goals of our app is for it to be used in underprivileged areas, internet connectivity is not guaranteed. Therefore, we want to make the app run entirely locally and will be using [Electron](https://electronjs.org) to build the app. This approach allows the app to function locally without the need to internet connectivity.
+
+- **Backend**: Node.js, a JavaScript runtime that seamlessly integrates with Electron allowing for a unified language and tech stack across frontend and backend. 
+- **PDF Generation**: PDFKit, a PDF generation library for Node.js, which is well-suited for creating complex, multi-page, and interactive documents.
+- **Data Visualization**: D3.js, a JavaScript library for producing dynamic, interactive data visualizations in the web browser. It's compatible with Electron and provides more flexibility and customization for web-based interfaces.
+- **Image Processing**: Sharp, a high-performance Node.js module for resizing, converting, and manipulating images.
 - **Frontend**: For the frontend, we are considering React.js due to its component-based architecture, which will allow us to create a dynamic and responsive user interface.
-- **Database**: PostgreSQL is our choice for the database to manage and store data securely and efficiently, given its strong reputation for reliability.
-- **Deployment**: The application will be deployed on Heroku, which simplifies the deployment process and offers scalability. This is subject to change in the future.
+- **Database**: SQLite, a lightweight database that can be nicely bundled with an electron application and therefore does not require an external server.
 - **Version Control**: Git will be used for version control, with GitHub as the central repository for code collaboration, management, and version control.
 
 **Architecture:**
@@ -214,22 +215,45 @@ In order to break the ice and get to know each other better, we decided to play 
 ![Skribbl](https://github.com/csc301-2024-s/deliverable-1-37-edunexus/assets/34868792/6d779f73-2a47-491b-9955-fba3568f5a24)
 
 #### Fun Facts:
-* Arthur: has skiied off a 12 ft cliff and his legs are still there! Additionally, of the 26 flights that he took this year, only 3 departed on time.
+* Arthur: has skied off a 12 ft cliff and his legs are still there! Additionally, of the 26 flights that he took last year, only 3 departed on time.
+* Carson: compiles a list of his personal Academy Awards selections every year. While few would consider this fun, it is indisputably a fact.
 * Jaffar: has been 3 different continents.
 
 
 #### Q7: What are the roles & responsibilities on the team?
 
-Describe the different roles on the team and the responsibilities associated with each role. 
- * Roles should reflect the structure of your team and be appropriate for your project. One person may have multiple roles.  
- * Add role(s) to your Team-[Team_Number]-[Team_Name].csv file on the main folder.
- * At least one person must be identified as the dedicated partner liaison. They need to have great organization and communication skills.
- * Everyone must contribute to code. Students who don't contribute to code enough will receive a lower mark at the end of the term.
+Arthur Gao - Scrum Leader/UI/UX Lead
+Oswin Gan - Server Side Engineer
+Kevin Shen - Software Developer
+Kenneth Chan - Server Side Lead Engineer
+Carson Zhang - Database Lead
+Keikei Jaffar - Front End Engineer
+Min Jae David Park - Software Developer
 
-List each team member and:
- * A description of their role(s) and responsibilities including the components they'll work on and non-software related work
- * Why did you choose them to take that role? Specify if they are interested in learning that part, experienced in it, or any other reasons. Do no make things up. This part is not graded but may be reviewed later.
+**Front-end developers: Arthur Gao and Keikei Jaffar**
+- Create visually appealing and functional UI/UX designs
+- Building IPC pipeline between main and rendering processes of Electron
+- Handle data visualization and image processing
+- Members chosen for prior experience working with front-end development
 
+**Server-side developers: Kenneth Shen and Oswin Gan**
+- Maintains reliable software using DevOps practices
+- Integrate server-side code with front-end components
+- Perform automated testing and deployment operations
+- Members are selected for their management and leadership skills, along with expertise in DevOps
+
+**Software developers: Kevin Shen and David Park**
+- Develops features and functionalities for the application
+- Ensure adherence to clean architecture
+- Members chosen for their robust skillset, allowing them to be flexible in the tasks they are able to take on
+
+**Database developers: Carson Zhang**
+- Designs and models the structure of the database to store and manage data
+- Implements database using PostgreSQL
+- Optimize database performance and ensure safety of data
+- Student has taken CSC343 so they have previous experience with databases
+
+We have chosen Arthur as our Scrum Leader, who leads development cycles in our Agile working environment. This involves bi-weekly meetings to plan for the upcoming sprint and reflect upon progress. All team members were chosen for their role based on prior experience, making it easier for everyone to adapt to their responsibilities. We do not expect anyone to be an expert in their field, as we are all students. The goal is for everyone to pick up knowledge on their assigned specialties throughout the project and become more proficient by the end. Members are expected to be flexible in terms of the tasks they take on, and roles may change throughout the course of development as circumstances demand. 
 
 #### Q8: How will you work as a team?
 
@@ -237,14 +261,12 @@ We will have two weekly meetings (both online) on Thursdays 7:30 to 9:00 pm and 
   
 #### Q9: How will you organize your team?
 
-List/describe the artifacts you will produce in order to organize your team.       
-
- * Artifacts can be To-Do lists, Task boards, schedule(s), meeting minutes, etc.
- * We want to understand:
-   * How do you keep track of what needs to get done? (You must grant your TA and partner access to systems you use to manage work)
-   * **How do you prioritize tasks?**
-   * How do tasks get assigned to team members?
-   * How do you determine the status of work from inception to completion?
+ - Meeting Minutes will be taken by ***fill*** and when they're not available, ***fill***
+   - Meeting Minutes should contain name of all attendees and all actionable items from meetings
+ - GitHub Issues will be used to track actionable items
+ - Task organization and prioritization will be done in weekly meetings and will be displayed on GitHub Projects
+ - Team members will have the freedom to "pick up" tasks in their area(s) of expertise
+ - Tasks are complete when two other team members have reviewed them and they are merged to the `dev` branch
 
 #### Q10: What are the rules regarding how your team works?
  We will use Discord as our main communication channel. We will have weekly meetings on Discord to discuss our progress and plan for the upcoming week. We do not have a partner for this project. 
@@ -254,12 +276,6 @@ List/describe the artifacts you will produce in order to organize your team.
 ## Organisation Details
 
 #### Q11. How does your team fit within the overall team organisation of the partner?
-* Given the team structure of your partner, what role do you think your team will play?
-* Examples include product development that includes developing new features, or quality assurance that includes developing features that test the product reliability, or software maintenance that includes fixing crucial bugs in the product.
-* Provide examples of why you think you fit this role.
-
+As our group does not have a partner, we will have to manage the entirety of the product development process ourselves. While we had considered searching for a similarly-focused partner to manage some of the processes involved, we are confident that the crucial divisions of the work involved—the development, testing, and maintenance of our software—can be managed effectively via internal processes in the group. The roles in our group have been comfortably divided into each member's strong suit, and as such each of us will have the most expertise in our field when it comes to the development and testing of the product. Moreover, as the technical elements required of our tasks and the background experience we have has a great deal of overlap; consequently, it will be no challenge for group members to work together to solve problems that cannot be done individually.
 #### Q12. How does your project fit within the overall product from the partner?
-* Look at the big picture of the product and think about how your project fits into this product.
-* Is your project the first step towards building this product? Is it the first prototype? Are you developing the frontend of a product whose backend is developed by the partner? Are you building the release pipelines for a product that is developed by the partner? Are you building a core feature set and take full ownership of these features?
-* You should also provide details of who else is contributing to what parts of the product, if you have this information. This is more important if the project that you will be working on has strong coupling with parts that will be contributed to by members other than your team (e.g. from partner).
-* You can be creative for these questions and even use a graphical or pictorial representation to demonstrate the fit.
+Our project is the first step towards building this product, as we do not have a partner. Therefore, our product is a full-stack commitment which we will be managing on both frontend and backend. We will be responsible for building the core feature set ourselves, as well as a release pipeline. Although this compounds the responsibilities that our team will have to manage, this also allows us much more lateral freedom in the development of our product, and allows us to take full ownership of the work that we put out. 
