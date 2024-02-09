@@ -15,7 +15,7 @@ db.parallelize(() => {
   db.run(`CREATE TABLE IF NOT EXISTS student (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
           name TEXT NOT NULL,
-          integer NOT NULL
+          age INTEGER NOT NULL
           )`)
     .run(`CREATE TABLE IF NOT EXISTS teacher (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
