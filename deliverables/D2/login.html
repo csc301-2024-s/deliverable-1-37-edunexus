@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Login - EduNexus App</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div>
+        <h1>Login to EduNexus</h1>
+        <div id="inputForm">
+            <input type="text" id="username" placeholder="Username">
+            <div style="height: 20px;"></div>
+            <input type="password" id="password" placeholder="Password">
+            <div style="height: 20px;"></div>
+            <button id="loginBtn">Log In</button>
+        </div>
+    </div>
+
+    <script src="loginRenderer.js"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('loginBtn').addEventListener('click', function() {
+                console.log('Log in Button was clicked');
+                window.location.href = 'report.html';
+            });
+        });
+    </script>
+</body>
+</html>
