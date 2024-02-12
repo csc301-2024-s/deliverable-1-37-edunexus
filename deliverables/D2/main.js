@@ -2,6 +2,8 @@ const { app, BrowserWindow } = require('electron');
 const path = require('path');
 
 
+
+
 let mainWindow;
 
 console.log("Starting app...");
@@ -13,7 +15,7 @@ function createWindow () {
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
-      preload: path.join(__dirname, 'preload.js')
+      preload: path.join(__dirname, 'preload.js')      
     }
   });
 
