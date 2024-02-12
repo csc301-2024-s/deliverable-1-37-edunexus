@@ -1,11 +1,12 @@
-const { ipcRenderer } = require('electron');
-
 document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('signupBtn').addEventListener('click', function() {
-      // TODO: Validate the input fields
-      // window.location.href = 'login.html';
+    const signupSuccess = validateSignup();
+    if (signupSuccess) {
+      window.location.href = 'login.html';
+    }
   });
 });
+
 
 function validateSignup() {
 
@@ -17,19 +18,21 @@ function validateSignup() {
   
   if (username === '' || email === '' || password === '' || confirmPassword === '') {
     alert('Please fill in all fields');
-    return;
+    return false;
   }
 
   if (password !== confirmPassword) {
     alert('Passwords do not match');
-    return;
+    return false;
   }
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   if (!emailRegex.test(email)) {
     alert('Invalid email format');
-    return;
+    return false;
   }
-  ipcRenderer.send('signupData', { username, email, password });
 
+  // ipcRenderer is directly available in the renderer process
+  // window.api.send('signupData', { username, email, password });
+  return true;
 }
