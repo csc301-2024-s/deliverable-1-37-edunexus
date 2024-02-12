@@ -7,3 +7,4 @@ generateReport('1')
   .catch(err => {
     console.error('Error generating report:', err);
   });
+  

@@ -1,5 +1,6 @@
 const express = require('express');
 const path = require('path');
+const fs = require('fs');
 const { generateReport } = require('./reportGenerator');
 
 const app = express();
@@ -16,16 +17,21 @@ app.post('/generate-report', async (req, res) => {
     const studentId = req.body.studentId;
     const reportPath = await generateReport(studentId);
     const absoluteReportPath = path.resolve(reportPath);
+
+    console.log(`Serving report from: ${absoluteReportPath}`);
+
     res.setHeader('Content-Disposition', 'attachment; filename=report.pdf');
     res.sendFile(absoluteReportPath, (err) => {
       if (err) {
-        console.error(err);
+        console.error(`Error sending report from path ${absoluteReportPath}:`, err);
         res.status(500).send('Error sending report');
       } else {
-        fs.unlink(absoluteReportPath, (unlinkErr) => {
-          if (unlinkErr) {
-            console.error('Error deleting report:', unlinkErr);
-          }
+        process.nextTick(() => {
+          fs.unlink(absoluteReportPath, (unlinkErr) => {
+            if (unlinkErr) {
+              console.error('Error deleting report:', unlinkErr);
+            }
+          });
         });
       }
     });
