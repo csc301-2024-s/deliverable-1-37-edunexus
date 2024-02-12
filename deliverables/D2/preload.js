@@ -1,4 +1,4 @@
-const { contextBridge } = require('electron');
+const { contextBridgem, ipcRenderer } = require('electron');
 const { insertUser, getUsers } = require('./database.js');
 
 contextBridge.exposeInMainWorld('api', {
