@@ -1,4 +1,4 @@
-const { contextBridge } = require('electron');
+const { contextBridgem, ipcRenderer } = require('electron');
 const { insertUser, getUsers } = require('./database.js');
 
 contextBridge.exposeInMainWorld('api', {
@@ -11,5 +11,11 @@ contextBridge.exposeInMainWorld('api', {
         resolve(users);
       }
     });
-  })
+  }),
+  send: (channel, data) => ipcRenderer.send('signupData', data),
+  receive: (channel, func) => ipcRenderer.on(
+      channel,
+      (event, ...args) => func(args)
+  )
 });
+
