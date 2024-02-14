@@ -1,11 +1,21 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
+const { insertUser, createUsersTable, verifyUser, getUserByEmail } = require('./database.js');
 const path = require('path');
 
 let mainWindow;
 
+ipcMain.on('signupData', handleSignupData);
+
 console.log("Starting app...");
-function handleSignupData(event, data) {
-  console.log('Received signup data:', data);
+
+function handleSignupData(event, args) {
+  saveUserDataToDatabase(args.username, args.email, args.password)
+    .then(result => {
+      event.reply('signupResponse', result);
+    })
+    .catch(error => {
+      event.reply('signupResponse', { success: false, error: error.message });
+    });
 }
 
 function createWindow () {
@@ -19,12 +29,20 @@ function createWindow () {
       preload: path.join(__dirname, 'preload.js')      
     }
   });
-
-  ipcMain.on('signupData', (event, data) => {
-    const webContents = event.sender
-    const win = BrowserWindow.fromWebContents(webContents)
-    win.send(data)
-  })
+  
+  ipcMain.on('loginData', async (event, args) => {
+    try {
+        const user = await verifyUser(args.email, args.password);
+        if (user) {
+          const safeUser = { id: user.id, name: user.name, email: user.email };
+          event.reply('loginResponse', { success: true, user: safeUser });
+        } else {
+          event.reply('loginResponse', { success: false, error: 'Invalid credentials' });
+        }
+    } catch (error) {
+        event.reply('loginResponse', { success: false, error: error.message });
+    }
+});
 
   mainWindow.loadFile('login.html');
 
@@ -33,10 +51,31 @@ function createWindow () {
   });
 }
 
-app.whenReady().then(() => {
-  ipcMain.on('signupData', handleSignupData);
-  createWindow();
-});
+async function initializeDatabase() {
+  try {
+    await createUsersTable();
+    console.log('Users table is ready.');
+  } catch (error) {
+    console.error('Error creating users table:', error);
+  }
+}
+
+async function saveUserDataToDatabase(username, email, password) {
+  try {
+    const existingUser = await getUserByEmail(email);
+    if (existingUser) {
+      return { success: false, error: 'Email already in use' };
+    }
+
+    const userId = await insertUser(username, email, password);
+    return { success: true, userId };
+  } catch (error) {
+    if (error.code === 'SQLITE_CONSTRAINT') {
+      return { success: false, error: 'Email already in use' };
+    }
+    return { success: false, error: error.message };
+  }
+}
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
@@ -44,9 +83,9 @@ app.on('window-all-closed', () => {
   }
 });
 
-app.on('activate', () => {
+app.on('ready', async () => {
   if (BrowserWindow.getAllWindows().length === 0) {
+    await initializeDatabase();
     createWindow();
   }
 });
-

@@ -1,21 +1,16 @@
-const { contextBridgem, ipcRenderer } = require('electron');
-const { insertUser, getUsers } = require('./database.js');
+const { contextBridge, ipcRenderer } = require('electron');
 
 contextBridge.exposeInMainWorld('api', {
-  insertUser: (name, email) => insertUser(name, email),
-  getUsers: () => new Promise((resolve, reject) => {
-    getUsers((err, users) => {
-      if (err) {
-        reject(err);
-      } else {
-        resolve(users);
-      }
-    });
-  }),
-  send: (channel, data) => ipcRenderer.send('signupData', data),
-  receive: (channel, func) => ipcRenderer.on(
-      channel,
-      (event, ...args) => func(args)
-  )
+  send: (channel, data) => {
+    let validChannels = ['signupData', 'loginData'];
+    if (validChannels.includes(channel)) {
+      ipcRenderer.send(channel, data);
+    }
+  },
+  receive: (channel, func) => {
+    let validChannels = ['signupResponse', 'loginResponse'];
+    if (validChannels.includes(channel)) { 
+      ipcRenderer.on(channel, (event, ...args) => func(...args));
+    }
+  }
 });
-
