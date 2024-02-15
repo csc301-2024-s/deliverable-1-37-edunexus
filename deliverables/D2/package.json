@@ -6,13 +6,47 @@
   "scripts": {
     "start": "electron .",
     "server": "node server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "wdio": "wdio run ./wdio.conf.js",
+    "package": "electron-builder"
+  },
+  "build": {
+    "appId": "com.example.app",
+    "productName": "EduNexus",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "**/*"
+    ],
+    "mac": {
+      "category": "your.app.category.type"
+    },
+    "win": {
+      "target": "nsis"
+    },
+    "linux": {
+      "target": "AppImage"
+    },
+    "asarUnpack": [
+      "dist/assets/sqlite.db"
+    ],
+    "extraResources": [
+      "./"
+    ]
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
-    "electron": "^28.2.1",
-    "jest": "^29.7.0"
+    "@wdio/cli": "^8.32.0",
+    "@wdio/local-runner": "^8.32.0",
+    "@wdio/mocha-framework": "^8.31.1",
+    "@wdio/spec-reporter": "^8.31.1",
+    "chromedriver": "^121.0.0",
+    "electron": "^28.2.3",
+    "electron-builder": "^24.9.1",
+    "jest": "^29.7.0",
+    "wdio-electron-service": "^6.3.0"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",

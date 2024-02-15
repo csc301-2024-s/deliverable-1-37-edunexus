@@ -4,7 +4,7 @@ const path = require('path');
 
 const saltRounds = 10;
 
-let db = new sqlite3.Database(path.join(__dirname, 'edunexus.db'), (err) => {
+let db = new sqlite3.Database(path.resolve("edunexus.db"), (err) => {
   if (err) {
     console.error('Error opening database', err.message);
   } else {
