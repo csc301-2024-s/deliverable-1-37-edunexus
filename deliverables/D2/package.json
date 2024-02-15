@@ -29,7 +29,7 @@
       "target": "AppImage"
     },
     "asarUnpack": [
-      "dist/assets/sqlite.db"
+      "dist/assets/edunexus.db"
     ],
     "extraResources": [
       "./"
