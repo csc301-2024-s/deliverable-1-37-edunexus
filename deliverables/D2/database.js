@@ -52,6 +52,22 @@ function insertUser(name, email, password) {
   });
 }
 
+
+function deleteUserByEmail(email) {
+  return new Promise((resolve, reject) => {
+    const sql = `DELETE FROM users WHERE email = ?`;
+    db.run(sql, [email], function(err) {
+      if (err) {
+        console.error('Error deleting user:', err.message);
+        reject(err);
+      } else {
+        console.log(`User deleted with Email ${email}`);
+        resolve();
+      }
+    });
+  });
+}
+
 function getUserByEmail(email) {
   return new Promise((resolve, reject) => {
     const sql = `SELECT id FROM users WHERE email = ?`;
@@ -232,5 +248,6 @@ module.exports = {
   getAcademicPerformance,
   getAttendanceRecords,
   generateAcademicReport,
-  createAttendanceRecordsTable
+  createAttendanceRecordsTable,
+  deleteUserByEmail
 };
