@@ -55,7 +55,7 @@ exports.config = {
         // Electron service options
         // see https://webdriver.io/docs/wdio-electron-service/#configuration
         'goog:chromeOptions': {
-            binary: '/Users/minjaedavidpark/csc301/deliverable-1-37-edunexus/deliverables/D2/dist/mac-arm64/EduNexus.app/Contents/MacOS/EduNexus',
+            binary: './dist/mac-arm64/EduNexus.app/Contents/MacOS/EduNexus',
           },
 
     }],
