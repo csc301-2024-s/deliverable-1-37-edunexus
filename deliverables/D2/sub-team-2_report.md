@@ -12,7 +12,7 @@ paragraph per person to highlight any work that is not captured in any of the re
 
 Jaffer Keikei:
 
-Min Jae David Park: I set up the testing environment using WebDriverIO. I also wrote the tests for our backend project. I set up how to build our Electron project using Electron-Builder. I wrote the code for the signup page and basic user authentication.
+Min Jae David Park: I set up the testing environment using WebDriverIO. I also wrote the tests for our backend project. I set up how to build our Electron project using Electron-Builder. I wrote the code for the signup page and basic user authentication. I also tried to debug the issues we had with the communication between the main process and the renderers. Specifically, preload.js was not loaded properly so I did some investigation on that.
 
 
 
