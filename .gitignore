@@ -1,0 +1,4 @@
+# Dependency directories
+database/node_modules/
+# Database
+database/edunexus.db
