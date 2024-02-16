@@ -5,17 +5,21 @@ let db = new sqlite3.Database('./edunexus.db', sqlite3.OPEN_READWRITE | sqlite3.
   if (err) {
     return console.error(err.message);
   }
+  console.log('Connected to the database');
 });
+
 
 // Create tables if not created
 db.parallelize(() => {
   db.run(`CREATE TABLE IF NOT EXISTS student (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
+          student_number INTEGER UNIQUE,
           name TEXT NOT NULL,
           integer NOT NULL
           )`)
     .run(`CREATE TABLE IF NOT EXISTS teacher (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
+          teacher_number INTEGER UNIQUE,
           name TEXT NOT NULL UNIQUE
           )`)
     .run(`CREATE TABLE IF NOT EXISTS subject (
@@ -35,14 +39,14 @@ db.serialize(() => {
           name TEXT NOT NULL,
           year INTEGER NOT NULL,
           grade INTEGER NOT NULL,
-          teacher_id INTEGER REFERENCES teacher (id),
+          teacher_number INTEGER REFERENCES teacher (teacher_number),
           subject_id INTEGER REFERENCES subject (id)
           )`)
     .run(`CREATE TABLE IF NOT EXISTS mark (
           mark INTEGER NOT NULL,
-          student_id INTEGER REFERENCES student (id),
+          student_number INTEGER REFERENCES student (student_number),
           class_id INTEGER REFERENCES class (id),
-          PRIMARY KEY (student_id, class_id)
+          PRIMARY KEY (student_number, class_id)
           )`)
 });
 

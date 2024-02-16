@@ -1,0 +1,22 @@
+{
+  "name": "database",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/csc301-2024-s/deliverable-1-37-edunexus.git#D2-37.3"
+  },
+  "author": "Kenneth Chan, Carson Zhang",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/csc301-2024-s/deliverable-1-37-edunexus/issues"
+  },
+  "homepage": "https://github.com/csc301-2024-s/deliverable-1-37-edunexus/tree/D2-37.3#readme",
+  "dependencies": {
+    "sqlite3": "^5.1.7"
+  }
+}
