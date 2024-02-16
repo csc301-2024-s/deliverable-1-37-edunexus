@@ -10,6 +10,8 @@ EduNexus is a tool designed to enhance education in underserved communities wher
 ## Demo Video
 [![EduNexus Demo](https://img.youtube.com/vi/WLo8oVQFfjk/0.jpg)](https://www.youtube.com/watch?v=WLo8oVQFfjk "EduNexus D2 37.2")
 
+Click on the image to watch the video.
+
 ## How to install
 To download the app, go to github release and download the executable file according to your operating system (MacOS, Windows, or Linux).
 > Please refer to the file `sub-team-2_report.md` for details about how to run, build and test the program on your local machine.
