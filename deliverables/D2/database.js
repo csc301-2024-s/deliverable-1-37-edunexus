@@ -20,8 +20,7 @@ db.parallelize(() => {
           )`)
     .run(`CREATE TABLE IF NOT EXISTS subject (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
-          name TEXT NOT NULL UNIQUE,
-          abbreviation TEXT NOT NULL UNIQUE
+          name TEXT NOT NULL UNIQUE
           )`)
     .run(`CREATE TABLE IF NOT EXISTS user (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -34,15 +33,16 @@ db.serialize(() => {
   db.run(`CREATE TABLE IF NOT EXISTS class (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
           name TEXT NOT NULL,
+          year INTEGER NOT NULL,
+          grade INTEGER NOT NULL,
           teacher_id INTEGER REFERENCES teacher (id),
-          year INTEGER NOT NULL
+          subject_id INTEGER REFERENCES subject (id)
           )`)
     .run(`CREATE TABLE IF NOT EXISTS mark (
           mark INTEGER NOT NULL,
           student_id INTEGER REFERENCES student (id),
           class_id INTEGER REFERENCES class (id),
-          subject_id INTEGER REFERENCES subject (id),
-          PRIMARY KEY (student_id, class_id, subject_id)
+          PRIMARY KEY (student_id, class_id)
           )`)
 });
 
