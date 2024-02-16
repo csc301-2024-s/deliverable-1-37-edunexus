@@ -43,3 +43,4 @@ npm run wdio
 If your operating system is not MacOS, you'll need to change the configuration file in `wdio.conf.js` to update the binary path of the executable file of the application inside `capabilities`. Change the path to the executable file (which is in `dist`) of the application in the `binary` field.
 
 
+[![Everything Is AWESOME](https://img.youtube.com/vi/WLo8oVQFfjk/0.jpg)](https://www.youtube.com/watch?v=WLo8oVQFfjk "EduNexus D2 37.2")
