@@ -12,6 +12,7 @@ EduNexus is a tool designed to enhance education in underserved communities wher
 
 ## How to install
 To download the app, go to github release and download the executable file according to your operating system (MacOS, Windows, or Linux).
+> Please refer to the file `sub-team-2_report.md` for details about how to run, build and test the program on your local machine.
 
 ## Team Members
 - Jaffer Keikei
@@ -42,6 +43,7 @@ Then, you can build the project by running the following command:
 npm run package
 ```
 You'll find the built application executable in the `dist` directory.
+> You should run `npm start` at least once before building the app to ensure the initialization of the database.
 
 ## How to run the unit tests
 We used WebDriverIO to run our tests. To run the tests, first you need to build the project by following the instructions in the previous section. 
