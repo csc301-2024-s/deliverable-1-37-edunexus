@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img width="100" height="100" src="pic/logo.webp" alt="EduNexus Logo"><br>
+  <img width="100" height="100" src="../../pic/logo.webp" alt="EduNexus Logo"><br>
   EduNexus
 </h1>
 
@@ -40,7 +40,7 @@ EduNexus focuses on what it can deliver to its users: a streamlined administrati
 
 
 ## How we decided to divide the project and why
-[The diagram of our architecture](../../blob/main/EduNexus.pdf)
+[The diagram of our architecture](../../EduNexus.pdf)
 
 We split the work based on the three *subapplications* we had to develop within Electron. These were the front end user-interface, the node server that serves as our backend, and the SQLite database for managing application data. Each of these effectively function as siloed subapplications with Electron providing the interconnect layer for them to function together. As such, we thought that since the applications would have to be developed separately based on the division of responsibilities mandated by the deliverables, splitting this way would reduce the amount of cross dependencies and consequently repeated work. Additionally, the split also facilitates easier connecting of the parts later as we only need to implement the electron interconnect to link the parts together.
 
