@@ -46,7 +46,7 @@ We split the work based on the three *subapplications* we had to develop within 
 
 ## What each sub-team is responsible for
 ### Front-end
-
+The frontend team focused on implementing a cohesive UI and design language that would serve as the foundation for all app components. We emphasized interactive UI elements to demonstrate the final product's functionality. This includes a data grid mockup showcasing real-time spreadsheet editing capabilities within the app. Instructor information is conveniently displayed in a sidebar alongside their courses. Course filtering and selection provide easy navigation to specific class information.
 
 ### Back-end
 In the backend, we implemented the report generation logic and handling of reports, this is currently managed by server.js and reportGenerator.js, which ensure accurate fetching and compilation of data into reports. The reportRenderer.js script facilitates interaction with the backend, incorporating error handling to provide user feedback during the report generation process. Additionally, backend logs within server.js are reviewed for POST request management at the /generate-report endpoint. For the creation and manipulation of the PDF document, which serves as the report, pdfkit is utilized, alongside sharp for processing graphical data such as student performance compared to class averages. The Node.js fs module is employed to save the generated PDF report to the file system. On the database front,  we have a very basic SQL database, is used for efficient storage and retrieval of user login credentials, with preload.js ensuring secure database exposure through ipcRenderer. On the frontend, a very minimalistic design for featuring a button for generating student reports immediately upon login.
