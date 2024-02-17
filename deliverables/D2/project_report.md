@@ -1,5 +1,5 @@
 <h1 align="center">
-  <img width="100" height="100" src="pic/logo.webp" alt="EduNexus Logo"><br>
+  <img width="100" height="100" src="../../pic/logo.webp" alt="EduNexus Logo"><br>
   EduNexus
 </h1>
 
@@ -40,7 +40,7 @@ EduNexus focuses on what it can deliver to its users: a streamlined administrati
 
 
 ## How we decided to divide the project and why
-[The diagram of our architecture](../../blob/main/EduNexus.pdf)
+[The diagram of our architecture](../../EduNexus.pdf)
 
 We split the work based on the three *subapplications* we had to develop within Electron. These were the front end user-interface, the node server that serves as our backend, and the SQLite database for managing application data. Each of these effectively function as siloed subapplications with Electron providing the interconnect layer for them to function together. As such, we thought that since the applications would have to be developed separately based on the division of responsibilities mandated by the deliverables, splitting this way would reduce the amount of cross dependencies and consequently repeated work. Additionally, the split also facilitates easier connecting of the parts later as we only need to implement the electron interconnect to link the parts together.
 
@@ -52,4 +52,4 @@ The frontend team focused on implementing a cohesive UI and design language that
 In the backend, we implemented the report generation logic and handling of reports, this is currently managed by server.js and reportGenerator.js, which ensure accurate fetching and compilation of data into reports. The reportRenderer.js script facilitates interaction with the backend, incorporating error handling to provide user feedback during the report generation process. Additionally, backend logs within server.js are reviewed for POST request management at the /generate-report endpoint. For the creation and manipulation of the PDF document, which serves as the report, pdfkit is utilized, alongside sharp for processing graphical data such as student performance compared to class averages. The Node.js fs module is employed to save the generated PDF report to the file system. On the database front,  we have a very basic SQL database, is used for efficient storage and retrieval of user login credentials, with preload.js ensuring secure database exposure through ipcRenderer. On the frontend, a very minimalistic design for featuring a button for generating student reports immediately upon login.
 
 ### Database
-Database team is responsible for designing the database structure, which includes deciding which data is stored, where is it stored, etc. We are also responsible for creating any functions that are database related, including create, retrieve and modify data in database.
+The database team worked on managing and maintaining the application's data infrastructure. Our responsibilities revolve around ensuring that data is organized, secure, and accessible. We also create custom database-related functions tailored to optimize data retrieval, manipulation, and management within the application's infrastructure, and documents database schemas, configurations, and procedures to ensure that knowledge is shared within the whole team.
