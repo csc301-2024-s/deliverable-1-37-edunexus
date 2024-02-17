@@ -5,6 +5,9 @@ const sharp = require('sharp');
 const { addTableToPDF } = require('./tableGenerator');
 const { generateBarGraphSVG } = require('./graphGenerator');
 
+function isDev() {
+  return process.argv[2] == '--dev';
+}
 
 async function getStudentDetails(studentId) {
   return {
@@ -44,7 +47,12 @@ async function generateReport(studentId) {
     const attendanceRecords = await getAttendanceRecords(studentId);
 
     const doc = new PDFDocument();
-    const reportPath = path.join(__dirname, `report_${studentId}.pdf`);
+    let reportPath;
+    if (isDev()) {
+      reportPath = path.join(__dirname, `report_${studentId}.pdf`);
+    } else {
+      reportPath = path.join(process.resourcesPath, `report_${studentId}.pdf`);
+    }
 
     const writeStream = fs.createWriteStream(reportPath);
     doc.pipe(writeStream);
@@ -97,8 +105,13 @@ async function generateReport(studentId) {
     const graphData = tableRows.map(row => [row[0], parseFloat(row[1]), parseFloat(row[2])]);
 
     const svgString = generateBarGraphSVG(graphData);
-
-    const outputPath = path.join(__dirname, 'output.png');
+    let outputPath;
+    if (isDev()) {
+      outputPath = path.join(__dirname, 'output.png');
+    } else {
+      outputPath = path.join(process.resourcesPath, 'output.png');
+    }
+    
     await svgToPng(svgString, outputPath);
 
     doc.rect(55, 420, 500, 180).stroke();

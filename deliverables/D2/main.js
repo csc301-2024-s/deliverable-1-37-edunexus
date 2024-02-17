@@ -1,6 +1,7 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const { insertUser, createUsersTable, verifyUser, getUserByEmail } = require('./database.js');
 const path = require('path');
+const server = require('./server.js');
 
 let mainWindow;
 
@@ -26,7 +27,8 @@ function createWindow () {
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
-      preload: path.join(__dirname, 'preload.js')      
+      preload: path.join(__dirname, 'preload.js'),
+      sandbox: true    
     }
   });
   
