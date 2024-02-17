@@ -96,7 +96,7 @@ async function generateReport(studentId) {
       ["Agriculture", "45", "55.90", "Below Average, let's work harder."],
       ["Religious Ed.", "0", "59.00", "No marks entered, please double check."],
       ["Social Studies", "0", "58.90", "No marks entered, please double check."],
-      ["Physical Ed", "100", "47.10", "Good, there's room for improvement."],
+      ["Physical Ed", "67", "47.10", "Good, there's room for improvement."],
       ["Total", "623", "598.40", "Average, strive to do better next time."]
     ];
 
@@ -105,13 +105,13 @@ async function generateReport(studentId) {
     const graphData = tableRows.map(row => [row[0], parseFloat(row[1]), parseFloat(row[2])]);
 
     const svgString = generateBarGraphSVG(graphData);
+
     let outputPath;
     if (isDev()) {
       outputPath = path.join(__dirname, 'output.png');
     } else {
       outputPath = path.join(process.resourcesPath, 'output.png');
     }
-    
     await svgToPng(svgString, outputPath);
 
     doc.rect(55, 420, 500, 180).stroke();
@@ -138,7 +138,7 @@ async function generateReport(studentId) {
 
     doc.rect(55, 670, 500, 50).stroke();
 
-    doc.fontSize(10).text('Headteacher\'s Remarks: Parents, please review this report with your child, offering guidance and support in areas needing improvement. School concludes on August 25th, 2023 and resumes on September 21st, 2023. Wishing you all joyful holidays!', 60, 675, {
+    doc.fontSize(10).text('Headteacher\'s Remarks: Parents, please review this report with your child, offering guidance and support in areas needing improvement. School concludes on August 25th, 2024 and resumes on September 21st, 2024. Wishing you all joyful holidays!', 60, 675, {
       width: 495,
 
       align: 'left',

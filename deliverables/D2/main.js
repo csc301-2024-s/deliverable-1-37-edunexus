@@ -1,24 +1,16 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const { insertUser, createUsersTable, verifyUser, getUserByEmail } = require('./database.js');
+const { generateReport } = require('./reportGenerator');
 const path = require('path');
-const server = require('./server.js');
+const fs = require('fs');
+
+
 
 let mainWindow;
 
 ipcMain.on('signupData', handleSignupData);
 
 console.log("Starting app...");
-
-function handleSignupData(event, args) {
-  saveUserDataToDatabase(args.username, args.email, args.password)
-    .then(result => {
-      event.reply('signupResponse', result);
-    })
-    .catch(error => {
-      event.reply('signupResponse', { success: false, error: error.message });
-    });
-}
-
 function createWindow () {
   console.log("Creating main window...");
   mainWindow = new BrowserWindow({
@@ -27,11 +19,11 @@ function createWindow () {
     webPreferences: {
       nodeIntegration: false,
       contextIsolation: true,
-      preload: path.join(__dirname, 'preload.js'),
-      sandbox: true    
+      preload: path.join(__dirname, 'preload.js')
+
     }
   });
-  
+
   ipcMain.on('loginData', async (event, args) => {
     try {
         const user = await verifyUser(args.email, args.password);
@@ -51,6 +43,16 @@ function createWindow () {
   mainWindow.on('closed', () => {
     mainWindow = null;
   });
+}
+
+function handleSignupData(event, args) {
+  saveUserDataToDatabase(args.username, args.email, args.password)
+    .then(result => {
+      event.reply('signupResponse', result);
+    })
+    .catch(error => {
+      event.reply('signupResponse', { success: false, error: error.message });
+    });
 }
 
 async function initializeDatabase() {
@@ -78,6 +80,40 @@ async function saveUserDataToDatabase(username, email, password) {
     return { success: false, error: error.message };
   }
 }
+
+ipcMain.on('request-report-generation', async (event, studentId) => {
+  try {
+
+    const reportPath = await generateReport(studentId);
+
+    const { filePath } = await dialog.showSaveDialog({
+      buttonLabel: 'Save Report',
+      defaultPath: `report_${studentId}.pdf`,
+      filters: [
+        { name: 'PDF Documents', extensions: ['pdf'] }
+      ]
+    });
+
+    if (filePath) {
+      try {
+        fs.copyFileSync(reportPath, filePath);
+        fs.unlinkSync(reportPath);
+        event.sender.send('report-generation-complete', filePath);
+      } catch (error) {
+        console.error('Error moving the file:', error);
+        event.sender.send('report-generation-failed', error.message);
+      }
+    } else {
+      event.sender.send('report-generation-cancelled');
+      fs.unlinkSync(reportPath);
+    }
+  } catch (error) {
+    console.error('Error generating report:', error);
+    event.sender.send('report-generation-failed', error.message);
+  }
+});
+
+app.whenReady().then(createWindow);
 
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
