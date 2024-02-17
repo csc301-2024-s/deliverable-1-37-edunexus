@@ -42,6 +42,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 
     document.getElementById('signupBtn').addEventListener('click', function() {
+        console.log('Sign up button on the log in page clicked');
         window.location.href = 'signup.html';
     });
 });
