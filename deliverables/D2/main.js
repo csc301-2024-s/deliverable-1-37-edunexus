@@ -1,4 +1,4 @@
-const { app, shell, BrowserWindow, ipcMain, dialog } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const { insertUser, createUsersTable, verifyUser, getUserByEmail } = require('./database.js');
 const { generateReport } = require('./reportGenerator');
 const path = require('path');
