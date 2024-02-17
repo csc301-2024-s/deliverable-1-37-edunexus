@@ -15,7 +15,6 @@
 
 <img width="872" alt="Screenshot 2024-02-16 at 00 33 04" src="https://github.com/csc301-2024-s/deliverable-1-37-edunexus/assets/94993837/484ce4d5-0e78-40b0-8b07-e734ec219ad2">
 
-[Click here to view the diagram on Lucidchart](https://lucid.app/lucidchart/099e6b22-3105-407f-b4d5-08cdacc05c51/edit?invitationId=inv_7df4cb68-2ff5-4a2a-b1b5-9a3f7e75bd5a&page=HWEp-vi-RSFO#)
 
 
 
