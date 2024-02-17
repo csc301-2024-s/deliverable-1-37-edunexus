@@ -113,8 +113,6 @@ ipcMain.on('request-report-generation', async (event, studentId) => {
   }
 });
 
-app.whenReady().then(createWindow);
-
 app.on('window-all-closed', () => {
   if (process.platform !== 'darwin') {
     app.quit();
