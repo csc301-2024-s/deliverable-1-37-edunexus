@@ -46,8 +46,8 @@ const columns = [
     editable: true,
   },
   {
-    field: 'hw2',
-    headerName: 'HW 2',
+    field: 'hw3',
+    headerName: 'HW 3',
     type: 'number',
     width: 110,
     editable: true,
@@ -55,9 +55,8 @@ const columns = [
 ];
 
 const rows = [
-  { id: 1, studentName: 'John', studentID: 0o1 , exam1: 90, exam2: 80, hw1: 100, hw2: 90 },
-  { id: 2, studentName: 'Jane', studentID: 0o2 , exam1: 70, exam2: 80, hw1: 70, hw2: 80 },
-
+  { id: 1, studentName: 'John', studentID: 0o1 , exam1: 90, exam2: 80, hw1: 100, hw2: 90, hw3: 100},
+  { id: 2, studentName: 'Jane', studentID: 0o2 , exam1: 70, exam2: 80, hw1: 70, hw2: 80, hw3: 90},
 ];
 
 export default function DataGridDemo() {
