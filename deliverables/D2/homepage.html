@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Home- EduNexus</title>
+    <title>Home - EduNexus</title>
 </head>
 <body>
     <h1>Welcome to EduNexus!</h1>
@@ -55,28 +55,51 @@
                     </tr>
                 </tbody>
             </table>
-        </div>
+        </div>     
         <div class="profile-container">
             <div class="image-container">
                 <img src="image.jpg" alt="Profile Picture">
             </div>
             <p>Instructor</p>
         <div class="courses-container">
-            <table>
+            <table id="coursesTable">
                 <thead>
                     <h3>Courses</h3>
                     <div class="search-container">
-                        <input type="text" placeholder="Search for a course">
+                        <input id="searchBox" type="text" onkeyup="filterTable()" placeholder="Search for a course">
                     </div>
                 </thead>
                 <tbody>
-                    <tr><img src="image1.jpg" alt="Course 1 picture"> Math Period 1</tr><br>
-                    <tr><img src="image2.jpg" alt="Course 2 picture"> Math Period 2</tr><br>
-                    <tr><img src="image3.jpg" alt="Course 3 picture"> Science Period 1</tr><br>
-                    <tr><img src="image4.jpg" alt="Course 4 picture"> Science Period 2</tr><br>
+                    <tr><td><img src="image1.jpg" alt="Course 1 picture"> Math Period 1</td></tr>
+                    <tr><td><img src="image2.jpg" alt="Course 2 picture"> Math Period 2</td></tr>
+                    <tr><td><img src="image3.jpg" alt="Course 3 picture"> Science Period 1</td></tr>
+                    <tr><td><img src="image4.jpg" alt="Course 4 picture"> Science Period 2</tr></tr>
                 </tbody>
             </table>       
         </div>    
+        <script>
+            // Script taken from https://www.w3schools.com/howto/howto_js_filter_table.asp
+            function filterTable() {
+              var input, filter, table, tr, td, i, txtValue;
+              input = document.getElementById("searchBox");
+              filter = input.value.toUpperCase();
+              table = document.getElementById("coursesTable");
+              tr = table.getElementsByTagName("tr");
+            
+              // Loop through all table rows, and hide those who don't match the search query
+              for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[0];
+                if (td) {
+                  txtValue = td.textContent || td.innerText;
+                  if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                  } else {
+                    tr[i].style.display = "none";
+                  }
+                }
+              }
+            }
+        </script>
     </div>
 </body>
 </html>
