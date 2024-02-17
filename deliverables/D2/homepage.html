@@ -21,7 +21,9 @@
             <button class="generate-pdf">Generate PDF</button>
             <button class="visualize-stats">Visualize Class Statistics</button>
         </div> 
-        <div class="table-container" contenteditable>
+        <div id="root"></div>
+        <script src="edunexus_ui\src\datagrid.js"></script>
+        <!-- <div class="table-container" contenteditable>
             <table>
                 <thead>
                     <tr>
@@ -55,7 +57,7 @@
                     </tr>
                 </tbody>
             </table>
-        </div>     
+        </div>      -->
         <div class="profile-container">
             <div class="image-container">
                 <img src="image.jpg" alt="Profile Picture">
@@ -99,6 +101,13 @@
                 }
               }
             }
+        </script>
+        <script>
+            // Mount the React component
+            ReactDOM.render(
+                React.createElement(App),
+                document.getElementById('root')
+            );
         </script>
     </div>
 </body>
