@@ -49,7 +49,7 @@ We split the work based on the three *subapplications* we had to develop within 
 
 
 ### Back-end
-
+In the backend, we implemented the report generation logic and handling of reports, this is currently managed by server.js and reportGenerator.js, which ensure accurate fetching and compilation of data into reports. The reportRenderer.js script facilitates interaction with the backend, incorporating error handling to provide user feedback during the report generation process. Additionally, backend logs within server.js are reviewed for POST request management at the /generate-report endpoint. For the creation and manipulation of the PDF document, which serves as the report, pdfkit is utilized, alongside sharp for processing graphical data such as student performance compared to class averages. The Node.js fs module is employed to save the generated PDF report to the file system. On the database front,  we have a very basic SQL database, is used for efficient storage and retrieval of user login credentials, with preload.js ensuring secure database exposure through ipcRenderer. On the frontend, a very minimalistic design for featuring a button for generating student reports immediately upon login.
 
 ### Database
 Database team is responsible for designing the database structure, which includes deciding which data is stored, where is it stored, etc. We are also responsible for creating any functions that are database related, including create, retrieve and modify data in database.
