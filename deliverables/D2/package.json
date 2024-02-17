@@ -2,9 +2,9 @@
   "name": "database",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "main.js",
   "scripts": {
-    "test": "test"
+    "start": "electron ."
   },
   "repository": {
     "type": "git",
@@ -18,5 +18,8 @@
   "homepage": "https://github.com/csc301-2024-s/deliverable-1-37-edunexus/tree/D2-37.3#readme",
   "dependencies": {
     "sqlite3": "^5.1.7"
+  },
+  "devDependencies": {
+    "electron": "^28.2.3"
   }
 }

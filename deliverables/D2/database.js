@@ -1,12 +1,11 @@
-const sqlite3 = require('sqlite3').verbose();
+const sqlite3 = require('sqlite3').verbose()
 
 // Create a new database if it does not exist, and open database for read and write
 let db = new sqlite3.Database('./edunexus.db', sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE, (err) => {
   if (err) {
-    return console.error(err.message);
+    return console.error(err.message)
   }
-  console.log('Connected to the database');
-});
+})
 
 
 // Create tables if not created
@@ -15,7 +14,7 @@ db.parallelize(() => {
           id INTEGER PRIMARY KEY AUTOINCREMENT,
           student_number INTEGER UNIQUE,
           name TEXT NOT NULL,
-          integer NOT NULL
+          age INTEGER NOT NULL
           )`)
     .run(`CREATE TABLE IF NOT EXISTS teacher (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -32,7 +31,7 @@ db.parallelize(() => {
           password TEXT NOT NULL
           )`)
     .run(`PRAGMA foreign_keys = ON`)
-});
+})
 db.serialize(() => {
   db.run(`CREATE TABLE IF NOT EXISTS class (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
@@ -48,40 +47,63 @@ db.serialize(() => {
           class_id INTEGER REFERENCES class (id),
           PRIMARY KEY (student_number, class_id)
           )`)
-});
-
-// TODO: translate those into normal function
-// app.get('/check_username', function (req, res) {
-//   username = req.query.username;
-//   db.run(`SELECT username FROM TABLE user WHERE username = ?`, [username], function(err) {
-//     if (err) {
-//       return console.log(err.message);
-//     }
-//     console.log(res)
-//     return res;
-//   });
-//   // console.log(response);
-//   // res.end(JSON.stringify(response));
-// });
-
-// app.put('/create_user', urlencodedParser, function (req, res) {
-//   // Prepare output in JSON format
-//   username = req.query.username;
-//   password = req.query.password;
-//   db.run(`INSERT INTO TABLE user (name, password) VALUES(?, ?)`, [username, password], function(err) {
-//     if (err) {
-//       return console.log(err.message);
-//     }
-//     console.log(`A user has been inserted with username ${username}`);
-//     return res;
-//   });
-//   // console.log(response);
-//   // res.end(JSON.stringify(response));
-// });
-
-db.close((err) => {
-  if (err) {
-    return console.error(err.message)
-  }
-  console.log('Close the database connection.');
 })
+
+// User related functions
+function insertUser(username, password) {
+  return new Promise((resolve, reject) => {
+    const sql = `INSERT INTO user (username, password) VALUES(?, ?)`
+    db.run(sql, [username, password], function(err) {
+      if (err) {
+        console.log(err)
+        reject(err)
+      }
+      resolve(this.lastID)
+    })
+  })
+}
+
+function getUserbyUsername(username) {
+  return new Promise((resolve, reject) => {
+    const sql = `SELECT * FROM user WHERE username = ?`
+    db.get(sql, [username], (err, user) => {
+      if (err) {
+        reject(err)
+      }
+      resolve(user)
+    })
+  })
+}
+
+function checkLogin(username, password) {
+  return new Promise((resolve, reject) => {
+    const sql = `SELECT * FROM user WHERE username = ? AND password = ?`
+    db.get(sql, [username, password], (err, user) => {
+      if (err) {
+        reject(err)
+      }
+      resolve(user)
+    })
+  })
+}
+
+// Student related functions
+function insertStudent(name, student_number, age) {
+  return new Promise((resolve, reject) => {
+    const sql = `INSERT INTO user (student_number, name, age) VALUES(?, ?, ?)`
+    db.run(sql, [student_number, name, age], function(err) {
+      if (err) {
+        console.log(err)
+        reject(err)
+      }
+      resolve(this.lastID)
+    })
+  })
+}
+
+module.exports = {
+  insertUser,
+  getUserbyUsername,
+  checkLogin,
+  insertStudent
+}

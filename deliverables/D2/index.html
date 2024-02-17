@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
+    <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
+    <title>Dialog</title>
+  </head>
+  <body>
+
+    <h2>Create user</h2>
+    <br>
+    <div class="create">
+        <label><b>Username</b></label>
+        <input type="text" name="username" id="username" placeholder="Username">
+        <br>
+        <label><b>Password</b></label>
+        <input type="Password" name="password" id="password" placeholder="Password">
+        <br>
+        <input type="submit" name="createUser" id="createUser" value="Create User">
+        <input type="submit" name="checkUser" id="checkUser" value="Check username">
+        <input type="submit" name="login" id="login" value="Login">
+        <br>
+    </div>
+    <br>
+    <span id="userResponse"></span>
+    <br>
+    Current value: <strong id="counter">0</strong>
+    <script src='./renderer.js'></script>
+  </body>
+</html>
