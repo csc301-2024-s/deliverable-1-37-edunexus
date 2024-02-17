@@ -11,6 +11,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
         window.api.send('request-report-generation', studentId);
     });
+
+    document.getElementById('logoutBtn').addEventListener('click', () => {
+        console.log("Logout button clicked");
+        window.location.href = 'login.html';
+    });
 });
 
 window.electron.receive('report-generation-complete', (reportPath) => {
