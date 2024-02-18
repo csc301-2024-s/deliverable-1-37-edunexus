@@ -1,0 +1,37 @@
+{
+  "name": "database",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron-forge start",
+    "package": "electron-forge package",
+    "make": "electron-forge make",
+    "publish": "electron-forge publish"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/csc301-2024-s/deliverable-1-37-edunexus.git#D2-37.3"
+  },
+  "author": "Kenneth Chan, Carson Zhang",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/csc301-2024-s/deliverable-1-37-edunexus/issues"
+  },
+  "homepage": "https://github.com/csc301-2024-s/deliverable-1-37-edunexus/tree/D2-37.3#readme",
+  "dependencies": {
+    "electron-squirrel-startup": "^1.0.0",
+    "sqlite3": "^5.1.7",
+    "update-electron-app": "^3.0.0"
+  },
+  "devDependencies": {
+    "@electron-forge/cli": "^7.2.0",
+    "@electron-forge/maker-deb": "^7.2.0",
+    "@electron-forge/maker-rpm": "^7.2.0",
+    "@electron-forge/maker-squirrel": "^7.2.0",
+    "@electron-forge/maker-zip": "^7.2.0",
+    "@electron-forge/plugin-auto-unpack-natives": "^7.2.0",
+    "@electron-forge/publisher-github": "^7.2.0",
+    "electron": "^28.2.3"
+  }
+}

@@ -1,4 +1,7 @@
 # Dependency directories
-database/node_modules/
+*node_modules/
 # Database
-database/edunexus.db
+*.db
+# Debug use
+.vscode
+*out
