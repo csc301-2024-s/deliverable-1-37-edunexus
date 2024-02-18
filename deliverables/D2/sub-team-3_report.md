@@ -55,7 +55,10 @@ Additionally, we have developed a basic Electron front-end for demonstration pur
 
 ## 2. Individual contributions explaining who did what.
 
-Kenneth Chan - created the database structure, write the code for database.js, tested until teacher, write the Electorn front-end until teacher
+Kenneth Chan
+- Create the database structure
+- Write the code for database.js, Electorn front-end for user, student and teacher, first draft for readme and report
+- Test the code for user, student and teacher
 
 Carson Zhang - 
 
