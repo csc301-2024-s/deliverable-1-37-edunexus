@@ -3,6 +3,7 @@ import { createRoot } from 'react-dom/client';
 
 import './styles.css'
 import Dashboard from "./dashboard.jsx";
+import Buttons from "./buttons.jsx";
 import NavigationSidebar from './sidebar/sidebar.jsx';
 import { Box } from '@mui/material';
 
@@ -26,6 +27,8 @@ const App = (props) => {
             {/* Main Content Area */}
             <Box component="main" sx={{ p: 3 }}>
                 <h1 className={'temp'}>EduNexus</h1>
+                <Dashboard />
+                <Buttons />
             </Box>
         </Box>
     );
