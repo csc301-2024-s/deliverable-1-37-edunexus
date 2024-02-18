@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home - EduNexus</title>
+</head>
+<body>
+    <h1>Welcome to EduNexus!</h1>
+    <div class="body-container">
+        <div class="buttons-container">
+            <button class="upload-spreadsheet" onclick="openForm()">Upload a Spreadsheet</button>
+            <button class="generate-pdf">Generate PDF</button>
+            <button class="visualize-stats">Visualize Class Statistics</button>
+        </div> 
+
+        <!-- Popup upload form -->
+        <div class="form-popup" id="popup">
+            <form action="homepage.html" class="form-container">
+                <div class="instructions-container">
+                    <h2>Instructions:</h2>
+                    <p>Please ensure that your spreadsheet is in the correct format:</p>
+                    <ol>
+                        <li>The first row should contain the Student's Name, ID, and any assignments given.</li>
+                        <li>Corresponding data should be inputted in the subsequent rows.</li>
+                        <li>Click "Choose File" below to upload your spreadsheet.</li>
+                        <li>Once a spreadsheet has been uploaded, click "Generate PDF" to process the file into a PDF.</li>
+                    </ol>
+                </div>
+                <input type="file" name="select-file" required>
+                <button type="button" class="btn cancel" onclick="closeForm()">Close</button>
+            </form>
+        </div>
+
+        <div id="root"></div>
+        <script src="edunexus_ui\src\datagrid.js"></script>
+        <div class="profile-container">
+            <div class="image-container">
+                <img src="image.jpg" alt="Profile Picture">
+            </div>
+            <p>Instructor</p>
+        <div class="courses-container">
+            <table id="coursesTable">
+                <thead>
+                    <h3>Courses</h3>
+                    <div class="search-container">
+                        <input id="searchBox" type="text" onkeyup="filterTable()" placeholder="Search for a course">
+                    </div>
+                </thead>
+                <tbody>
+                    <tr><td><img src="image1.jpg" alt="Course 1 picture"> Math Period 1</td></tr>
+                    <tr><td><img src="image2.jpg" alt="Course 2 picture"> Math Period 2</td></tr>
+                    <tr><td><img src="image3.jpg" alt="Course 3 picture"> Science Period 1</td></tr>
+                    <tr><td><img src="image4.jpg" alt="Course 4 picture"> Science Period 2</tr></tr>
+                </tbody>
+            </table>       
+        </div>    
+        <script>
+            // Popup script
+            function closeForm() {
+                document.getElementById("popup").style.display = "none";
+            }
+
+            function openForm() {
+                document.getElementById("popup").style.display = "block";
+            }
+
+            // Filter table script
+            // Script taken from https://www.w3schools.com/howto/howto_js_filter_table.asp
+            function filterTable() {
+              var input, filter, table, tr, td, i, txtValue;
+              input = document.getElementById("searchBox");
+              filter = input.value.toUpperCase();
+              table = document.getElementById("coursesTable");
+              tr = table.getElementsByTagName("tr");
+            
+              // Loop through all table rows, and hide those who don't match the search query
+              for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[0];
+                if (td) {
+                  txtValue = td.textContent || td.innerText;
+                  if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                    tr[i].style.display = "";
+                  } else {
+                    tr[i].style.display = "none";
+                  }
+                }
+              }
+            }
+
+            // Mount the React component
+            ReactDOM.render(
+                React.createElement(App),
+                document.getElementById('root')
+            );
+        </script>
+    </div>
+</body>
+</html>
