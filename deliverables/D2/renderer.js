@@ -35,3 +35,35 @@ window.api.userResponse((data) => {
     userResponseElement.style.color = 'red'
   }
 })
+
+// Student part
+const createStudent = document.getElementById('createStudent')
+const checkStudentNumber = document.getElementById('checkStudentNumber')
+const studentResponseElement = document.getElementById('studentResponse')
+const studentNameElement = document.getElementById('studentName')
+const studentNumberElement = document.getElementById('studentNumber')
+const ageElement = document.getElementById('age')
+
+
+createStudent.addEventListener('click', () => {
+  const studentName = studentNameElement.value
+  const studentNumber = studentNumberElement.value
+  const age = ageElement.value
+  window.api.createStudent(studentName, studentNumber, age)
+})
+
+checkStudentNumber.addEventListener('click', async() => {
+  const studentNumber = studentNumberElement.value
+  window.api.checkStudentNumber(studentNumber)
+})
+
+window.api.studentResponse((data) => {
+  success = data[0]
+  response = data[1]
+  studentResponseElement.innerText = response
+  if (success) {
+    studentResponseElement.style.color = 'green'
+  } else {
+    studentResponseElement.style.color = 'red'
+  }
+})

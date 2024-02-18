@@ -45,17 +45,18 @@ db.serialize(() => {
           mark INTEGER NOT NULL,
           student_number INTEGER REFERENCES student (student_number),
           class_id INTEGER REFERENCES class (id),
+          year INTEGER NOT NULL,
           PRIMARY KEY (student_number, class_id)
           )`)
 })
 
 // User related functions
+// password is not encrypted for now as we're not sure where will it be encrypted
 function insertUser(username, password) {
   return new Promise((resolve, reject) => {
     const sql = `INSERT INTO user (username, password) VALUES(?, ?)`
     db.run(sql, [username, password], function(err) {
       if (err) {
-        console.log(err)
         reject(err)
       }
       resolve(this.lastID)
@@ -88,15 +89,52 @@ function checkLogin(username, password) {
 }
 
 // Student related functions
-function insertStudent(name, student_number, age) {
+// may need to check for integer for studentNumber and age
+function insertStudent(name, studentNumber, age) {
   return new Promise((resolve, reject) => {
-    const sql = `INSERT INTO user (student_number, name, age) VALUES(?, ?, ?)`
-    db.run(sql, [student_number, name, age], function(err) {
+    const sql = `INSERT INTO student (student_number, name, age) VALUES(?, ?, ?)`
+    db.run(sql, [studentNumber, name, age], function(err) {
       if (err) {
-        console.log(err)
         reject(err)
       }
       resolve(this.lastID)
+    })
+  })
+}
+
+function getStudentbyStudentNumber(studentNumber) {
+  return new Promise((resolve, reject) => {
+    const sql = `SELECT * FROM student WHERE student_number = ?`
+    db.get(sql, [studentNumber], (err, user) => {
+      if (err) {
+        reject(err)
+      }
+      resolve(user)
+    })
+  })
+}
+
+// Teacher related functions
+function insertTeacher(name, teacherNumber) {
+  return new Promise((resolve, reject) => {
+  const sql = `INSERT INTO teacher (teacher_number, name) VALUES(?, ?)`
+    db.run(sql, [teacherNumber, name], function(err) {
+      if (err) {
+        reject(err)
+      }
+      resolve(this.lastID)
+    })
+  })
+}
+
+function getTeacherbyTeacherNumber(teacherNumber) {
+  return new Promise((resolve, reject) => {
+    const sql = `SELECT * FROM teacher WHERE teacher_number = ?`
+    db.get(sql, [teacherNumber], (err, user) => {
+      if (err) {
+        reject(err)
+      }
+      resolve(user)
     })
   })
 }
@@ -105,5 +143,8 @@ module.exports = {
   insertUser,
   getUserbyUsername,
   checkLogin,
-  insertStudent
+  insertStudent,
+  getStudentbyStudentNumber,
+  insertTeacher,
+  getTeacherbyTeacherNumber
 }
