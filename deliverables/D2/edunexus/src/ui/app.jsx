@@ -5,6 +5,7 @@ import './styles.css'
 import Dashboard from "./dashboard.jsx";
 import Buttons from "./buttons.jsx";
 import NavigationSidebar from './sidebar/sidebar.jsx';
+import DataGridDemo from './datagrid.jsx';
 import { Box } from '@mui/material';
 
 const user = {
@@ -28,6 +29,7 @@ const App = (props) => {
             <Box component="main" sx={{ p: 3 }}>
                 <h1 className={'temp'}>EduNexus</h1>
                 <Dashboard />
+                <DataGridDemo />
                 <Buttons />
             </Box>
         </Box>
