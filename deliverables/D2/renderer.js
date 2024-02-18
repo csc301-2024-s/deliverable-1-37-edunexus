@@ -105,8 +105,7 @@ const teacherNumberElement = document.getElementById('teacherNumber')
 createTeacher.addEventListener('click', () => {
   const teacherName = teacherNameElement.value
   const teacherNumber = teacherNumberElement.value
-  const age = ageElement.value
-  window.api.createTeacher(teacherName, teacherNumber, age)
+  window.api.createTeacher(teacherName, teacherNumber)
 })
 
 checkTeacherNumber.addEventListener('click', async() => {

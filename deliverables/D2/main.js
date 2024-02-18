@@ -188,8 +188,8 @@ async function checkTeacherNumber (event, teacherNumber) {
     const existingTeacher = await database.getTeacher(teacherNumber)
     if (existingTeacher) {
       webContents.send('teacherResponse', [true, 'teacher id: ' + existingTeacher.id +
-      '\nteacher name: ' + existingTeacher.name +
-      '\nteacher number: ' + existingTeacher.teacher_number])
+      ', teacher name: ' + existingTeacher.name +
+      ', teacher number: ' + existingTeacher.teacher_number])
       return { success: true }
     }
     webContents.send('teacherResponse', [false, 'Teacher not found'])
@@ -235,6 +235,81 @@ async function deleteTeacher (event, teacherNumber) {
     return { success: false, error: 'Teachername not found' }
   } catch (error) {
     webContents.send('teacherResponse', [false, 'Error: ' + error.message])
+    return { success: false, error: error.message }
+  }
+}
+
+// Subjects
+async function createSubject (event, name) {
+  const webContents = event.sender
+  try {
+    const existingSubject = await database.getSubject(name)
+    if (existingSubject) {
+      webContents.send('subjectResponse', [false, 'Subject name already in use'])
+      return { success: false, error: 'Subject name already in use' }
+    }
+
+    const subjectId = await database.insertSubject(name)
+    webContents.send('subjectResponse', [true, 'Subject successfully created with id ' + subjectId])
+    return { success: true, subjectId }
+  } catch (error) {
+    webContents.send('subjectResponse', [false, 'Error: ' + error.message])
+    return { success: false, error: error.message }
+  }
+}
+
+async function checkSubjectName (event, name) {
+  const webContents = event.sender
+  console.log(name)
+  try {
+    const existingSubject = await database.getSubject(name)
+    if (existingSubject) {
+      webContents.send('subjectResponse', [true, 'subject id: ' + existingSubject.id +
+      ', subject name: ' + existingSubject.name])
+      return { success: true }
+    }
+    webContents.send('subjectResponse', [false, 'Subject not found'])
+    return { success: false, error: 'Subject not found' }
+  } catch (error) {
+    webContents.send('subjectResponse', [false, 'Error: ' + error.message])
+    return { success: false, error: error.message }
+  }
+}
+
+async function getAllSubject (event) {
+  const webContents = event.sender
+  try {
+    const existingSubjects = await database.getAllSubject()
+    if (existingSubjects) {
+      s = ""
+      existingSubjects.forEach((subject) => {
+        s += 'subject id: ' + subject.id
+        s += ', subject name: ' + subject.name
+        s += '\n'
+      })
+      webContents.send('subjectResponse', [true, s])
+      return { success: true }
+    }Students
+    webContents.send('subjectResponse', [false, 'No subject found'])
+    return { success: false, error: 'No subject found' }
+  } catch (error) {
+    webContents.send('subjectResponse', [false, 'Error: ' + error.message])
+    return { success: false, error: error.message }
+  }
+}
+
+async function deleteSubject (event, name) {
+  const webContents = event.sender
+  try {
+    const deletedSubject = await database.deleteSubject(name)
+    if (deletedSubject) {
+      webContents.send('subjectResponse', [true, 'Delete successful'])
+      return { success: true }
+    }
+    webContents.send('subjectResponse', [false, 'Subject not found'])
+    return { success: false, error: 'Subject not found' }
+  } catch (error) {
+    webContents.send('subjectResponse', [false, 'Error: ' + error.message])
     return { success: false, error: error.message }
   }
 }
