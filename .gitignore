@@ -1,4 +1,6 @@
 # Dependency directories
-deliverables/D2/node_modules/
+*node_modules/
 # Database
-deliverables/D2/edunexus.db
+*.db
+# Debug use
+.vscode
