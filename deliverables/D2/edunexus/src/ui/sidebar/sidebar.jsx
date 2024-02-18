@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
     Box,
     Card,
@@ -8,12 +8,23 @@ import {
     ListItem,
     ListItemIcon,
     ListItemText,
-    Divider
+    Divider,
+    TextField
 } from '@mui/material';
 import SchoolIcon from '@mui/icons-material/School'; // For class icons
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'; // For user icon
 
 const NavigationSidebar = ({ user, classes }) => {
+    const [searchText, setSearchText] = useState('');
+
+    const handleSearch = (event) => {
+        setSearchText(event.target.value);
+    };
+
+    const filteredClasses = classes.filter(classItem =>
+        classItem.name.toLowerCase().includes(searchText.toLowerCase())
+    );
+
     return (
         <div style={{
             height: '100vh',
@@ -48,9 +59,18 @@ const NavigationSidebar = ({ user, classes }) => {
                     </Card>
                     <Divider/>
 
+                    {/* Search Textbox */}
+                    <TextField
+                        label="Search for a class"
+                        variant="outlined"
+                        value={searchText}
+                        onChange={handleSearch}
+                        sx={{margin: 2}}
+                    />
+
                     {/* List of Classes */}
                     <List>
-                        {classes.map((classItem, index) => (
+                        {filteredClasses.map((classItem, index) => (
                             <ListItem button key={index}>
                                 <ListItemIcon>
                                     <SchoolIcon/>
@@ -62,7 +82,6 @@ const NavigationSidebar = ({ user, classes }) => {
                 </Box>
             </Card>
         </div>
-
     );
 };
 
