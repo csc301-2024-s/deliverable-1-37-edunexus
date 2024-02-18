@@ -11,6 +11,10 @@ const root = createRoot(document.body);
 
 root.render(
     <div>
-        <Button variant="contained">Say Hi</Button>
+        <Button variant="contained"
+                onClick={() => {
+                    console.log("Button was clicked");
+                    window.electronAPI.pingPong('funky number')
+                }}>Say Hi</Button>
     </div>
 );

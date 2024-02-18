@@ -5,7 +5,12 @@ import '../styles.css'; // Import your central stylesheet
 
 function SayHiButton() {
     return (
-        <Button variant="contained">Say Hi</Button>
+        <Button variant="contained"
+            onClick={() => {
+                alert('Clicked');
+                console.log("Button was clicked");
+                window.electronAPI.ping()
+            }}>Say Hi</Button>
     );
 }
 
