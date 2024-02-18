@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <!-- https://developer.mozilla.org/en-US/docs/Web/HTTP/CSP -->
     <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'">
-    <title>Dialog</title>
+    <title>Function Demonstrations</title>
   </head>
   <body>
 
@@ -17,9 +17,11 @@
       <label><b>Password</b></label>
       <input type="text" name="password" id="password" placeholder="Password">
       <br>
-      <input type="submit" name="createUser" id="createUser" value="Create User">
+      <input type="submit" name="createUser" id="createUser" value="Create user">
       <input type="submit" name="checkUser" id="checkUser" value="Check username">
       <input type="submit" name="login" id="login" value="Login">
+      <input type="submit" name="deleteUser" id="deleteUser" value="Delete user by username">
+      <input type="submit" name="updatePassword" id="updatePassword" value="Update password">
       <br>
       <br>
       <span id="userResponse"></span>
@@ -39,9 +41,29 @@
       <br>
       <input type="submit" name="createStudent" id="createStudent" value="Create Student">
       <input type="submit" name="checkStudentNumber" id="checkStudentNumber" value="Check student number">
+      <input type="submit" name="deleteStudent" id="deleteStudent" value="Delete student by student number">
+      <input type="submit" name="getAllStudent" id="getAllStudent" value="List all">
       <br>
       <br>
       <span id="studentResponse"></span>
+    </div>
+
+    <h2>Teacher related</h2>
+    <br>
+    <div class="Teacher related">
+      <label><b>Teacher name</b></label>
+      <input type="text" name="teacherName" id="teacherName" placeholder="Teacher name">
+      <br>
+      <label><b>Teacher number</b></label>
+      <input type="Password" name="teacherNumber" id="teacherNumber" placeholder="Teacher number">
+      <br>
+      <input type="submit" name="createTeacher" id="createTeacher" value="Create Teacher">
+      <input type="submit" name="checkTeacherNumber" id="checkTeacherNumber" value="Check teacher number">
+      <input type="submit" name="deleteTeacher" id="deleteTeacher" value="Delete teacher by teacher number">
+      <input type="submit" name="getAllTeacher" id="getAllTeacher" value="List all">
+      <br>
+      <br>
+      <span id="teacherResponse"></span>
     </div>
     
     <script src='./renderer.js'></script>
