@@ -8,7 +8,8 @@ async function checkUsername (event, username) {
   try {
     const existingUser = await database.getUser(username)
     if (existingUser) {
-      webContents.send('userResponse', [true, 'Username found'])
+      webContents.send('userResponse', [true, 'username: ' + existingUser.username +
+      ', password: ' + existingUser.password])
       return { success: true }
     }
     webContents.send('userResponse', [false, 'Username not found'])

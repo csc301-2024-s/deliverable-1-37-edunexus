@@ -4,3 +4,4 @@
 *.db
 # Debug use
 .vscode
+*out
