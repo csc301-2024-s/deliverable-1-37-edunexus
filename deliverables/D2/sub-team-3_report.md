@@ -1,6 +1,6 @@
 ## 1. A summary of your decisions and the options you considered for your component(s) (UI/frontend, logic/backend, database) so your TA knows what you have built and why. 
 
-We opted for SQLite3 due to its compatibility with Electron, as Electron is our choice of library for making a desktop app. Since we are both proficient in PostgreSQL, leveraging the  similarities between SQLite and PostgreSQL made sense. Our database structure encompasses tables for users, students, teachers, subjects, classes, and marks, each storing distinct sets of data. By employing references, data duplication is circumvented; for instance, the class table need not contain teacher names but can reference the teacher table for this information. This approach minimizes the need to update multiple tables for a single data modification, greatly enhancing efficiency. Subsequently, we will present an overview of our database structure, along with a brief description of the data stored in each column.
+We opted for SQLite3 due to its compatibility with Electron, as Electron is our choice of library for making a desktop app. Since we are both proficient in PostgreSQL, leveraging the  similarities between SQLite and PostgreSQL made sense. Our database structure encompasses tables for users, students, teachers, subjects, classes, and marks, each storing distinct sets of data. The purpose of the present design is to integrate a system that allows different created components to interact with each other fluently—which is particularly important with all the overlap. By employing references, data duplication is circumvented; for instance, the class table need not contain teacher names but can reference the teacher table for this information. This approach minimizes the need to update multiple tables for a single data modification, greatly enhancing efficiency. Subsequently, we will present an overview of our database structure, along with a brief description of the data stored in each column.
 
 <img src="./image/database.png">
 
@@ -60,7 +60,10 @@ Kenneth Chan
 - Write the code for database.js, Electorn front-end for user, student and teacher, first draft for readme and report
 - Test the code for user, student and teacher
 
-Carson Zhang - 
+Carson Zhang 
+
+- Testing for database.js
+- SQL overview on adding technology to the program
 
 ## 3. All the details and instructions needed for your TA to see and verify your work. You need  to provide enough documentation so your TA can confirm:
 
