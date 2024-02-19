@@ -1,10 +1,19 @@
 import React from 'react';
 import '@emotion/styled';
-import './styles.css'; // Import your central stylesheet
+import './styles.css';
+import DataGridDemo from "./datagrid.jsx";
+import Buttons from "./buttons.jsx"; // Import your central stylesheet
 
-function Dashboard() {
+const Dashboard = ({classes, selectedClass}) => {
+    const className = classes[selectedClass].name;
+
     return (
-        <h1>Hello From Dashboard</h1>
+        <div>
+            <h2>{className}</h2>
+
+            <DataGridDemo selectedClass={selectedClass}/>
+            <Buttons />
+        </div>
     );
 }
 
