@@ -32,6 +32,9 @@ console.log('👋 This message is being logged by "renderer.js", included via we
 
 import './ui/dashboard.jsx';
 import './ui/sidebar/sidebar.jsx';
-import './ui/app.jsx';
 import './ui/buttons.jsx';
 
+import './ui/dummy_data.json'
+
+// app.jsx should always be at the bottom
+import './ui/app.jsx';
