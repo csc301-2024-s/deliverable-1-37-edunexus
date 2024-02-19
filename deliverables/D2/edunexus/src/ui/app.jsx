@@ -2,6 +2,7 @@ import * as React from 'react';
 import { createRoot } from 'react-dom/client';
 import { useState } from 'react';
 
+
 import './styles.css'
 import Dashboard from "./dashboard.jsx";
 import NavigationSidebar from './sidebar/sidebar.jsx';
@@ -13,6 +14,7 @@ const user = {
 };
 
 const classes = [
+
     { name: 'Introduction to Computers' },
     { name: 'Basic Programming' },
     { name: 'Web Design for Beginners' },
@@ -23,6 +25,7 @@ const classes = [
     { name: 'Computer Graphics' },
     { name: 'Mobile App Development' },
     { name: 'Cybersecurity Fundamentals' }
+
     // Add more classes as needed
 ];
 

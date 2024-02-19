@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+
 import {
     Box,
     Card,
@@ -11,6 +12,7 @@ import {
     Divider,
     TextField,
     ButtonBase
+
 } from '@mui/material';
 import SchoolIcon from '@mui/icons-material/School'; // For class icons
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'; // For user icon
@@ -52,6 +54,7 @@ const NavigationSidebar = ({ user, classes, onClassChange }) => {
                     <Box sx={{ padding: 2, textAlign: 'center'}}>
                         {/*<img src="./logo.webp" alt="Logo" style={{maxWidth: '100%'}}/>*/}
                         <h1>EduNexus</h1>
+
                     </Box>
                     <Divider/>
 
@@ -62,6 +65,7 @@ const NavigationSidebar = ({ user, classes, onClassChange }) => {
                                 {user.name}
                             </Typography>
                             <Typography color="#e3e3e3">
+
                                 {user.role}
                             </Typography>
                         </CardContent>
