@@ -58,7 +58,7 @@ async function generateReport(studentId) {
         // eslint-disable-next-line no-unused-vars
         const attendanceRecords = await getAttendanceRecords(studentId);
 
-        const doc = new PDFDocument();
+        const doc = new PDFDocument.default();
         let reportPath;
         if (isDev()) {
             reportPath = path.join(__dirname, `report_${studentId}.pdf`);
