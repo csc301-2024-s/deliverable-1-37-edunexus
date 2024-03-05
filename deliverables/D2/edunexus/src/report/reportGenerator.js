@@ -9,6 +9,7 @@ function isDev() {
   return process.argv[2] == '--dev';
 }
 
+// TODO: Database team - implement report generating fetching functions
 async function getStudentDetails(studentId) {
   return {
     id: studentId,
@@ -41,6 +42,10 @@ async function svgToPng(svgString, outputPath, scale = 2) {
 }
 
 async function generateReport(studentId) {
+
+  console.log(PDFDocument);
+  console.log("bullshit");
+
   try {
     const studentDetails = await getStudentDetails(studentId);
     const academicPerformance = await getAcademicPerformance(studentId);

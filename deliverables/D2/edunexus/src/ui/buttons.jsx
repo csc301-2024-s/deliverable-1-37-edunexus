@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import Button from '@mui/material/Button';
 import '@emotion/styled';
 import './styles.css'; 
+
 
 function Buttons() {
     const [showPopup, setShowPopup] = useState(false);
@@ -13,7 +15,15 @@ function Buttons() {
         <div className="buttons-container">
             <button onClick={togglePopup}>Upload a Spreadsheet</button>
             {showPopup && <PopupComponent onClose={togglePopup} />}
-            <button>Generate PDF</button>
+
+            {/* <button>Generate PDF</button> */}
+
+            <Button variant="contained"
+            onClick={() => {
+                window.api.send('request-report-generation', '1')
+                console.log("Report Generation was clicked");
+            }}>Generate PDF</Button>
+
             <button>Visualize Class Statistics</button>
         </div> 
     );

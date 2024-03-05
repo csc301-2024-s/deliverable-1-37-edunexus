@@ -1,6 +1,6 @@
 const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const { insertUser, createUsersTable, verifyUser, getUserByEmail } = require('./database.js');
-const { generateReport } = require('./reportGenerator');
+const { generateReport } = require('./edunexus/src/report/reportGenerator.js');
 const path = require('path');
 const fs = require('fs');
 

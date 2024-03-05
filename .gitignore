@@ -1,1 +1,11 @@
+<<<<<<< HEAD
 deliverables/D2/node_modules
+=======
+# Dependency directories
+*node_modules/
+# Database
+*.db
+# Debug use
+.vscode
+*out
+>>>>>>> origin/D2-37.3
