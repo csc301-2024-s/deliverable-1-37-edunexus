@@ -1,7 +1,7 @@
-const { app, BrowserWindow, ipcMain, dialog } = require('electron');
+const {app, BrowserWindow, ipcMain, dialog} = require('electron');
 
 // Import for report generation
-const { generateReport } = require('./report/reportGenerator');
+const {generateReport} = require('./report/reportGenerator');
 const path = require('path');
 const fs = require('fs');
 
@@ -68,49 +68,48 @@ app.on('activate', () => {
 
 ipcMain.on('request-report-generation', async (event, studentId) => {
     try {
-      console.log("received report request");
-      const reportPath = await generateReport(studentId);
-  
-      const { filePath } = await dialog.showSaveDialog({
-        buttonLabel: 'Save Report',
-        defaultPath: `report_${studentId}.pdf`,
-        filters: [
-          { name: 'PDF Documents', extensions: ['pdf'] }
-        ]
-      });
-  
-      if (filePath) {
-        try {
-          fs.copyFileSync(reportPath, filePath);
-          fs.unlinkSync(reportPath);
-          event.sender.send('report-generation-complete', filePath);
-        } catch (error) {
-          console.error('Error moving the file:', error);
-          event.sender.send('report-generation-failed', error.message);
-        }
-      } else {
-        event.sender.send('report-generation-cancelled');
-        fs.unlinkSync(reportPath);
-      }
-    } catch (error) {
-      console.error('Error generating report:', error);
-      event.sender.send('report-generation-failed', error.message);
-    }
-  });
+        console.log('received report request');
+        const reportPath = await generateReport(studentId);
 
-function handleSignupData(event, args) {
-  saveUserDataToDatabase(args.username, args.email, args.password)
-    .then(result => {
-      event.reply('signupResponse', result);
-    })
-    .catch(error => {
-      event.reply('signupResponse', { success: false, error: error.message });
-    });
-}
+        const {filePath} = await dialog.showSaveDialog({
+            buttonLabel: 'Save Report',
+            defaultPath: `report_${studentId}.pdf`,
+            filters: [
+                {name: 'PDF Documents', extensions: ['pdf']}
+            ]
+        });
+
+        if (filePath) {
+            try {
+                fs.copyFileSync(reportPath, filePath);
+                fs.unlinkSync(reportPath);
+                event.sender.send('report-generation-complete', filePath);
+            } catch (error) {
+                console.error('Error moving the file:', error);
+                event.sender.send('report-generation-failed', error.message);
+            }
+        } else {
+            event.sender.send('report-generation-cancelled');
+            fs.unlinkSync(reportPath);
+        }
+    } catch (error) {
+        console.error('Error generating report:', error);
+        event.sender.send('report-generation-failed', error.message);
+    }
+});
+
+// function handleSignupData(event, args) {
+//     saveUserDataToDatabase(args.username, args.email, args.password)
+//         .then(result => {
+//             event.reply('signupResponse', result);
+//         })
+//         .catch(error => {
+//             event.reply('signupResponse', {success: false, error: error.message});
+//         });
+// }
 
 // OTHER IMPLEMENTATIONS
 // ---------------------------------------------------------------------------
-
 
 
 // let mainWindow;
@@ -129,7 +128,6 @@ function handleSignupData(event, args) {
 //     } catch (error) {
 //         event.reply('loginResponse', { success: false, error: error.message });
 //     }
-
 
 
 // Set for delete
