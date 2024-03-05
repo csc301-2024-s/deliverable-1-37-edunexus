@@ -2,7 +2,7 @@ const {app, BrowserWindow, ipcMain, dialog} = require('electron');
 
 // Import for report generation
 const {generateReport} = require('./report/reportGenerator');
-const path = require('path');
+// const path = require('path');
 const fs = require('fs');
 
 // const path = require('path');
