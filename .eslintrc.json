@@ -15,6 +15,9 @@
     "plugins": [
         "react"
     ],
+    "ignorePatterns": [
+        "deliverables/*"
+    ],
     "rules": {
         "indent": [
             "error",
