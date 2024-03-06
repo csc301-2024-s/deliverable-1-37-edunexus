@@ -1,0 +1,17 @@
+#!/bin/sh
+
+# Stash non-staged changes
+git stash -q --keep-index
+
+# Run ESLint
+./node_modules/.bin/eslint . --ext .js,.jsx
+
+# Store ESLint exit code
+RESULT=$?
+
+# Re-apply non-staged changes
+git stash pop -q
+
+# Exit with ESLint exit code
+[ $RESULT -ne 0 ] && exit 1
+exit 0

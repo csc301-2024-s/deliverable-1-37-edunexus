@@ -5,6 +5,7 @@
   "description": "My Electron application description",
   "main": ".webpack/main",
   "scripts": {
+    "preinstall": "git config core.hooksPath hooks",
     "start": "electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make",
