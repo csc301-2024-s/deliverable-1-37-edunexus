@@ -3,8 +3,8 @@ import { createRoot } from 'react-dom/client';
 import { useState } from 'react';
 
 
-import './styles.css'
-import Dashboard from "./dashboard.jsx";
+import './styles.css';
+import Dashboard from './dashboard.jsx';
 import NavigationSidebar from './sidebar/sidebar.jsx';
 import { Box } from '@mui/material';
 
@@ -30,7 +30,7 @@ const classes = [
 ];
 
 const App = (props) => {
-    const [selectedClass, setSelectedClass] = useState(1)
+    const [selectedClass, setSelectedClass] = useState(1);
 
     return (
         <Box className="grid-container">
@@ -43,7 +43,7 @@ const App = (props) => {
             </Box>
         </Box>
     );
-}
+};
 
 const container = document.getElementById('app');
 const root = createRoot(container);

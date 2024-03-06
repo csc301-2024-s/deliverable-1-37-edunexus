@@ -19,10 +19,10 @@ function Buttons() {
             {/* <button>Generate PDF</button> */}
 
             <Button variant="contained"
-            onClick={() => {
-                window.api.send('request-report-generation', '1')
-                console.log("Report Generation was clicked");
-            }}>Generate PDF</Button>
+                onClick={() => {
+                    window.api.send('request-report-generation', '1');
+                    console.log('Report Generation was clicked');
+                }}>Generate PDF</Button>
 
             <button>Visualize Class Statistics</button>
         </div> 
@@ -36,10 +36,10 @@ function PopupComponent({ onClose }) {
                 <h2>Instructions:</h2>
                 <p>Please ensure that your spreadsheet is in the correct format:</p>
                 <ol>
-                    <li>The first row should contain the Student's Name, ID, and any assignments given.</li>
+                    <li>The first row should contain the Student&apos;s Name, ID, and any assignments given.</li>
                     <li>Corresponding data should be inputted in the subsequent rows.</li>
-                    <li>Click "Choose File" below to upload your spreadsheet.</li>
-                    <li>Once a spreadsheet has been uploaded, click "Generate PDF" to process the file into a PDF.</li>
+                    <li>Click &quot;Choose File&quot; below to upload your spreadsheet.</li>
+                    <li>Once a spreadsheet has been uploaded, click &quot;Generate PDF&quot; to process the file into a PDF.</li>
                 </ol>
             </div>
             <input type="file" />

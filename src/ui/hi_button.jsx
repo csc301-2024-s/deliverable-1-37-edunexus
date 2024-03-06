@@ -8,8 +8,8 @@ function SayHiButton() {
         <Button variant="contained"
             onClick={() => {
                 alert('Clicked');
-                console.log("Button was clicked");
-                window.electronAPI.ping()
+                console.log('Button was clicked');
+                window.electronAPI.ping();
             }}>Say Hi</Button>
     );
 }

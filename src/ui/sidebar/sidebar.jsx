@@ -29,9 +29,9 @@ const NavigationSidebar = ({ user, classes, onClassChange }) => {
     );
 
     const handleListItemClick = (index) => {
-        console.log("Clicked item index:", index);
+        console.log('Clicked item index:', index);
         // Additional logic for when an item is clicked
-        onClassChange(index)
+        onClassChange(index);
     };
 
 

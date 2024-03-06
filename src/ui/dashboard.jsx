@@ -1,8 +1,8 @@
 import React from 'react';
 import '@emotion/styled';
 import './styles.css';
-import DataGridDemo from "./datagrid.jsx";
-import Buttons from "./buttons.jsx"; // Import your central stylesheet
+import DataGridDemo from './datagrid.jsx';
+import Buttons from './buttons.jsx'; // Import your central stylesheet
 
 const Dashboard = ({classes, selectedClass}) => {
     const className = classes[selectedClass].name;
@@ -15,6 +15,6 @@ const Dashboard = ({classes, selectedClass}) => {
             <Buttons />
         </div>
     );
-}
+};
 
 export default Dashboard;
