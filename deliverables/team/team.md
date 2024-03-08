@@ -1,4 +1,4 @@
-| Member number | Student name       | UTORid   | Githubid        | Github Email                     | Status   | Role                      |
+| Member Number | Student Name       | UTORid   | Githubid        | Github Email                     | Status   | Role                      |
 | ------------- | ------------------ | -------- | --------------- | -------------------------------- | -------- | ------------------------- |
 | 1             | Arthur Gao         | gaoarthu | Affixrevy       | arthurerconggao@gmail.com        | Enrolled | Scrum Leader/UI/UX Lead   |
 | 2             | Oswin Gan          | ganoswin | Eggathin        | oswin.gan@mail.utoronto.ca       | Enrolled | Server Side Engineer      |
