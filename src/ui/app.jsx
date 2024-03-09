@@ -1,6 +1,7 @@
 import * as React from 'react';
 import { createRoot } from 'react-dom/client';
 import { useState } from 'react';
+import Login from './login.jsx';
 
 
 import './styles.css';
@@ -45,6 +46,5 @@ const App = (props) => {
     );
 };
 
-const container = document.getElementById('app');
-const root = createRoot(container);
-root.render(<App />);
+
+export default App;
