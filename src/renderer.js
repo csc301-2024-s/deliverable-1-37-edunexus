@@ -30,6 +30,7 @@ import './index.css';
 
 console.log('👋 This message is being logged by "renderer.js", included via webpack');
 
+import './ui/login.jsx';
 import './ui/dashboard.jsx';
 import './ui/sidebar/sidebar.jsx';
 import './ui/buttons.jsx';

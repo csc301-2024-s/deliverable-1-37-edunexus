@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { createRoot } from 'react-dom/client';
+// import { createRoot } from 'react-dom/client';
 import { useState } from 'react';
 
 
@@ -29,6 +29,8 @@ const classes = [
     // Add more classes as needed
 ];
 
+// TODO: @Arthur figure out what props is
+// eslint-disable-next-line no-unused-vars
 const App = (props) => {
     const [selectedClass, setSelectedClass] = useState(1);
 
@@ -45,6 +47,5 @@ const App = (props) => {
     );
 };
 
-const container = document.getElementById('app');
-const root = createRoot(container);
-root.render(<App />);
+
+export default App;
