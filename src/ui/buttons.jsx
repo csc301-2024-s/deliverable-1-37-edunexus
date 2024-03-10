@@ -12,19 +12,24 @@ function Buttons() {
     };
   
     return (
-        <div className="buttons-container">
-            <button onClick={togglePopup}>Upload a Spreadsheet</button>
+        <div className="buttons-container" style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
+            <Button variant="outlined" style={{ color: '#76ABAE', borderColor: '#76ABAE' }}>
+                Upload a Spreadsheet
+            </Button>
             {showPopup && <PopupComponent onClose={togglePopup} />}
 
             {/* <button>Generate PDF</button> */}
-
             <Button variant="contained"
                 onClick={() => {
                     window.api.send('request-report-generation', '1');
                     console.log('Report Generation was clicked');
-                }}>Generate PDF</Button>
-
-            <button>Visualize Class Statistics</button>
+                }}
+                style={{ backgroundColor: '#76ABAE', color: '#FFFFFF' }}>
+                Generate PDF
+            </Button>
+            <Button variant="outlined" style={{ color: '#76ABAE', borderColor: '#76ABAE' }}>
+                Visualize Class Statistics
+            </Button>
         </div> 
     );
 }
