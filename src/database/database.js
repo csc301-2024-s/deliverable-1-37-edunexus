@@ -12,13 +12,13 @@ let db = new sqlite3.Database('./edunexus.db', sqlite3.OPEN_READWRITE | sqlite3.
 db.parallelize(() => {
     db.run(`CREATE TABLE IF NOT EXISTS student (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
-          student_number INTEGER UNIQUE,
+          studentNumber INTEGER UNIQUE,
           name TEXT NOT NULL,
           age INTEGER NOT NULL
           )`)
         .run(`CREATE TABLE IF NOT EXISTS teacher (
           id INTEGER PRIMARY KEY AUTOINCREMENT,
-          teacher_number INTEGER UNIQUE,
+          teacherNumber INTEGER UNIQUE,
           name TEXT NOT NULL UNIQUE
           )`)
         .run(`CREATE TABLE IF NOT EXISTS subject (
@@ -38,15 +38,15 @@ db.serialize(() => {
           name TEXT NOT NULL,
           year INTEGER NOT NULL,
           grade INTEGER NOT NULL,
-          teacher_number INTEGER REFERENCES teacher (teacher_number),
-          subject_id INTEGER REFERENCES subject (id)
+          teacherNumber INTEGER REFERENCES teacher (teacherNumber),
+          subjectID INTEGER REFERENCES subject (id)
           )`)
         .run(`CREATE TABLE IF NOT EXISTS mark (
           mark INTEGER NOT NULL,
-          student_number INTEGER REFERENCES student (student_number),
-          class_id INTEGER REFERENCES class (id),
+          studentNumber INTEGER REFERENCES student (studentNumber),
+          classID INTEGER REFERENCES class (id),
           year INTEGER NOT NULL,
-          PRIMARY KEY (student_number, class_id)
+          PRIMARY KEY (studentNumber, classID)
           )`);
 });
 
@@ -118,7 +118,7 @@ function updateUserPassword(username, password) {
 // may need to check for integer for studentNumber and age
 function insertStudent(name, studentNumber, age) {
     return new Promise((resolve, reject) => {
-        const sql = 'INSERT INTO student (student_number, name, age) VALUES(?, ?, ?)';
+        const sql = 'INSERT INTO student (studentNumber, name, age) VALUES(?, ?, ?)';
         db.run(sql, [studentNumber, name, age], function (err) {
             if (err) {
                 reject(err);
@@ -130,7 +130,7 @@ function insertStudent(name, studentNumber, age) {
 
 function getStudent(studentNumber) {
     return new Promise((resolve, reject) => {
-        const sql = 'SELECT * FROM student WHERE student_number = ?';
+        const sql = 'SELECT * FROM student WHERE studentNumber = ?';
         db.get(sql, [studentNumber], (err, student) => {
             if (err) {
                 reject(err);
@@ -154,7 +154,7 @@ function getAllStudent() {
 
 function deleteStudent(studentNumber) {
     return new Promise((resolve, reject) => {
-        const sql = 'DELETE FROM student WHERE student_number = ?';
+        const sql = 'DELETE FROM student WHERE studentNumber = ?';
         db.run(sql, [studentNumber], function (err) {
             if (err) {
                 reject(err);
@@ -168,7 +168,7 @@ function deleteStudent(studentNumber) {
 // teacher related
 function insertTeacher(name, teacherNumber) {
     return new Promise((resolve, reject) => {
-        const sql = 'INSERT INTO teacher (teacher_number, name) VALUES(?, ?)';
+        const sql = 'INSERT INTO teacher (teacherNumber, name) VALUES(?, ?)';
         db.run(sql, [teacherNumber, name], function (err) {
             if (err) {
                 reject(err);
@@ -180,7 +180,7 @@ function insertTeacher(name, teacherNumber) {
 
 function getTeacher(teacherNumber) {
     return new Promise((resolve, reject) => {
-        const sql = 'SELECT * FROM teacher WHERE teacher_number = ?';
+        const sql = 'SELECT * FROM teacher WHERE teacherNumber = ?';
         db.get(sql, [teacherNumber], (err, teacher) => {
             if (err) {
                 reject(err);
@@ -204,7 +204,7 @@ function getAllTeacher() {
 
 function deleteTeacher(teacherNumber) {
     return new Promise((resolve, reject) => {
-        const sql = 'DELETE FROM teacher WHERE teacher_number = ?';
+        const sql = 'DELETE FROM teacher WHERE teacherNumber = ?';
         db.run(sql, [teacherNumber], function (err) {
             if (err) {
                 reject(err);
@@ -266,7 +266,7 @@ function deleteSubject(name) {
 // class related
 function insertClass(name, year, grade, teacherNumber, subjectID) {
     return new Promise((resolve, reject) => {
-        const sql = 'INSERT INTO class (name, year, grade, teacher_number, subject_id) VALUES(?, ?, ?, ?, ?)';
+        const sql = 'INSERT INTO class (name, year, grade, teacherNumber, subjectID) VALUES(?, ?, ?, ?, ?)';
         db.run(sql, [name, year, grade, teacherNumber, subjectID], function (err) {
             if (err) {
                 reject(err);
@@ -296,11 +296,11 @@ function getClass(name = '', year = '', grade = '', teacherNumber = '', subjectI
             values += grade;
         }
         if (teacherNumber) {
-            sql += 'teacher_number = ? AND ';
+            sql += 'teacherNumber = ? AND ';
             values += teacherNumber;
         }
         if (subjectID) {
-            sql += 'subject_id = ? AND ';
+            sql += 'subjectID = ? AND ';
             values += subjectID;
         }
         sql = sql.substring(0, sql.length - 5);
@@ -341,7 +341,7 @@ function deleteClass(id) {
 
 function insertMark(mark, studentNumber, classID, year) {
     return new Promise((resolve, reject) => {
-        const sql = 'INSERT INTO mark (mark, student_number, classID, year) VALUES(?, ?, ?, ?)';
+        const sql = 'INSERT INTO mark (mark, studentNumber, classID, year) VALUES(?, ?, ?, ?)';
         db.run(sql, [mark, studentNumber, classID, year], function (err) {
             if (err) {
                 reject(err);
@@ -353,7 +353,7 @@ function insertMark(mark, studentNumber, classID, year) {
 
 function getClassAvgMark(classID) {
     return new Promise((resolve, reject) => {
-        const sql = 'SELECT AVG(mark) FROM mark WHERE class_id = ?';
+        const sql = 'SELECT AVG(mark) FROM mark WHERE classID = ?';
         db.get(sql, [classID], (err, mark) => {
             if (err) {
                 reject(err);
@@ -365,7 +365,7 @@ function getClassAvgMark(classID) {
 
 function getStudentAvgMark(studentNumber) {
     return new Promise((resolve, reject) => {
-        const sql = 'SELECT AVG(mark) FROM mark WHERE student_number = ?';
+        const sql = 'SELECT AVG(mark) FROM mark WHERE studentNumber = ?';
         db.get(sql, [studentNumber], (err, mark) => {
             if (err) {
                 reject(err);
@@ -375,9 +375,9 @@ function getStudentAvgMark(studentNumber) {
     });
 }
 
-function getStudentAvgMarkbyYear(studentNumber, year) {
+function getStudentAvgMarkByYear(studentNumber, year) {
     return new Promise((resolve, reject) => {
-        const sql = 'SELECT AVG(mark) FROM mark WHERE student_number = ? AND year = ?';
+        const sql = 'SELECT AVG(mark) FROM mark WHERE studentNumber = ? AND year = ?';
         db.get(sql, [studentNumber, year], (err, mark) => {
             if (err) {
                 reject(err);
@@ -389,7 +389,7 @@ function getStudentAvgMarkbyYear(studentNumber, year) {
 
 function getClassMarks(classID) {
     return new Promise((resolve, reject) => {
-        const sql = 'SELECT mark, student_number FROM mark WHERE class_id = ?';
+        const sql = 'SELECT mark, studentNumber FROM mark WHERE classID = ?';
         db.all(sql, [classID], (err, mark) => {
             if (err) {
                 reject(err);
@@ -401,7 +401,7 @@ function getClassMarks(classID) {
 
 function getStudentMarks(studentNumber) {
     return new Promise((resolve, reject) => {
-        const sql = 'SELECT mark, class_id FROM mark WHERE student_number = ?';
+        const sql = 'SELECT mark, classID FROM mark WHERE studentNumber = ?';
         db.all(sql, [studentNumber], (err, mark) => {
             if (err) {
                 reject(err);
@@ -411,9 +411,9 @@ function getStudentMarks(studentNumber) {
     });
 }
 
-function getStudentMarksbyYear(studentNumber, year) {
+function getStudentMarksByYear(studentNumber, year) {
     return new Promise((resolve, reject) => {
-        const sql = 'SELECT mark, class_id FROM mark WHERE student_number = ? AND year = ?';
+        const sql = 'SELECT mark, classID FROM mark WHERE studentNumber = ? AND year = ?';
         db.all(sql, [studentNumber, year], (err, mark) => {
             if (err) {
                 reject(err);
@@ -425,7 +425,7 @@ function getStudentMarksbyYear(studentNumber, year) {
 
 function deleteMark(studentNumber, classID) {
     return new Promise((resolve, reject) => {
-        const sql = 'DELETE FROM mark WHERE student_number = ? AND class_id = ?';
+        const sql = 'DELETE FROM mark WHERE studentNumber = ? AND classID = ?';
         db.run(sql, [studentNumber, classID], function (err) {
             if (err) {
                 reject(err);
@@ -467,9 +467,9 @@ module.exports = {
     insertMark,
     getClassAvgMark,
     getStudentAvgMark,
-    getStudentAvgMarkbyYear,
+    getStudentAvgMarkByYear,
     getClassMarks,
     getStudentMarks,
-    getStudentMarksbyYear,
+    getStudentMarksByYear,
     deleteMark
 };
