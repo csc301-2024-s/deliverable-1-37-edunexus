@@ -58,6 +58,17 @@
 - `updateUserPassword(username, password)` - update user password, no check is performed
 ### Student related
 - `insertStudent(studentNumber, name, age)` - Create new student instance
+- `getStudent(studentNumber)` - get student by studet number, returns: 
+```
+[
+    {
+        studentNumber: integer,
+        name: string,
+        age: integer
+    },
+    ...
+]
+```
 - `getStudentByClass(classID)` - filter student with class, returns:
 ```
 [
@@ -85,15 +96,29 @@
 ```
 ### Mark related
 - `insertMark(name, mark, studentNumber, classID)` - Create new mark instance
-- `getMarkbyStudentAndClass(studentNumber, classID)` - filter Class with student and class, returns:
+- `getStudentMarkByStudentNumber(studentNumber)` - get all the student's mark in a different format, returns:
+```
+{
+    courseName: {markName: integer, ...}, // integer is mark
+    ...
+}
+```
+
+### Mixed
+- `getStudentAndMarkByClass(classID)` - get all the student's info and marks, returns:
 ```
 [
     {
-        name: string
-        mark: integer
-    }
+        studentNumber: integer,
+        studentName: string,
+        markName1: integer,
+        markName2: integer,
+        ...
+    },
+    ...
 ]
 ```
+
 ## Optional functions
 ### Class related
 - `getClassbySubject` - filter class by subject
