@@ -2,22 +2,28 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
 import studentData from './dummy_data.json';
+import StudentInfo from './studentInfo.jsx';
 
 const columns = [
-    { field: 'id', headerName: 'ID', width: 90 },
+    {
+        field: 'studentID',
+        headerName: 'Student ID',
+        width: 150,
+        editable: false,
+        align: 'center',
+        renderCell: (params) => (
+            <StudentInfo studentNumber={params.value}>{params.value}</StudentInfo>
+        )
+    },
+    
     {
         field: 'studentName',
         headerName: 'Student Name',
         width: 150,
-        editable: true,
+        editable: false,
+
     },
-    {
-        field: 'studentID',
-        headerName: 'Student ID',
-        type: 'number',
-        width: 150,
-        editable: true,
-    },
+    
     {
         field: 'exam1',
         headerName: 'Exam 1',

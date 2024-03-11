@@ -21,7 +21,8 @@ function Buttons() {
             {/* <button>Generate PDF</button> */}
             <Button variant="contained"
                 onClick={() => {
-                    window.api.send('request-report-generation', '1');
+                    const data = {studentId: '1', single: true};
+                    window.api.send('request-report-generation', data);
                     console.log('Report Generation was clicked');
                 }}
                 style={{ backgroundColor: '#76ABAE', color: '#FFFFFF' }}>
