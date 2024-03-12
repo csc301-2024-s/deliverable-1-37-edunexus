@@ -30,13 +30,13 @@ const classes = [
 
 // TODO: @Arthur figure out what props is
 // eslint-disable-next-line no-unused-vars
-const Homepage = (props) => {
+const Homepage = ({onLogout}) => {
     const [selectedClass, setSelectedClass] = useState(1);
 
     return (
         <Box className="grid-container">
             {/* Navigation Sidebar */}
-            <NavigationSidebar user={user} classes={classes} onClassChange={setSelectedClass}/>
+            <NavigationSidebar user={user} classes={classes} onClassChange={setSelectedClass} onLogout={onLogout}/>
 
             {/* Main Content Area */}
             <Box component="main" sx={{ p: 3 }}>

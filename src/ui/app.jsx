@@ -14,6 +14,9 @@ const App = (props) => {
         setIsLoggedIn(true);
     };
 
+    const handleLogout = () => {
+        setIsLoggedIn(false);
+    };
 
     return (
         <Router>
@@ -24,7 +27,7 @@ const App = (props) => {
                 />
                 <Route
                     path="/dashboard"
-                    element={isLoggedIn ? <Homepage/> : <Navigate replace to="/login"/>}
+                    element={isLoggedIn ? <Homepage onLogout={handleLogout}/> : <Navigate replace to="/login"/>}
                 />
                 <Route
                     path="*"
