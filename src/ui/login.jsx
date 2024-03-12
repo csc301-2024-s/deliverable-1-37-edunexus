@@ -19,12 +19,20 @@ export function Login({ onLogin }) {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        // TODO: @Kevin implement calls to backend
-        // Authentication logic goes here
 
         // Callback function to process data upon login
-        onLogin();
-        navigate('/dashboard');
+        const data = { username, password };
+        window.api.send('login-authentication', data);
+
+        // If login was successful, call onLogin and navigate to dashboard
+        window.api.receive('login-success', () => {
+            onLogin();
+            navigate('/dashboard');
+        });
+
+        window.api.receive('login-failed', () => {
+            // TODO: Alert user that login failed, potentially with a pop-up
+        });
     };
 
 
