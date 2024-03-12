@@ -60,14 +60,11 @@
 - `insertStudent(studentNumber, name, age)` - Create new student instance
 - `getStudent(studentNumber)` - get student by studet number, returns: 
 ```
-[
-    {
-        studentNumber: integer,
-        name: string,
-        age: integer
-    },
-    ...
-]
+{
+    studentNumber: integer,
+    name: string,
+    age: integer
+}
 ```
 - `getStudentByClass(classID)` - filter student with class, returns:
 ```
@@ -96,7 +93,7 @@
 ```
 ### Mark related
 - `insertMark(name, mark, studentNumber, classID)` - Create new mark instance
-- `getStudentMarkByStudentNumber(studentNumber)` - get all the student's mark in a different format, returns:
+- `getStudentMark(studentNumber)` - get all the student's mark in a different format, returns:
 ```
 {
     courseName: {markName: integer, ...}, // integer is mark
