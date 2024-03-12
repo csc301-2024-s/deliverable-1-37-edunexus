@@ -1,8 +1,5 @@
-deliverables/D2/node_modules
 # Dependency directories
 *node_modules/
-# Database
-*.db
 # Debug use
 .vscode
 .idea
