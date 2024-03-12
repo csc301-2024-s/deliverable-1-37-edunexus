@@ -1,5 +1,4 @@
 import * as React from 'react';
-// import { createRoot } from 'react-dom/client';
 import { useState } from 'react';
 
 import './styles.css';
@@ -18,14 +17,8 @@ const classes = [
     { name: 'Basic Programming' },
     { name: 'Web Design for Beginners' },
     { name: 'Fundamentals of Robotics' },
-    { name: 'Digital Literacy' },
-    { name: 'Game Development Basics' },
-    { name: 'Introduction to Networking' },
-    { name: 'Computer Graphics' },
-    { name: 'Mobile App Development' },
-    { name: 'Cybersecurity Fundamentals' }
+    { name: 'Digital Literacy' }
 
-    // Add more classes as needed
 ];
 
 // TODO: @Arthur figure out what props is

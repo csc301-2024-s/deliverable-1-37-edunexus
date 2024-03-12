@@ -1,57 +1,105 @@
-import * as React from 'react';
+import React from 'react';
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
 import studentData from './dummy_data.json';
 
 const columns = [
-    { field: 'id', headerName: 'ID', width: 90 },
+    {   field: 'id',
+        headerName: 'ID', 
+        width: 50 
+    },
     {
         field: 'studentName',
         headerName: 'Student Name',
-        width: 150,
+        width: 120,
         editable: true,
     },
     {
-        field: 'studentID',
-        headerName: 'Student ID',
+        field: 'test1',
+        headerName: 'test1',
         type: 'number',
-        width: 150,
+        width: 80,
         editable: true,
     },
     {
-        field: 'exam1',
-        headerName: 'Exam 1',
+        field: 'test2',
+        headerName: 'test2',
         type: 'number',
-        width: 110,
+        width: 80,
         editable: true,
     },
     {
-        field: 'exam2',
-        headerName: 'Exam 2',
+        field: 'test3',
+        headerName: 'test3',
         type: 'number',
-        width: 110,
+        width: 80,
         editable: true,
     },
     {
-        field: 'hw1',
-        headerName: 'HW 1',
+        field: 'test4',
+        headerName: 'test4',
         type: 'number',
-        width: 110,
+        width: 80,
         editable: true,
     },
     {
-        field: 'hw2',
-        headerName: 'HW 2',
+        field: 'test5',
+        headerName: 'test5',
         type: 'number',
-        width: 110,
+        width: 80,
         editable: true,
     },
     {
-        field: 'hw3',
-        headerName: 'HW 3',
+        field: 'test6',
+        headerName: 'test6',
         type: 'number',
-        width: 110,
+        width: 80,
         editable: true,
+    },
+    {
+        field: 'test7',
+        headerName: 'test7',
+        type: 'number',
+        width: 80,
+        editable: true,
+    },
+    {
+        field: 'test8',
+        headerName: 'test8',
+        type: 'number',
+        width: 80,
+        editable: true,
+    },
+    {
+        field: 'test9',
+        headerName: 'test9',
+        type: 'number',
+        width: 80,
+        editable: true,
+    },
+    {
+        field: 'test10',
+        headerName: 'test10',
+        type: 'number',
+        width: 80,
+        editable: true,
+    },
+    {
+        field: 'test11',
+        headerName: 'test11',
+        type: 'number',
+        width: 80,
+        editable: true,
+    },
+    {
+        field: 'total',
+        headerName: 'Total',
+        type: 'number',
+        width: 80,
+        editable: false,
+        valueGetter: (params) => {
+            return params.row.test1 + params.row.test2 + params.row.test3 + params.row.test4 + params.row.test5 + params.row.test6 + params.row.test7 + params.row.test8 + params.row.test9 + params.row.test10 + params.row.test11;
+        },
     },
 ];
 
@@ -69,7 +117,7 @@ export default function DataGridDemo({selectedClass}) {
                     },
                 }}
                 pageSizeOptions={[5]}
-                checkboxSelection
+                // checkboxSelection
                 disableRowSelectionOnClick
             />
         </Box>

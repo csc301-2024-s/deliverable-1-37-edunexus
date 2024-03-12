@@ -2,8 +2,10 @@ const sqlite3 = require('sqlite3').verbose();
 const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
+
 // Create a new database if it does not exist, and open database for read and write
 let db = new sqlite3.Database(__dirname + '/edunexus.db', sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE, (err) => {
+    console.log(`Connected to the database at ${db.filename}`);
     if (err) {
         return err.message;
     }
@@ -34,23 +36,84 @@ db.parallelize(() => {
           )`)
         .run('PRAGMA foreign_keys = ON');
 });
+
 db.serialize(() => {
+    db.run('DROP TABLE IF EXISTS class');
     db.run(`CREATE TABLE IF NOT EXISTS class (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT NOT NULL,
-            year INTEGER NOT NULL,
-            grade INTEGER NOT NULL,
-            teacherNumber INTEGER REFERENCES teacher (teacherNumber),
-            subjectID INTEGER REFERENCES subject (id)
-            )`)
-        .run(`CREATE TABLE IF NOT EXISTS mark (
-            name TEXT NOT NULL,
-            mark INTEGER NOT NULL,
-            studentNumber INTEGER REFERENCES student (studentNumber),
-            classID INTEGER REFERENCES class (id),
-            PRIMARY KEY (name, studentNumber, classID)
-            )`);
+          Student_ID INTEGER PRIMARY KEY,
+          Student_Name TEXT NOT NULL,
+          Test1 INTEGER NOT NULL,
+          Test2 INTEGER NOT NULL,
+          Test3 INTEGER NOT NULL,
+          Test4 INTEGER NOT NULL,
+          Test5 INTEGER NOT NULL,
+          Test6 INTEGER NOT NULL,
+          Test7 INTEGER NOT NULL,
+          Test8 INTEGER NOT NULL,
+          Test9 INTEGER NOT NULL,
+          Test10 INTEGER NOT NULL,
+          Test11 INTEGER NOT NULL
+        )`);
+    db.run(`CREATE TABLE IF NOT EXISTS mark (
+          mark INTEGER NOT NULL,
+          student_number INTEGER REFERENCES student (student_number),
+          class_id INTEGER REFERENCES class (id),
+          year INTEGER NOT NULL,
+          PRIMARY KEY (student_number, class_id)
+          )`);
 });
+
+// test related functions
+// insert student details
+function insertStudentTestData(Student_ID, Student_Name, Test1, Test2, Test3, Test4, Test5, Test6, Test7, Test8, Test9, Test10, Test11) {
+    return new Promise((resolve, reject) => {
+        db.run('INSERT INTO class (Student_ID, Student_Name, Test1, Test2, Test3, Test4, Test5, Test6, Test7, Test8, Test9, Test10, Test11) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)',
+            [Student_ID, Student_Name, Test1, Test2, Test3, Test4, Test5, Test6, Test7, Test8, Test9, Test10, Test11],
+            function(err) {
+                if (err) {
+                    console.error('Error inserting data into the class table', err.message);
+                    reject(err);
+                } else {
+                    console.log(`Inserted test data for student ${Student_Name} with ID ${Student_ID}`);
+                    resolve();
+                }
+            }
+        );
+    });
+}
+
+function getStudentsTestDataByClass(selectedClass) {
+    console.log('database get student test: ', selectedClass);
+    return new Promise((resolve, reject) => {
+        console.log('database get student test: ', selectedClass);
+        const query = 'SELECT * FROM class WHERE CAST(Student_ID AS TEXT) LIKE ?';
+        const wildcard = `${selectedClass}%`;
+
+        db.all(query, [wildcard], (err, rows) => {
+            if (err) {
+                console.error('Error retrieving student information by class', err.message);
+                reject(err);
+            } else if (rows.length === 0) {
+                console.log(`No students found for class starting with ${selectedClass}`);
+                resolve([]);
+            } else {
+                console.log(`Retrieved student information for class starting with ${selectedClass}`);
+                resolve(rows);
+            }
+        });
+    });
+}
+
+async function saveStudentTestDataIfNotExists(Student_ID, Student_Name, Test1, Test2, Test3, Test4, Test5, Test6, Test7, Test8, Test9, Test10, Test11) {
+    console.log('Saving student information with ids: ', Student_ID);
+    try {
+        await insertStudentTestData(Student_ID, Student_Name, Test1, Test2, Test3, Test4, Test5, Test6, Test7, Test8, Test9, Test10, Test11);
+        console.log(`New test data inserted for student ID ${Student_ID}.`);
+    } catch (error) {
+        console.error('Error saving student test data', error.message);
+        throw error;
+    }
+}
 
 // user related functions
 // password is not encrypted for now as we're not sure where will it be encrypted
@@ -567,5 +630,9 @@ module.exports = {
     getStudentMarksByYear,
     deleteMark,
     // Mixed
-    getStudentAndMarkByClass
+    getStudentAndMarkByClass,
+    // Tests
+    saveStudentTestDataIfNotExists,
+    insertStudentTestData,
+    getStudentsTestDataByClass
 };

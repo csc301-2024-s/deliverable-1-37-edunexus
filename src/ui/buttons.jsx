@@ -4,7 +4,7 @@ import '@emotion/styled';
 import './styles.css'; 
 
 
-function Buttons() {
+function Buttons({ onSaveDataClick }) {
     const [showPopup, setShowPopup] = useState(false);
 
     const togglePopup = () => {
@@ -18,7 +18,6 @@ function Buttons() {
             </Button>
             {showPopup && <PopupComponent onClose={togglePopup} />}
 
-            {/* <button>Generate PDF</button> */}
             <Button variant="contained"
                 onClick={() => {
                     window.api.send('request-report-generation', '1');
@@ -27,6 +26,13 @@ function Buttons() {
                 style={{ backgroundColor: '#76ABAE', color: '#FFFFFF' }}>
                 Generate PDF
             </Button>
+
+            <Button variant="contained"
+                onClick={onSaveDataClick}
+                style={{ backgroundColor: '#76ABAE', color: '#FFFFFF' }}>
+                Save Student Data
+            </Button>
+
             <Button variant="outlined" style={{ color: '#76ABAE', borderColor: '#76ABAE' }}>
                 Visualize Class Statistics
             </Button>
