@@ -35,6 +35,7 @@ import './ui/dashboard.jsx';
 import './ui/sidebar/sidebar.jsx';
 import './ui/buttons.jsx';
 import './ui/dummy_data.json';
+import './ui/homepage.jsx';
 
 // app.jsx should always be at the bottom
 import './ui/app.jsx';
