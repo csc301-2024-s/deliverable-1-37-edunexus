@@ -91,7 +91,9 @@ async function generateReport(studentDetails, outputPath) {
 
         doc.rect(55, 610, 500, 50).stroke();
 
-        doc.fontSize(10).text(`Overall Comment: Stay determined, ${studentDetails.Student_Name}, . Your score of, ${calculateTotalMarks(studentDetails)}, is a testament to your hard work. Mathematics and Art & Craft were highlights, but don't neglect areas like Social Studies and Religious Ed.. You're as persistent as a tortoise on a mission!`, 60, 615, {
+        const totalMarks = await calculateTotalMarks(studentDetails);
+
+        doc.fontSize(10).text(`Overall Comment: Stay determined, ${studentDetails.Student_Name}, . Your score of, ${totalMarks}, is a testament to your hard work. Mathematics and Art & Craft were highlights, but don't neglect areas like Social Studies and Religious Ed.. You're as persistent as a tortoise on a mission!`, 60, 615, {
             width: 495,
 
             align: 'left',
