@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import { createRoot } from 'react-dom/client';
-import App from './app.jsx';
+// import { createRoot } from 'react-dom/client';
+import { useNavigate } from 'react-router-dom';
 
 
-function Login() {
+export function Login({ onLogin }) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    // TODO: Make final product use real authentication states
-    const [loggedIn, setLoggedIn] = useState(false);
+    const navigate = useNavigate();
+
 
     const handleUsernameChange = (e) => {
         setUsername(e.target.value);
@@ -19,12 +19,14 @@ function Login() {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setLoggedIn(true);
+        // TODO: @Kevin implement calls to backend
+        // Authentication logic goes here
+
+        // Callback function to process data upon login
+        onLogin();
+        navigate('/dashboard');
     };
 
-    if (loggedIn) {
-        return <App />;
-    }
 
     return (
         <form onSubmit={handleSubmit}>
@@ -53,6 +55,4 @@ function Login() {
     );
 }
 
-const container = document.getElementById('app');
-const root = createRoot(container);
-root.render(<Login />);
+export default Login;
