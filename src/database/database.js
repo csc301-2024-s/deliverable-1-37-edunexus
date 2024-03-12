@@ -19,19 +19,20 @@ db.parallelize(() => {
           age INTEGER NOT NULL
           )`)
         .run(`CREATE TABLE IF NOT EXISTS teacher (
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
-          teacherNumber INTEGER UNIQUE,
-          name TEXT NOT NULL UNIQUE
-          )`)
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            teacherNumber INTEGER UNIQUE,
+            name TEXT NOT NULL UNIQUE
+            )`)
         .run(`CREATE TABLE IF NOT EXISTS subject (
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
-          name TEXT NOT NULL UNIQUE
-          )`)
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL UNIQUE
+            )`)
         .run(`CREATE TABLE IF NOT EXISTS user (
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
-          username TEXT NOT NULL UNIQUE,
-          password TEXT NOT NULL
-          )`)
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            username TEXT NOT NULL UNIQUE,
+            password TEXT NOT NULL,
+            teacherNumber INTEGER
+            )`)
         .run('PRAGMA foreign_keys = ON');
 });
 db.serialize(() => {
@@ -54,14 +55,14 @@ db.serialize(() => {
 
 // user related functions
 // password is not encrypted for now as we're not sure where will it be encrypted
-function insertUser(username, password) {
+function insertUser(username, password, teacherNumber = 0) {
     return new Promise((resolve, reject) => {
-        const sql = 'INSERT INTO user (username, password) VALUES(?, ?)';
+        const sql = 'INSERT INTO user (username, password, teacherNumber) VALUES(?, ?, ?)';
         bcrypt.hash(password, saltRounds, function(err, hash) {
             if (err) {
                 reject (err);
             }
-            db.run(sql, [username, hash], function (err) {
+            db.run(sql, [username, hash, teacherNumber], function (err) {
                 if (err) {
                     reject(err);
                 }
@@ -93,12 +94,14 @@ function checkUserPassword(username, password) {
             if (!user) {
                 resolve(false);
             }
-            bcrypt.compare(password, user.password, function(err, result) {
-                if (err) {
-                    reject(err);
-                }
-                resolve(result);
-            });
+            else {
+                bcrypt.compare(password, user.password, function(err, result) {
+                    if (err) {
+                        reject(err);
+                    }
+                    resolve(result);
+                });
+            }
         });
     });
 }
@@ -132,6 +135,17 @@ function updateUserPassword(username, password) {
     });
 }
 
+function updateUserTeacherNumber(username, teacherNumber) {
+    return new Promise((resolve, reject) => {
+        const sql = 'UPDATE user SET teacherNumber = ? WHERE username = ?';
+        db.run(sql, [username, teacherNumber], function (err) {
+            if (err) {
+                reject(err);
+            }
+            resolve(this.changes);
+        });
+    });
+}
 
 // student related
 // may need to check for integer for studentNumber and age
@@ -536,6 +550,7 @@ module.exports = {
     checkUserPassword,
     deleteUser,
     updateUserPassword,
+    updateUserTeacherNumber,
     // Student
     insertStudent,
     getStudent,
