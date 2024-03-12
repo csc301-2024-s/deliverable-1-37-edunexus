@@ -58,7 +58,6 @@ function PaperComponent(props) {
 }
 
 function getCourses(studentData) {
-    console.log(Object.keys(studentData));
     return Object.keys(studentData);
 }
 
@@ -87,7 +86,7 @@ export default function StudentInfo(props) {
     };
 
     const numCourses = Object.keys(studentData).length;
-    const numCoursesPerColumn = 4;
+    const numCoursesPerColumn = 5;
     const graphWidth = 300;
     const graphHeight = 200;
 
@@ -132,14 +131,16 @@ export default function StudentInfo(props) {
                     <DialogContentText>
                         {getCourses(studentData).slice(0, numCoursesPerColumn).map((course, index) => {
                             return (<>
-                                <Typography variant="h6" align='center' sx={{ marginBottom: -5 }}>
-                                    {course}
-                                </Typography>
-                                <BarChart
-                                    xAxis={[{ scaleType: 'band', data: getExams(studentData, course) }]}
-                                    series={[{ data: getMarks(studentData, course), type: 'bar', title: 'Math' }]}
-                                    width={graphWidth}
-                                    height={graphHeight} />
+                                <div key={index}>
+                                    <Typography variant="h6" align='center' component={'div'} sx={{ marginBottom: -5 }}>
+                                        {course}
+                                    </Typography>
+                                    <BarChart
+                                        xAxis={[{ scaleType: 'band', data: getExams(studentData, course) }]}
+                                        series={[{ data: getMarks(studentData, course), type: 'bar', title: 'Math' }]}
+                                        width={graphWidth}
+                                        height={graphHeight} />
+                                </div>
                             </>
                             );
                         })}
@@ -157,15 +158,16 @@ export default function StudentInfo(props) {
                     <DialogContentText>
                         {getCourses(studentData).slice(numCoursesPerColumn).map((course, index) => {
                             return (<>
-                                <Typography variant="h6" align='center' sx={{ marginBottom: -5 }}>
-                                    {course}
-                                </Typography>
-                                <BarChart
-                                    xAxis={[{ scaleType: 'band', data: getExams(studentData, course) }]}
-                                    series={[{ data: getMarks(studentData, course), type: 'bar', title: 'Math' }]}
-                                    width={graphWidth}
-                                    height={graphHeight} />
-
+                                <div key={index}>
+                                    <Typography variant="h6" align='center' component={'div'} sx={{ marginBottom: -5 }}>
+                                        {course}
+                                    </Typography>
+                                    <BarChart
+                                        xAxis={[{ scaleType: 'band', data: getExams(studentData, course) }]}
+                                        series={[{ data: getMarks(studentData, course), type: 'bar', title: 'Math' }]}
+                                        width={graphWidth}
+                                        height={graphHeight} /> 
+                                </div>
                             </>
 
                             );
@@ -184,7 +186,7 @@ export default function StudentInfo(props) {
                 </DialogContent>
                 <DialogActions>
                     <Button autoFocus onClick={handleClose}>
-            Close
+                        Close
                     </Button>
                 </DialogActions>
             </Dialog>

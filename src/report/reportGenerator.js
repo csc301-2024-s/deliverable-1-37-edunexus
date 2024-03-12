@@ -45,12 +45,11 @@ async function svgToPng(svgString, outputPath, scale = 2) {
         .toFile(outputPath);
 }
 
-async function generateReport(studentId) {
-
-    console.log(PDFDocument);
-    console.log('bullshit');
+async function generateReport(studentId, single) {
 
     try {
+        console.log(studentId, single);
+
         const studentDetails = await getStudentDetails(studentId);
         // TODO FIX: disabling eslint is bad
         // eslint-disable-next-line no-unused-vars
@@ -97,6 +96,9 @@ async function generateReport(studentId) {
 
         doc.fontSize(12).text(`Class Teacher: ${studentDetails.classTeacher}`, 370, 120);
 
+
+        // TODO: We need a DB function to fetch the row for this student
+        // Also need the averages for each subject
         const tableRows = [
             ['English', '78', '49.30', 'Very Good, aim higher!'],
             ['Kiswahili', '82', '57.50', 'Bora, endelea na bidii hivyo!'],
