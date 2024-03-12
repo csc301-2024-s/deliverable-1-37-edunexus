@@ -7,6 +7,8 @@ const fs = require('fs');
 
 // const path = require('path');
 
+const { getAllClass } = require('./database/database');
+
 const isDev = !app.isPackaged;
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
@@ -96,6 +98,11 @@ ipcMain.on('request-report-generation', async (event, studentId) => {
         console.error('Error generating report:', error);
         event.sender.send('report-generation-failed', error.message);
     }
+});
+
+ipcMain.on('load-sign-in', async (event, teacherId) => {
+    var temp = getAllClass();
+    console.log(temp);
 });
 
 // function handleSignupData(event, args) {
