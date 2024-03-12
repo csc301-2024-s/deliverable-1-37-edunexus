@@ -48,6 +48,8 @@ async function generateReport(studentDetails, outputPath) {
 
         doc.fontSize(12).text(`Class Teacher: ${'Justin Time'}`, 370, 120);
 
+        const totalMarks = await calculateTotalMarks(studentDetails);
+
         const tableRows = [
             ['Test1', `${studentDetails.Test1}`, '49.30', 'Very Good, aim higher!'],
             ['Test2', `${studentDetails.Test2}`, '57.50', 'Bora, endelea na bidii hivyo!'],
@@ -60,7 +62,7 @@ async function generateReport(studentDetails, outputPath) {
             ['Test9', `${studentDetails.Test7}`, '59.00', 'No marks entered, please double check.'],
             ['Test10', `${studentDetails.Test7}`, '58.90', 'No marks entered, please double check.'],
             ['Test11', `${studentDetails.Test7}`, '47.10', 'Good, there\'s room for improvement.'],
-            ['Total', `${calculateTotalMarks(studentDetails)}`, '598.40', 'Average, strive to do better next time.']
+            ['Total', `${totalMarks}`, '598.40', 'Average, strive to do better next time.']
         ];
 
         await addTableToPDF(doc, tableRows);
@@ -90,8 +92,6 @@ async function generateReport(studentDetails, outputPath) {
         }
 
         doc.rect(55, 610, 500, 50).stroke();
-
-        const totalMarks = await calculateTotalMarks(studentDetails);
 
         doc.fontSize(10).text(`Overall Comment: Stay determined, ${studentDetails.Student_Name}, . Your score of, ${totalMarks}, is a testament to your hard work. Mathematics and Art & Craft were highlights, but don't neglect areas like Social Studies and Religious Ed.. You're as persistent as a tortoise on a mission!`, 60, 615, {
             width: 495,
