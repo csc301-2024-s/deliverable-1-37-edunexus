@@ -8,6 +8,8 @@ const fs = require('fs');
 // const path = require('path');
 
 const { getAllClass } = require('./database/database');
+// For login authentication
+const { checkUserPassword } = require('./database/database');
 
 const isDev = !app.isPackaged;
 
@@ -103,6 +105,17 @@ ipcMain.on('request-report-generation', async (event, studentId) => {
 ipcMain.on('load-sign-in', async (event, teacherId) => {
     var temp = getAllClass();
     console.log(temp);
+});
+
+ipcMain.on('login-authentication', async (event, data) => {
+    const {username, password} = data;
+    const loginSuccess = await checkUserPassword(username, password);
+
+    if (loginSuccess) {
+        event.sender.send('login-success');
+    } else {
+        event.sender.send('login-failed');
+    }
 });
 
 // function handleSignupData(event, args) {
