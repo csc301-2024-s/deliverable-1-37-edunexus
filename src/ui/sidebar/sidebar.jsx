@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import {
     Box,
@@ -17,9 +18,9 @@ import {
     Paper
 } from '@mui/material';
 import SchoolIcon from '@mui/icons-material/School'; // For class icons
-// import AccountCircleIcon from '@mui/icons-material/AccountCircle'; // For user icon
 
-const NavigationSidebar = ({ user, classes, onClassChange }) => {
+const NavigationSidebar = ({ user, classes, onClassChange, onLogout }) => {
+    const navigate = useNavigate();
     const [searchText, setSearchText] = useState('');
 
     const handleSearch = (event) => {
@@ -36,6 +37,10 @@ const NavigationSidebar = ({ user, classes, onClassChange }) => {
         onClassChange(index);
     };
 
+    const handleLogout = () => {
+        onLogout(); // Call the logout function passed from App
+        navigate('/login'); // Redirect to login page
+    };
 
     return (
         <div style={{
@@ -121,7 +126,9 @@ const NavigationSidebar = ({ user, classes, onClassChange }) => {
                         </Box>
                     </Grid>
                     <Grid item>
-                        <Button variant="contained" style={{ backgroundColor: '#76ABAE', color: '#EEEEEE' }}>
+                        <Button variant="contained"
+                            style={{ backgroundColor: '#76ABAE', color: '#EEEEEE' }}
+                            onClick={() => handleLogout()}>
                             Logout
                         </Button>
                     </Grid>
