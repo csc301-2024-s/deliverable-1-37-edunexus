@@ -1,9 +1,11 @@
 const sqlite3 = require('sqlite3').verbose();
+const bcrypt = require('bcrypt');
+const saltRounds = 10;
 
 // Create a new database if it does not exist, and open database for read and write
-let db = new sqlite3.Database('./edunexus.db', sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE, (err) => {
+let db = new sqlite3.Database(__dirname + '/edunexus.db', sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE, (err) => {
     if (err) {
-        return console.error(err.message);
+        return err.message;
     }
 });
 
@@ -34,20 +36,20 @@ db.parallelize(() => {
 });
 db.serialize(() => {
     db.run(`CREATE TABLE IF NOT EXISTS class (
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
-          name TEXT NOT NULL,
-          year INTEGER NOT NULL,
-          grade INTEGER NOT NULL,
-          teacherNumber INTEGER REFERENCES teacher (teacherNumber),
-          subjectID INTEGER REFERENCES subject (id)
-          )`)
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            name TEXT NOT NULL,
+            year INTEGER NOT NULL,
+            grade INTEGER NOT NULL,
+            teacherNumber INTEGER REFERENCES teacher (teacherNumber),
+            subjectID INTEGER REFERENCES subject (id)
+            )`)
         .run(`CREATE TABLE IF NOT EXISTS mark (
-          mark INTEGER NOT NULL,
-          studentNumber INTEGER REFERENCES student (studentNumber),
-          classID INTEGER REFERENCES class (id),
-          year INTEGER NOT NULL,
-          PRIMARY KEY (studentNumber, classID)
-          )`);
+            name TEXT NOT NULL,
+            mark INTEGER NOT NULL,
+            studentNumber INTEGER REFERENCES student (studentNumber),
+            classID INTEGER REFERENCES class (id),
+            PRIMARY KEY (name, studentNumber, classID)
+            )`);
 });
 
 // user related functions
@@ -55,11 +57,16 @@ db.serialize(() => {
 function insertUser(username, password) {
     return new Promise((resolve, reject) => {
         const sql = 'INSERT INTO user (username, password) VALUES(?, ?)';
-        db.run(sql, [username, password], function (err) {
+        bcrypt.hash(password, saltRounds, function(err, hash) {
             if (err) {
-                reject(err);
+                reject (err);
             }
-            resolve(this.lastID);
+            db.run(sql, [username, hash], function (err) {
+                if (err) {
+                    reject(err);
+                }
+                resolve(this.lastID);
+            });
         });
     });
 }
@@ -76,14 +83,22 @@ function getUser(username) {
     });
 }
 
-function checkLogin(username, password) {
+function checkUserPassword(username, password) {
     return new Promise((resolve, reject) => {
-        const sql = 'SELECT * FROM user WHERE username = ? AND password = ?';
-        db.get(sql, [username, password], (err, user) => {
+        const sql = 'SELECT password FROM user WHERE username = ?';
+        db.get(sql, [username], (err, user) => {
             if (err) {
                 reject(err);
             }
-            resolve(user);
+            if (!user) {
+                resolve(false);
+            }
+            bcrypt.compare(password, user.password, function(err, result) {
+                if (err) {
+                    reject(err);
+                }
+                resolve(result);
+            });
         });
     });
 }
@@ -103,12 +118,16 @@ function deleteUser(username) {
 function updateUserPassword(username, password) {
     return new Promise((resolve, reject) => {
         const sql = 'UPDATE user SET password = ? WHERE username = ?';
-        db.run(sql, [password, username], function (err) {
+        bcrypt.hash(password, saltRounds, function(err, hash) {
             if (err) {
-                reject(err);
+                reject (err);
             }
-            console.log(`Row(s) updated: ${this.changes}`);
-            resolve(this.changes);
+            db.run(sql, [username, hash], function (err) {
+                if (err) {
+                    reject(err);
+                }
+                resolve(this.changes);
+            });
         });
     });
 }
@@ -276,7 +295,7 @@ function insertClass(name, year, grade, teacherNumber, subjectID) {
     });
 }
 
-function getClass(name = '', year = '', grade = '', teacherNumber = '', subjectID = '') {
+function getClass(name, year, grade, teacherNumber, subjectID) {
     return new Promise((resolve, reject) => {
         if (!name & !year & !grade & !teacherNumber & !subjectID) {
             reject('No input, use getAllClass instead');
@@ -285,30 +304,30 @@ function getClass(name = '', year = '', grade = '', teacherNumber = '', subjectI
         let values = [];
         if (name) {
             sql += 'name = ? AND ';
-            values += name;
+            values.push(name);
         }
         if (year) {
             sql += 'year = ? AND ';
-            values += year;
+            values.push(year);
         }
         if (grade) {
             sql += 'grade = ? AND ';
-            values += grade;
+            values.push(grade);
         }
         if (teacherNumber) {
             sql += 'teacherNumber = ? AND ';
-            values += teacherNumber;
+            values.push(teacherNumber);
         }
         if (subjectID) {
             sql += 'subjectID = ? AND ';
-            values += subjectID;
+            values.push(subjectID);
         }
         sql = sql.substring(0, sql.length - 5);
-        db.get(sql, values, (err, c) => {
+        db.all(sql, values, (err, classes) => {
             if (err) {
                 reject(err);
             }
-            resolve(c);
+            resolve(classes);
         });
     });
 }
@@ -321,6 +340,18 @@ function getAllClass() {
                 reject(err);
             }
             resolve(classes);
+        });
+    });
+}
+
+function getClassName(classID) {
+    return new Promise((resolve, reject) => {
+        const sql = 'SELECT name FROM class WHERE id = ?';
+        db.get(sql, [classID], (err, mark) => {
+            if (err) {
+                reject(err);
+            }
+            resolve(mark);
         });
     });
 }
@@ -339,14 +370,26 @@ function deleteClass(id) {
 
 // mark related
 
-function insertMark(mark, studentNumber, classID, year) {
+function insertMark(name, mark, studentNumber, classID) {
     return new Promise((resolve, reject) => {
-        const sql = 'INSERT INTO mark (mark, studentNumber, classID, year) VALUES(?, ?, ?, ?)';
-        db.run(sql, [mark, studentNumber, classID, year], function (err) {
+        const sql = 'INSERT INTO mark (name, mark, studentNumber, classID) VALUES(?, ?, ?, ?)';
+        db.run(sql, [name, mark, studentNumber, classID], function (err) {
             if (err) {
                 reject(err);
             }
             resolve(this.lastID);
+        });
+    });
+}
+
+function getAllMark() {
+    return new Promise((resolve, reject) => {
+        const sql = 'SELECT mark, studentNumber FROM mark';
+        db.all(sql, (err, mark) => {
+            if (err) {
+                reject(err);
+            }
+            resolve(mark);
         });
     });
 }
@@ -387,7 +430,7 @@ function getStudentAvgMarkByYear(studentNumber, year) {
     });
 }
 
-function getClassMarks(classID) {
+function getClassMark(classID) {
     return new Promise((resolve, reject) => {
         const sql = 'SELECT mark, studentNumber FROM mark WHERE classID = ?';
         db.all(sql, [classID], (err, mark) => {
@@ -399,14 +442,37 @@ function getClassMarks(classID) {
     });
 }
 
-function getStudentMarks(studentNumber) {
+function getStudentMarkByClass(studentNumber, classID) {
     return new Promise((resolve, reject) => {
-        const sql = 'SELECT mark, classID FROM mark WHERE studentNumber = ?';
-        db.all(sql, [studentNumber], (err, mark) => {
+        const sql = 'SELECT name, mark FROM mark WHERE studentNumber = ? AND classID = ?';
+        db.all(sql, [studentNumber, classID], (err, mark) => {
             if (err) {
                 reject(err);
             }
             resolve(mark);
+        });
+    });
+}
+
+function getStudentMark(studentNumber) {
+    return new Promise((resolve, reject) => {
+        let sql = 'SELECT DISTINCT classID FROM mark WHERE studentNumber = ?';
+        db.all(sql, [studentNumber], async function (err, classIDs) {
+            if (err) {
+                reject(err);
+            }
+            let res = [];
+            for (let i = 0; i < classIDs.length; i++) {
+                let classID = classIDs[0].classID;
+                let className = (await getClassName(classID)).name;
+                let m = {};
+                let mark = await getStudentMarkByClass(studentNumber, classID);
+                for (let j = 0; j < mark.length; j++) {
+                    m[mark[j].name] = mark[j].mark;
+                }
+                res[className] = m;
+            }
+            resolve(res);
         });
     });
 }
@@ -423,6 +489,7 @@ function getStudentMarksByYear(studentNumber, year) {
     });
 }
 
+
 function deleteMark(studentNumber, classID) {
     return new Promise((resolve, reject) => {
         const sql = 'DELETE FROM mark WHERE studentNumber = ? AND classID = ?';
@@ -435,12 +502,38 @@ function deleteMark(studentNumber, classID) {
     });
 }
 
+// Mixed
+function getStudentAndMarkByClass(classID) {
+    return new Promise((resolve, reject) => {
+        let res = [];
+        let sql = 'SELECT DISTINCT studentNumber FROM mark WHERE classID = ?';
+        db.all(sql, [classID], async (err, studentNumbers) => {
+            if (err) {
+                reject(err);
+            }
+            for (let i = 0; i < studentNumbers.length; i++) {
+                let studentNumber = studentNumbers[i].studentNumber;
+                let studentMark = {};
+                let student = await getStudent(studentNumber);
+                studentMark['studentNumber'] = studentNumber;
+                studentMark['studentName'] = student.name;
+    
+                let marks = await getStudentMarkByClass(studentNumber, classID);
+                for (let j = 0; j < marks.length; j++) {
+                    studentMark[marks[j].name] = marks[j].mark;
+                }
+                res.push(studentMark);
+            }
+            resolve(res);
+        });
+    });
+}
 
 module.exports = {
     // User
     insertUser,
     getUser,
-    checkLogin,
+    checkUserPassword,
     deleteUser,
     updateUserPassword,
     // Student
@@ -465,11 +558,14 @@ module.exports = {
     deleteClass,
     // Mark
     insertMark,
+    getAllMark,
     getClassAvgMark,
     getStudentAvgMark,
     getStudentAvgMarkByYear,
-    getClassMarks,
-    getStudentMarks,
+    getClassMark,
+    getStudentMark,
     getStudentMarksByYear,
-    deleteMark
+    deleteMark,
+    // Mixed
+    getStudentAndMarkByClass
 };
