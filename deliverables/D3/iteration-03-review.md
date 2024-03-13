@@ -28,8 +28,7 @@ List **process-related** (i.e. team organization and how you work) decisions and
 
 #### Q2. What did not work well
 
-1. EsLint have a specific linebreak (lf) enforced and it is not the same on windows (crlf). Git also auto convert lf to crlf 
-whenever it is pushed and pulled so we had to disable that feature. It took some time to figure out what happened.
+1. We worked very separately on each sub-team and did not communicate much, resulting in difference between expectation between different sub-team
 2. 
 3. 
 
