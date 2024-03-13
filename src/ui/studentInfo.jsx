@@ -9,60 +9,54 @@ import Paper from '@mui/material/Paper';
 import Draggable from 'react-draggable';
 import { BarChart } from '@mui/x-charts/BarChart';
 import Typography from '@mui/material/Typography';
-// import getStudentMarkByStudentNumber from ;
-// import getStudent
-// const getStudent = require('../database/database').getStudent;
-// import { getStudentMark, getStudent } from '../database/database';
 
-function getStudentMarkByStudentNumber(studentNumber) {
-    // TODO: add the following apis to the preload.js & main.js.
+function getStudentMarkByStudentNumber(studentNumber, setStudentMarks) {
     window.api.send('get-student-marks', studentNumber);
 
     window.api.receive('get-student-marks-response', (data) => {
-        // TODO: check if the data is in the correct format.
         console.log(data);
+        setStudentMarks(data);
         return data;
     });
 
+    
 
-    return {
-        'English': {
-            'Exam 1': 70, 'Exam 2': 80
-        },
-        'Math': {
-            'Exam 1': 100, 'Exam 2': 90, 'Assignment 1': 30
-        },
-        'Science': {
-            'Exam 1': 80, 'Exam 2': 90
-        },
-        'History': {
-            'Exam 1': 90, 'Exam 2': 100
-        },
-        'Art': {
-            'Exam 1': 100, 'Exam 2': 100
-        },
-        'Physical Education': {
-            'Exam 1': 100, 'Exam 2': 100
-        },
-        'Music': {
-            'Exam 1': 100, 'Exam 2': 100
-        },
-        'Drama': {
-            'Exam 1': 100, 'Exam 2': 100
-        }
-    };
+
+    // return {
+    //     'English': {
+    //         'Exam 1': 70, 'Exam 2': 80
+    //     },
+    //     'Math': {
+    //         'Exam 1': 100, 'Exam 2': 90, 'Assignment 1': 30
+    //     },
+    //     'Science': {
+    //         'Exam 1': 80, 'Exam 2': 90
+    //     },
+    //     'History': {
+    //         'Exam 1': 90, 'Exam 2': 100
+    //     },
+    //     'Art': {
+    //         'Exam 1': 100, 'Exam 2': 100
+    //     },
+    //     'Physical Education': {
+    //         'Exam 1': 100, 'Exam 2': 100
+    //     },
+    //     'Music': {
+    //         'Exam 1': 100, 'Exam 2': 100
+    //     },
+    //     'Drama': {
+    //         'Exam 1': 100, 'Exam 2': 100
+    //     }
+    // };
 }
 
-function getStudentName(studentNumber) {
-    // TODO: add the following apis to the preload.js & main.js.
+async function getStudentName(studentNumber, setStudentName) {
     window.api.send('get-student', studentNumber);
 
     window.api.receive('get-student-response', (data) => {
-        // TODO: Extract only the name from the data.
-        console.log(data);
-        return data;
+        setStudentName(data.name);
+        return data.name;
     });
-    return 'John Doe';
 }
 
 function PaperComponent(props) {
@@ -94,20 +88,23 @@ function getMarks(studentData, course) {
 export default function StudentInfo(props) {
     const { studentNumber } = props;
     const [open, setOpen] = React.useState(false);
-    const studentData = getStudentMarkByStudentNumber(studentNumber);
+    // const studentData = getStudentMarkByStudentNumber(studentNumber);
+    const [studentName, setStudentName] = React.useState('');
+    const [studentData, setStudentMarks] = React.useState({});
 
     const handleClickOpen = () => {
         setOpen(true);
+        getStudentName(studentNumber, setStudentName);
+        getStudentMarkByStudentNumber(studentNumber, setStudentMarks);
     };
 
     const handleClose = () => {
         setOpen(false);
     };
 
-    const numCourses = Object.keys(studentData).length;
     const numCoursesPerColumn = 5;
-    const graphWidth = 300;
-    const graphHeight = 200;
+    const graphWidth = 400;
+    const graphHeight = 400;
 
     return (
         <React.Fragment>
@@ -123,14 +120,14 @@ export default function StudentInfo(props) {
                 maxWidth='xl'
             >
                 <DialogTitle style={{ cursor: 'move' }} id="draggable-dialog-title">
-                    {studentNumber} - {getStudentName(studentNumber)}
+                    {studentNumber} - { studentName }
                 </DialogTitle>
                 <DialogContent dividers={true} sx={{ display: 'flex', justifyContent: 'center' }}>
                     <DialogContentText>
                         {Object.keys(studentData).map((subject, index) => {
                             return (<>
                                 <div key={index}>
-                                    <h3>{subject}</h3>
+                                    <h3 style={{textAlign: 'center'}}>{subject}</h3>
                                     <ul>
                                         {Object.keys(studentData[subject]).map((exam, index) => {
                                             return (
