@@ -33,7 +33,7 @@ was further helped by us deciding to use pre-commit hooks that force EsLint.
 #### Q3(b). Integration & Next steps
 Briefly explain how you integrated the previously developed individuals components as one product (i.e. How did you be combine the code from 3 sub-repos previously created) and if/how the assignment was helpful or not helpful.
 
- * Keep this very short (1-3 lines).
+ * We integrated code from various sub-branches, establishing a partially functional prototype, then we focus towards actively building upon the prototype.
 
 
 ## Product - Review
