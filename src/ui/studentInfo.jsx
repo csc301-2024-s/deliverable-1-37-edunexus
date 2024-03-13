@@ -11,9 +11,20 @@ import { BarChart } from '@mui/x-charts/BarChart';
 import Typography from '@mui/material/Typography';
 // import getStudentMarkByStudentNumber from ;
 // import getStudent
-// import { getStudent } from '../database/database';
+// const getStudent = require('../database/database').getStudent;
+// import { getStudentMark, getStudent } from '../database/database';
 
 function getStudentMarkByStudentNumber(studentNumber) {
+    // TODO: add the following apis to the preload.js & main.js.
+    window.api.send('get-student-marks', studentNumber);
+
+    window.api.receive('get-student-marks-response', (data) => {
+        // TODO: check if the data is in the correct format.
+        console.log(data);
+        return data;
+    });
+
+
     return {
         'English': {
             'Exam 1': 70, 'Exam 2': 80
@@ -42,7 +53,15 @@ function getStudentMarkByStudentNumber(studentNumber) {
     };
 }
 
-function getStudent(studentNumber) {
+function getStudentName(studentNumber) {
+    // TODO: add the following apis to the preload.js & main.js.
+    window.api.send('get-student', studentNumber);
+
+    window.api.receive('get-student-response', (data) => {
+        // TODO: Extract only the name from the data.
+        console.log(data);
+        return data;
+    });
     return 'John Doe';
 }
 
@@ -104,7 +123,7 @@ export default function StudentInfo(props) {
                 maxWidth='xl'
             >
                 <DialogTitle style={{ cursor: 'move' }} id="draggable-dialog-title">
-                    {studentNumber} - {getStudent(studentNumber)}
+                    {studentNumber} - {getStudentName(studentNumber)}
                 </DialogTitle>
                 <DialogContent dividers={true} sx={{ display: 'flex', justifyContent: 'center' }}>
                     <DialogContentText>
@@ -145,15 +164,6 @@ export default function StudentInfo(props) {
                             );
                         })}
 
-                        {/* <Typography variant="h6" gutterBottom={false} align='center'>
-              Math
-            </Typography>
-            <BarChart
-              xAxis={[{ scaleType: 'band', data: ['Exam 1', 'Exam 2', 'Assignment 1'] }]}
-              series={[{ data: [100, 30, 50], type: 'bar', title: 'Math' }]}
-              width={500}
-              height={300}
-            /> */}
                     </DialogContentText>
                     <DialogContentText>
                         {getCourses(studentData).slice(numCoursesPerColumn).map((course, index) => {
@@ -171,17 +181,8 @@ export default function StudentInfo(props) {
                             </>
 
                             );
-                        })};
+                        })}
 
-                        {/* <Typography variant="h6" gutterBottom={false} align='center'>
-              Math
-            </Typography>
-            <BarChart
-              xAxis={[{ scaleType: 'band', data: ['Exam 1', 'Exam 2', 'Assignment 1'] }]}
-              series={[{ data: [100, 30, 50], type: 'bar', title: 'Math' }]}
-              width={500}
-              height={300}
-            /> */}
                     </DialogContentText>
                 </DialogContent>
                 <DialogActions>
