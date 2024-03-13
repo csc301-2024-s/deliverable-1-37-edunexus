@@ -29,7 +29,7 @@ List **process-related** (i.e. team organization and how you work) decisions and
 #### Q2. What did not work well
 
 1. During the development of D2, we operated in separate sub-teams with limited communication. This led to discrepancies in expectations between the different groups, highlighting the importance of regular interaction and alignment among all team members.
-2. 
+2. An area for improvement in our team is to prioritize completing tasks well in advance of their deadlines. By doing so, we can reduce stress for all members and create a more comfortable working environment. Additionally, scheduling collaborative work sessions earlier in the timeline can help mitigate any scheduling conflicts that may arise among group members, ensuring a smoother and more efficient workflow.
 3. 
 
 
@@ -38,6 +38,7 @@ List **process-related** (i.e. team organization and how you work) decisions and
 List any **process-related** (i.e. team organization and/or how you work) changes you are planning to make (if there are any)
 
  * Ordered from most to least important, with supporting argument explaining a change.
+ * A planned adjustment for our team is to increase the frequency of our in-person collaborative work sessions. While virtual sessions have proven valuable, we believe that face-to-face interactions will further enhance our ability to support each other and improve the overall efficiency of our workflow.
 
 #### Q3(b). Integration & Next steps
 Briefly explain how you integrated the previously developed individuals components as one product (i.e. How did you be combine the code from 3 sub-repos previously created) and if/how the assignment was helpful or not helpful.
