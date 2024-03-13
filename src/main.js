@@ -1,9 +1,10 @@
-const {app, BrowserWindow, ipcMain, dialog} = require('electron');
+const {app, BrowserWindow, ipcMain} = require('electron');
 
-// Import for report generation
-const {generateReport} = require('./report/reportGenerator');
+// TODO: REPORT GENERATION IS BROKEN DUE TO SHARP DEPENDENCY
+// Import for report generation - BROKEN
+// const {generateReport} = require('./report/reportGenerator');
 // const path = require('path');
-const fs = require('fs');
+// const fs = require('fs');
 
 const isDev = !app.isPackaged;
 
@@ -66,37 +67,39 @@ app.on('activate', () => {
 // code. You can also put them in separate files and import them here.
 
 
-ipcMain.on('request-report-generation', async (event, studentId) => {
-    try {
-        if (isDev) console.log('received report request');
-        const reportPath = await generateReport(studentId);
 
-        const {filePath} = await dialog.showSaveDialog({
-            buttonLabel: 'Save Report',
-            defaultPath: `report_${studentId}.pdf`,
-            filters: [
-                {name: 'PDF Documents', extensions: ['pdf']}
-            ]
-        });
-
-        if (filePath) {
-            try {
-                fs.copyFileSync(reportPath, filePath);
-                fs.unlinkSync(reportPath);
-                event.sender.send('report-generation-complete', filePath);
-            } catch (error) {
-                if (isDev) console.error('Error moving the file:', error);
-                event.sender.send('report-generation-failed', error.message);
-            }
-        } else {
-            event.sender.send('report-generation-cancelled');
-            fs.unlinkSync(reportPath);
-        }
-    } catch (error) {
-        if (isDev) console.error('Error generating report:', error);
-        event.sender.send('report-generation-failed', error.message);
-    }
-});
+// TODO: The sharp package utilized causes issues during build
+// ipcMain.on('request-report-generation', async (event, studentId) => {
+//     try {
+//         console.log('received report request');
+//         const reportPath = await generateReport(studentId);
+//
+//         const {filePath} = await dialog.showSaveDialog({
+//             buttonLabel: 'Save Report',
+//             defaultPath: `report_${studentId}.pdf`,
+//             filters: [
+//                 {name: 'PDF Documents', extensions: ['pdf']}
+//             ]
+//         });
+//
+//         if (filePath) {
+//             try {
+//                 fs.copyFileSync(reportPath, filePath);
+//                 fs.unlinkSync(reportPath);
+//                 event.sender.send('report-generation-complete', filePath);
+//             } catch (error) {
+//                 console.error('Error moving the file:', error);
+//                 event.sender.send('report-generation-failed', error.message);
+//             }
+//         } else {
+//             event.sender.send('report-generation-cancelled');
+//             fs.unlinkSync(reportPath);
+//         }
+//     } catch (error) {
+//         console.error('Error generating report:', error);
+//         event.sender.send('report-generation-failed', error.message);
+//     }
+// });
 
 ipcMain.on('get-classes-by-teacher', async (event, teacher_id) => {
     if (isDev) console.log('received from frontend ' + teacher_id);
