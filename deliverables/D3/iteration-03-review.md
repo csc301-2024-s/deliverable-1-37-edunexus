@@ -16,8 +16,8 @@
 1. EsLint. EsLint forced the team to mantain good code quality. Although painful at first due to some line ending issues
 and having to fix previously negleted code, enabling EsLint ensured that we were staying on top of our code style. This 
 was further helped by us deciding to use pre-commit hooks that force EsLint. 
-2.
-3.
+2. One effective approach that contributed positively to our software engineering project was the implementation of pair programming. This collaborative technique proved particularly beneficial when team members with specialized expertise in certain areas were able to mentor and assist others, thereby accelerating the overall programming process. A notable instance of this was when a team member encountered difficulties in comprehending specific aspects of our React code. Through pair programming, they gained a clearer understanding and were able to progress more efficiently. This method not only facilitated knowledge sharing but also enhanced the cohesiveness and productivity of our team.
+3. Another successful strategy in our project was conducting group calls during the merging of our branches. This collaborative approach significantly expedited the merging process and reduced the likelihood of errors. Moreover, the responsiveness and willingness of all team members to assist one another were commendable, contributing to a smooth and efficient workflow. As a result, the development process in D3 was significantly smoother compared to D2
 
 List **process-related** (i.e. team organization and how you work) decisions and actions that worked well.
 
@@ -28,7 +28,7 @@ List **process-related** (i.e. team organization and how you work) decisions and
 
 #### Q2. What did not work well
 
-1. We worked very separately on each sub-team and did not communicate much, resulting in difference between expectation between different sub-team
+1. During the development of D2, we operated in separate sub-teams with limited communication. This led to discrepancies in expectations between the different groups, highlighting the importance of regular interaction and alignment among all team members.
 2. 
 3. 
 
