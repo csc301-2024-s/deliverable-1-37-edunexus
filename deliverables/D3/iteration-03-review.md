@@ -30,7 +30,6 @@ List **process-related** (i.e. team organization and how you work) decisions and
 
 1. During the development of D2, we operated in separate sub-teams with limited communication. This led to discrepancies in expectations between the different groups, highlighting the importance of regular interaction and alignment among all team members.
 2. An area for improvement in our team is to prioritize completing tasks well in advance of their deadlines. By doing so, we can reduce stress for all members and create a more comfortable working environment. Additionally, scheduling collaborative work sessions earlier in the timeline can help mitigate any scheduling conflicts that may arise among group members, ensuring a smoother and more efficient workflow.
-3. 
 
 
 #### Q3(a). Planned changes
@@ -47,6 +46,8 @@ Briefly explain how you integrated the previously developed individuals componen
 
 
 ## Product - Review
+
+> NOTE: We are completing this deliverable without a partner and therefore did not perform a demo.
 
 #### Q4. How was your product demo?
  * How did you prepare your demo?
