@@ -1,19 +1,23 @@
-# Your Team Number and Name
-
- > _Note:_ This document is meant to be written during (or shortly after) your review meeting, which should happen fairly close to the due date.      
- >      
- > _Suggestion:_ Have your review meeting a day or two before the due date. This way you will have some time to go over (and edit) this document, and all team members should have a chance to make their contribution.
+# Team 37, EduNexus
 
 
-## Iteration XX - Review & Retrospect
+## Iteration 1 - Review & Retrospect
 
- * When: FILL IN THE DATE WHEN YOU ACTUALLY HAD YOUR REVIEW MEETING
- * Where: PHYSICAL LOCATION AND/OR ONLINE
+> NOTE: We are completing this deliverable without a partner and therefore did not have a partner meeting
+
+ * When: N/A
+ * Where: N/A
 
 ## Process - Reflection
 
 
 #### Q1. What worked well
+
+1. EsLint. EsLint forced the team to mantain good code quality. Although painful at first due to some line ending issues
+and having to fix previously negleted code, enabling EsLint ensured that we were staying on top of our code style. This 
+was further helped by us deciding to use pre-commit hooks that force EsLint. 
+2.
+3.
 
 List **process-related** (i.e. team organization and how you work) decisions and actions that worked well.
 
@@ -24,11 +28,9 @@ List **process-related** (i.e. team organization and how you work) decisions and
 
 #### Q2. What did not work well
 
-List **process-related** (i.e. team organization and how you work) decisions and actions that did not work well.
-
- * 2 - 4 important decisions, processes, actions, or anything else that did not work well for you, ordered from most to least important.
- * Give a supporting argument about what makes you think that way.
- * Feel free to refer/link to process artifact(s).
+1. 
+2. 
+3. 
 
 
 #### Q3(a). Planned changes
