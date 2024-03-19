@@ -18,36 +18,6 @@ function getStudentMarkByStudentNumber(studentNumber, setStudentMarks) {
         setStudentMarks(data);
         return data;
     });
-
-    
-
-
-    // return {
-    //     'English': {
-    //         'Exam 1': 70, 'Exam 2': 80
-    //     },
-    //     'Math': {
-    //         'Exam 1': 100, 'Exam 2': 90, 'Assignment 1': 30
-    //     },
-    //     'Science': {
-    //         'Exam 1': 80, 'Exam 2': 90
-    //     },
-    //     'History': {
-    //         'Exam 1': 90, 'Exam 2': 100
-    //     },
-    //     'Art': {
-    //         'Exam 1': 100, 'Exam 2': 100
-    //     },
-    //     'Physical Education': {
-    //         'Exam 1': 100, 'Exam 2': 100
-    //     },
-    //     'Music': {
-    //         'Exam 1': 100, 'Exam 2': 100
-    //     },
-    //     'Drama': {
-    //         'Exam 1': 100, 'Exam 2': 100
-    //     }
-    // };
 }
 
 async function getStudentName(studentNumber, setStudentName) {

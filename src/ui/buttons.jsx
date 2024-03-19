@@ -4,7 +4,7 @@ import '@emotion/styled';
 import './styles.css'; 
 
 
-function Buttons() {
+function Buttons({selectedRow}) {
     const [showPopup, setShowPopup] = useState(false);
 
     const togglePopup = () => {
@@ -21,9 +21,12 @@ function Buttons() {
             {/* <button>Generate PDF</button> */}
             <Button variant="contained"
                 onClick={() => {
-                    const data = {studentId: '1', single: true};
+                    // For now, we will only use the first element in the selectedRow array
+                    // TODO: Handle multiple selected rows
+                    const data = {studentId: selectedRow[0], single: true};
                     window.api.send('request-report-generation', data);
                     console.log('Report Generation was clicked');
+                    console.log(data);
                 }}
                 style={{ backgroundColor: '#76ABAE', color: '#FFFFFF' }}>
                 Generate PDF
