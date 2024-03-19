@@ -42,7 +42,7 @@ const App = () => {
 
     const handleLogout = () => {
         setIsLoggedIn(false);
-        setClassesForTeacher(null);
+        setClassesForTeacher([]);
     };
 
     return (
