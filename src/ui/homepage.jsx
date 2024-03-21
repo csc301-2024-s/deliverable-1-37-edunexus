@@ -1,5 +1,4 @@
 import * as React from 'react';
-// import { createRoot } from 'react-dom/client';
 import { useState } from 'react';
 
 import './styles.css';
@@ -67,11 +66,11 @@ const Homepage = ({ onLogout, classes }) => {
 
         window.api.send('get-datagrid-by-class', selectedClass);
 
-        window.api.receive('datagrid-for-class', handleDataResponse);
+        const removeListener = window.api.receive('datagrid-for-class', handleDataResponse);
 
         return () => {
             // TODO not removing the listener will cause a memory leak but there is currently an error in this
-            // window.api.remove('datagrid-for-class', handleDataResponse);
+            removeListener();
         };
     }, [selectedClass]);
 

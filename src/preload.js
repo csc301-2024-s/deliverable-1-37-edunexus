@@ -15,7 +15,14 @@ contextBridge.exposeInMainWorld('api', {
     },
     receive: (channel, func) => {
         if (validReceiveChannels.includes(channel)) {
-            ipcRenderer.on(channel, (event, ...args) => func(...args));
+            const listener = (event, ...args) => func(...args);
+            ipcRenderer.on(channel, listener);
+
+            return () => {
+                ipcRenderer.removeListener(channel, listener);
+            };
+        } else {
+            console.error(`Attempted to receive an invalid channel: ${channel}`);
         }
     }
 });

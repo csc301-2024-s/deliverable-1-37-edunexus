@@ -45,11 +45,11 @@ const App = () => {
             }
         };
 
-        window.api.receive('classes-for-teacher', handleClassesForTeacher);
+        const removeListener = window.api.receive('classes-for-teacher', handleClassesForTeacher);
 
         // Clean up the event listener when the component unmounts
         return () => {
-            window.api.remove('classes-for-teacher', handleClassesForTeacher);
+            removeListener();
         };
     }, []);
 
