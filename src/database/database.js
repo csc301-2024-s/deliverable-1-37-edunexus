@@ -1,14 +1,26 @@
 const sqlite3 = require('sqlite3').verbose();
 const bcrypt = require('bcrypt');
+const {app} = require('electron');
 const saltRounds = 10;
 
 // Create a new database if it does not exist, and open database for read and write
-let db = new sqlite3.Database( './edunexus.db', sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE, (err) => {
-    if (err) {
-        return err.message;
-    }
-});
+let db;
 
+const isDev = !app.isPackaged;
+if (isDev) {
+    db = new sqlite3.Database( './edunexus.db', sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE, (err) => {
+        if (err) {
+            return err.message;
+        }
+    });
+} else {
+    let dbPath = process.resourcesPath + '/edunexus.db';
+    db = new sqlite3.Database( dbPath, sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE, (err) => {
+        if (err) {
+            return err.message;
+        }
+    });
+}
 
 // Create tables if not created
 db.parallelize(() => {
