@@ -31,6 +31,7 @@ db.parallelize(() => {
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             username TEXT NOT NULL UNIQUE,
             password TEXT NOT NULL,
+            admin INTEGER NOT NULL,
             teacherNumber INTEGER
             )`)
         .run('PRAGMA foreign_keys = ON');
@@ -54,19 +55,18 @@ db.serialize(() => {
 });
 
 // user related functions
-// password is not encrypted for now as we're not sure where will it be encrypted
-function insertUser(username, password, teacherNumber = 0) {
+function insertUser(username, password, admin = 0, teacherNumber = 0) {
     return new Promise((resolve, reject) => {
-        const sql = 'INSERT INTO user (username, password, teacherNumber) VALUES(?, ?, ?)';
+        const sql = 'INSERT INTO user (username, password, admin, teacherNumber) VALUES(?, ?, ?, ?)';
         bcrypt.hash(password, saltRounds, function(err, hash) {
             if (err) {
-                reject (err);
+                return reject(err);
             }
-            db.run(sql, [username, hash, teacherNumber], function (err) {
+            db.run(sql, [username, hash, admin, teacherNumber], function (err) {
                 if (err) {
-                    reject(err);
+                    return reject(err);
                 }
-                resolve(this.lastID);
+                return resolve(this.lastID);
             });
         });
     });
@@ -77,9 +77,9 @@ function getUser(username) {
         const sql = 'SELECT * FROM user WHERE username = ?';
         db.get(sql, [username], (err, user) => {
             if (err) {
-                reject(err);
+                return reject(err);
             }
-            resolve(user);
+            return resolve(user);
         });
     });
 }
@@ -89,17 +89,17 @@ function checkUserPassword(username, password) {
         const sql = 'SELECT password FROM user WHERE username = ?';
         db.get(sql, [username], (err, user) => {
             if (err) {
-                reject(err);
+                return reject(err);
             }
             if (!user) {
-                resolve(false);
+                return resolve(false);
             }
             else {
                 bcrypt.compare(password, user.password, function(err, result) {
                     if (err) {
-                        reject(err);
+                        return reject(err);
                     }
-                    resolve(result);
+                    return resolve(result);
                 });
             }
         });
@@ -111,9 +111,9 @@ function deleteUser(username) {
         const sql = 'DELETE FROM user WHERE username = ?';
         db.run(sql, [username], function (err) {
             if (err) {
-                reject(err);
+                return reject(err);
             }
-            resolve(this.changes);
+            return resolve(this.changes);
         });
     });
 }
@@ -123,13 +123,13 @@ function updateUserPassword(username, password) {
         const sql = 'UPDATE user SET password = ? WHERE username = ?';
         bcrypt.hash(password, saltRounds, function(err, hash) {
             if (err) {
-                reject (err);
+                return reject (err);
             }
             db.run(sql, [username, hash], function (err) {
                 if (err) {
-                    reject(err);
+                    return reject(err);
                 }
-                resolve(this.changes);
+                return resolve(this.changes);
             });
         });
     });
@@ -140,9 +140,9 @@ function updateUserTeacherNumber(username, teacherNumber) {
         const sql = 'UPDATE user SET teacherNumber = ? WHERE username = ?';
         db.run(sql, [username, teacherNumber], function (err) {
             if (err) {
-                reject(err);
+                return reject(err);
             }
-            resolve(this.changes);
+            return resolve(this.changes);
         });
     });
 }
@@ -154,9 +154,9 @@ function insertStudent(name, studentNumber, age) {
         const sql = 'INSERT INTO student (studentNumber, name, age) VALUES(?, ?, ?)';
         db.run(sql, [studentNumber, name, age], function (err) {
             if (err) {
-                reject(err);
+                return reject(err);
             }
-            resolve(this.lastID);
+            return resolve(this.lastID);
         });
     });
 }
@@ -166,9 +166,9 @@ function getStudent(studentNumber) {
         const sql = 'SELECT * FROM student WHERE studentNumber = ?';
         db.get(sql, [studentNumber], (err, student) => {
             if (err) {
-                reject(err);
+                return reject(err);
             }
-            resolve(student);
+            return resolve(student);
         });
     });
 }
@@ -178,9 +178,9 @@ function getAllStudent() {
         const sql = 'SELECT * FROM student';
         db.all(sql, (err, students) => {
             if (err) {
-                reject(err);
+                return reject(err);
             }
-            resolve(students);
+            return resolve(students);
         });
     });
 }
@@ -190,9 +190,9 @@ function deleteStudent(studentNumber) {
         const sql = 'DELETE FROM student WHERE studentNumber = ?';
         db.run(sql, [studentNumber], function (err) {
             if (err) {
-                reject(err);
+                return reject(err);
             }
-            resolve(this.changes);
+            return resolve(this.changes);
         });
     });
 }
@@ -204,9 +204,9 @@ function insertTeacher(name, teacherNumber) {
         const sql = 'INSERT INTO teacher (teacherNumber, name) VALUES(?, ?)';
         db.run(sql, [teacherNumber, name], function (err) {
             if (err) {
-                reject(err);
+                return reject(err);
             }
-            resolve(this.lastID);
+            return resolve(this.lastID);
         });
     });
 }
@@ -216,9 +216,9 @@ function getTeacher(teacherNumber) {
         const sql = 'SELECT * FROM teacher WHERE teacherNumber = ?';
         db.get(sql, [teacherNumber], (err, teacher) => {
             if (err) {
-                reject(err);
+                return reject(err);
             }
-            resolve(teacher);
+            return resolve(teacher);
         });
     });
 }
@@ -228,9 +228,9 @@ function getAllTeacher() {
         const sql = 'SELECT * FROM teacher';
         db.all(sql, (err, teachers) => {
             if (err) {
-                reject(err);
+                return reject(err);
             }
-            resolve(teachers);
+            return resolve(teachers);
         });
     });
 }
@@ -240,9 +240,9 @@ function deleteTeacher(teacherNumber) {
         const sql = 'DELETE FROM teacher WHERE teacherNumber = ?';
         db.run(sql, [teacherNumber], function (err) {
             if (err) {
-                reject(err);
+                return reject(err);
             }
-            resolve(this.changes);
+            return resolve(this.changes);
         });
     });
 }
@@ -253,9 +253,9 @@ function insertSubject(name) {
         const sql = 'INSERT INTO subject (name) VALUES(?)';
         db.run(sql, [name], function (err) {
             if (err) {
-                reject(err);
+                return reject(err);
             }
-            resolve(this.lastID);
+            return resolve(this.lastID);
         });
     });
 }
@@ -265,9 +265,9 @@ function getSubject(name) {
         const sql = 'SELECT * FROM subject WHERE name = ?';
         db.get(sql, [name], (err, subject) => {
             if (err) {
-                reject(err);
+                return reject(err);
             }
-            resolve(subject);
+            return resolve(subject);
         });
     });
 }
@@ -277,9 +277,9 @@ function getAllSubject() {
         const sql = 'SELECT * FROM subject';
         db.all(sql, (err, subjects) => {
             if (err) {
-                reject(err);
+                return reject(err);
             }
-            resolve(subjects);
+            return resolve(subjects);
         });
     });
 }
@@ -289,9 +289,9 @@ function deleteSubject(name) {
         const sql = 'DELETE FROM subject WHERE name = ?';
         db.run(sql, [name], function (err) {
             if (err) {
-                reject(err);
+                return reject(err);
             }
-            resolve(this.changes);
+            return resolve(this.changes);
         });
     });
 }
@@ -302,9 +302,9 @@ function insertClass(name, year, grade, teacherNumber, subjectID) {
         const sql = 'INSERT INTO class (name, year, grade, teacherNumber, subjectID) VALUES(?, ?, ?, ?, ?)';
         db.run(sql, [name, year, grade, teacherNumber, subjectID], function (err) {
             if (err) {
-                reject(err);
+                return reject(err);
             }
-            resolve(this.lastID);
+            return resolve(this.lastID);
         });
     });
 }
@@ -312,7 +312,7 @@ function insertClass(name, year, grade, teacherNumber, subjectID) {
 function getClass(name, year, grade, teacherNumber, subjectID) {
     return new Promise((resolve, reject) => {
         if (!name & !year & !grade & !teacherNumber & !subjectID) {
-            reject('No input, use getAllClass instead');
+            return reject('No input, use getAllClass instead');
         }
         let sql = 'SELECT * FROM class WHERE ';
         let values = [];
@@ -339,9 +339,9 @@ function getClass(name, year, grade, teacherNumber, subjectID) {
         sql = sql.substring(0, sql.length - 5);
         db.all(sql, values, (err, classes) => {
             if (err) {
-                reject(err);
+                return reject(err);
             }
-            resolve(classes);
+            return resolve(classes);
         });
     });
 }
@@ -351,9 +351,9 @@ function getAllClass() {
         const sql = 'SELECT * FROM class';
         db.all(sql, (err, classes) => {
             if (err) {
-                reject(err);
+                return reject(err);
             }
-            resolve(classes);
+            return resolve(classes);
         });
     });
 }
@@ -363,9 +363,9 @@ function getClassName(classID) {
         const sql = 'SELECT name FROM class WHERE id = ?';
         db.get(sql, [classID], (err, mark) => {
             if (err) {
-                reject(err);
+                return reject(err);
             }
-            resolve(mark);
+            return resolve(mark);
         });
     });
 }
@@ -375,9 +375,9 @@ function deleteClass(id) {
         const sql = 'DELETE FROM class WHERE id = ?';
         db.run(sql, [id], function (err) {
             if (err) {
-                reject(err);
+                return reject(err);
             }
-            resolve(this.changes);
+            return resolve(this.changes);
         });
     });
 }
@@ -389,9 +389,9 @@ function insertMark(name, mark, studentNumber, classID) {
         const sql = 'INSERT INTO mark (name, mark, studentNumber, classID) VALUES(?, ?, ?, ?)';
         db.run(sql, [name, mark, studentNumber, classID], function (err) {
             if (err) {
-                reject(err);
+                return reject(err);
             }
-            resolve(this.lastID);
+            return resolve(this.lastID);
         });
     });
 }
@@ -401,9 +401,9 @@ function getAllMark() {
         const sql = 'SELECT * FROM mark';
         db.all(sql, (err, mark) => {
             if (err) {
-                reject(err);
+                return reject(err);
             }
-            resolve(mark);
+            return resolve(mark);
         });
     });
 }
@@ -413,9 +413,9 @@ function getClassAvgMark(classID) {
         const sql = 'SELECT AVG(mark) FROM mark WHERE classID = ?';
         db.get(sql, [classID], (err, mark) => {
             if (err) {
-                reject(err);
+                return reject(err);
             }
-            resolve(mark);
+            return resolve(mark);
         });
     });
 }
@@ -425,9 +425,9 @@ function getStudentAvgMark(studentNumber) {
         const sql = 'SELECT AVG(mark) FROM mark WHERE studentNumber = ?';
         db.get(sql, [studentNumber], (err, mark) => {
             if (err) {
-                reject(err);
+                return reject(err);
             }
-            resolve(mark);
+            return resolve(mark);
         });
     });
 }
@@ -437,9 +437,9 @@ function getStudentAvgMarkByYear(studentNumber, year) {
         const sql = 'SELECT AVG(mark) FROM mark WHERE studentNumber = ? AND year = ?';
         db.get(sql, [studentNumber, year], (err, mark) => {
             if (err) {
-                reject(err);
+                return reject(err);
             }
-            resolve(mark);
+            return resolve(mark);
         });
     });
 }
@@ -449,9 +449,9 @@ function getClassMark(classID) {
         const sql = 'SELECT * FROM mark WHERE classID = ?';
         db.all(sql, [classID], (err, mark) => {
             if (err) {
-                reject(err);
+                return reject(err);
             }
-            resolve(mark);
+            return resolve(mark);
         });
     });
 }
@@ -461,9 +461,9 @@ function getStudentMarkByClass(studentNumber, classID) {
         const sql = 'SELECT name, mark FROM mark WHERE studentNumber = ? AND classID = ?';
         db.all(sql, [studentNumber, classID], (err, mark) => {
             if (err) {
-                reject(err);
+                return reject(err);
             }
-            resolve(mark);
+            return resolve(mark);
         });
     });
 }
@@ -475,7 +475,7 @@ function getStudentMark(studentNumber) {
         let sql = 'SELECT DISTINCT classID FROM mark WHERE studentNumber = ?';
         db.all(sql, [studentNumber], async function (err, classIDs) {
             if (err) {
-                reject(err);
+                return reject(err);
             }
             let res = {};
             for (let i = 0; i < classIDs.length; i++) {
@@ -488,7 +488,7 @@ function getStudentMark(studentNumber) {
                 }
                 res[className] = m;
             }
-            resolve(res);
+            return resolve(res);
         });
     });
 }
@@ -498,9 +498,9 @@ function getStudentMarksByYear(studentNumber, year) {
         const sql = 'SELECT mark, classID FROM mark WHERE studentNumber = ? AND year = ?';
         db.all(sql, [studentNumber, year], (err, mark) => {
             if (err) {
-                reject(err);
+                return reject(err);
             }
-            resolve(mark);
+            return resolve(mark);
         });
     });
 }
@@ -510,9 +510,9 @@ function getMarkNameByClass(classID) {
         const sql = 'SELECT DISTINCT name FROM mark WHERE classID = ?';
         db.all(sql, [classID], (err, mark) => {
             if (err) {
-                reject(err);
+                return reject(err);
             }
-            resolve(mark);
+            return resolve(mark);
         });
     });
 }
@@ -523,21 +523,22 @@ function deleteMark(studentNumber, classID) {
         const sql = 'DELETE FROM mark WHERE studentNumber = ? AND classID = ?';
         db.run(sql, [studentNumber, classID], function (err) {
             if (err) {
-                reject(err);
+                return reject(err);
             }
-            resolve(this.changes);
+            return resolve(this.changes);
         });
     });
 }
 
 // Mixed
+// TODO: optimize performance
 function getStudentAndMarkByClass(classID) {
     return new Promise((resolve, reject) => {
         let res = [];
         let sql = 'SELECT DISTINCT studentNumber FROM mark WHERE classID = ?';
         db.all(sql, [classID], async (err, studentNumbers) => {
             if (err) {
-                reject(err);
+                return reject(err);
             }
             for (let i = 0; i < studentNumbers.length; i++) {
                 let studentNumber = studentNumbers[i].studentNumber;
@@ -552,7 +553,29 @@ function getStudentAndMarkByClass(classID) {
                 }
                 res.push(studentMark);
             }
-            resolve(res);
+            return resolve(res);
+        });
+    });
+}
+
+function reconnectDB() {
+    return new Promise((resolve, reject) => {
+        db = new sqlite3.Database( './edunexus.db', sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE, (err) => {
+            if (err) {
+                return reject(err);
+            }
+            return resolve(true);
+        });
+    });
+}
+
+function disconnectDB() {
+    return new Promise((resolve, reject) => {
+        db.close((err) => {
+            if (err) {
+                return reject(err);
+            }
+            return resolve(true);
         });
     });
 }
@@ -597,5 +620,8 @@ module.exports = {
     getMarkNameByClass,
     deleteMark,
     // Mixed
-    getStudentAndMarkByClass
+    getStudentAndMarkByClass,
+    // DB
+    reconnectDB,
+    disconnectDB
 };
