@@ -5,7 +5,7 @@ import {HashRouter as Router, Route, Routes, Navigate} from 'react-router-dom';
 
 import Login from './login.jsx';
 import Homepage from './homepage.jsx';
-
+import Admin from './admin.jsx';
 
 const App = () => {
 
@@ -56,6 +56,12 @@ const App = () => {
                     path="/dashboard"
                     element={isLoggedIn ?
                         <Homepage onLogout={handleLogout} classes={classesForTeacher}/> :
+                        <Navigate replace to="/login"/>}
+                />
+                <Route
+                    path="/admin"
+                    element={isLoggedIn ?
+                        <Admin onLogout={handleLogout}/> :
                         <Navigate replace to="/login"/>}
                 />
                 <Route
