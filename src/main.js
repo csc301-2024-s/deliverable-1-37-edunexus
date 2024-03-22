@@ -158,3 +158,40 @@ ipcMain.on('get-student-marks', async (event, studentNumber) => {
         event.sender.send('get-student-marks-response', {error: error.message});
     }
 });
+
+ipcMain.on('insert-student', async (event, student) => {
+    try {
+        const response = await db.insertStudent(student.name, student.studentNumber, student.age);
+        console.log(response);
+        event.sender.send('insert-student-response', response);
+    } catch (error) {
+        event.sender.send('insert-student-response', {error: error.message});
+    }
+});
+
+ipcMain.on('insert-user', async (event, user) => {
+    try {
+        const response = await db.insertUser(user.username, user.password);
+        console.log(response);
+    } catch (error) {
+        console.log(error.message);
+    }
+});
+
+ipcMain.on('insert-class', async (event, classObject) => {
+    try {
+        const response = await db.insertClass(classObject.name, classObject.year, classObject.grade, classObject.teacherNumber, 1);
+        console.log(response);
+    } catch (error) {
+        console.log(error.message);
+    }
+});
+
+ipcMain.on('insert-teacher', async (event, teacher) => {
+    try {
+        const response = await db.insertTeacher(teacher.name, teacher.teacherNumber);
+        console.log(response);
+    } catch (error) {
+        console.log(error.message);
+    }
+});

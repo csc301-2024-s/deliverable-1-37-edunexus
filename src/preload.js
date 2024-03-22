@@ -4,8 +4,13 @@
 const {contextBridge, ipcRenderer} = require('electron');
 
 // Add new channel to the validChannels arrays
-let validChannels = ['loginData', 'signupData', 'request-report-generation', 'get-classes-by-teacher', 'get-datagrid-by-class', 'get-student', 'get-student-marks'];
-let validReceiveChannels = ['loginResponse', 'signupResponse', 'report-generation-complete', 'report-generation-failed', 'classes-for-teacher', 'datagrid-for-class', 'get-student-response', 'get-student-marks-response'];
+let validChannels = ['loginData', 'signupData', 'request-report-generation', 'get-classes-by-teacher', 'get-datagrid-by-class', 'get-student', 'get-student-marks',
+    'insert-student',
+    'insert-user',
+    'insert-class',
+    'insert-teacher'];
+let validReceiveChannels = ['loginResponse', 'signupResponse', 'report-generation-complete', 'report-generation-failed', 'classes-for-teacher', 'datagrid-for-class', 'get-student-response', 'get-student-marks-response',
+    'insert-student-response'];
 
 contextBridge.exposeInMainWorld('api', {
     send: (channel, data) => {
