@@ -3,28 +3,36 @@ import React, { useState } from 'react';
 function Admin() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [name, setName] = useState('');
+    const [studentName, setStudentName] = useState('');
+    const [teacherName, setTeacherName] = useState('');
+    const [studentNumber, setStudentNumber] = useState('');
+    const [teacherNumber, setTeacherNumber] = useState('');
     const [age, setAge] = useState('');
     const [className, setClassName] = useState('');
     const [year, setYear] = useState('');
     const [grade, setGrade] = useState('');
-    const [teacherId, setTeacherId] = useState('');
-    const [subjectId, setSubjectId] = useState('');
+    const [classTeacherNumber, setClassTeacherNumber] = useState('');
 
     const handleAddUser = () => {
         // Add user logic here
+        window.api.send('insert-user', {username: username, password: password});
     };
 
     const handleAddStudent = () => {
         // Add student logic here
-    };
+        window.api.send('insert-student', {name: studentName, studentNumber: studentNumber, age: age});
+        // TODO: response does not work
+        // response = window.api.receive('insert-student-response');
+    }; 
 
     const handleAddClass = () => {
         // Add class logic here
+        window.api.send('insert-class', {name: className, year: year, grade: grade, teacherNumber: classTeacherNumber});
     };
 
     const handleAddTeacher = () => {
         // Add teacher logic here
+        window.api.send('insert-teacher', {name: teacherName, teacherNumber: teacherNumber});
     };
 
     return (
@@ -50,8 +58,14 @@ function Admin() {
             <input
                 type="text"
                 placeholder="Name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                value={studentName}
+                onChange={(e) => setStudentName(e.target.value)}
+            />
+            <input
+                type="text"
+                placeholder="Student number"
+                value={studentNumber}
+                onChange={(e) => setStudentNumber(e.target.value)}
             />
             <input
                 type="number"
@@ -82,15 +96,9 @@ function Admin() {
             />
             <input
                 type="text"
-                placeholder="Teacher ID"
-                value={teacherId}
-                onChange={(e) => setTeacherId(e.target.value)}
-            />
-            <input
-                type="text"
-                placeholder="Subject ID"
-                value={subjectId}
-                onChange={(e) => setSubjectId(e.target.value)}
+                placeholder="Teacher number"
+                value={classTeacherNumber}
+                onChange={(e) => setClassTeacherNumber(e.target.value)}
             />
             <button onClick={handleAddClass}>Add Class</button>
 
@@ -98,8 +106,14 @@ function Admin() {
             <input
                 type="text"
                 placeholder="Name"
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                value={teacherName}
+                onChange={(e) => setTeacherName(e.target.value)}
+            />
+            <input
+                type="text"
+                placeholder="Teacher number"
+                value={teacherNumber}
+                onChange={(e) => setTeacherNumber(e.target.value)}
             />
             <button onClick={handleAddTeacher}>Add Teacher</button>
         </div>

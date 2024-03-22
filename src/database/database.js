@@ -84,6 +84,18 @@ function getUser(username) {
     });
 }
 
+function getAllUser() {
+    return new Promise((resolve, reject) => {
+        const sql = 'SELECT * FROM user';
+        db.all(sql, (err, user) => {
+            if (err) {
+                return reject(err);
+            }
+            return resolve(user);
+        });
+    });
+}
+
 function checkUserPassword(username, password) {
     return new Promise((resolve, reject) => {
         const sql = 'SELECT password FROM user WHERE username = ?';
@@ -469,7 +481,6 @@ function getStudentMarkByClass(studentNumber, classID) {
 }
 
 
-// TODO: Fix bug: it only fetchs for one subject only
 function getStudentMark(studentNumber) {
     return new Promise((resolve, reject) => {
         let sql = 'SELECT DISTINCT classID FROM mark WHERE studentNumber = ?';
@@ -584,6 +595,7 @@ module.exports = {
     // User
     insertUser,
     getUser,
+    getAllUser,
     checkUserPassword,
     deleteUser,
     updateUserPassword,

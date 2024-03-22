@@ -1,20 +1,3 @@
-// const firstNames = [
-//     'Aisha', 'Carlos', 'Mei', 'Ivan', 'Fatima', 'Santiago', 'Anika', 'Dmitri', 'Yara', 'Kenji',
-//     'Sofia', 'Chen', 'Nadia', 'Raj', 'Lerato', 'Diego', 'Priya', 'Yuri', 'Jamila', 'Hiroshi',
-//     'Amara', 'Alejandro', 'Ling', 'Mikhail', 'Zahra', 'Mateo', 'Aarav', 'Sergei', 'Amina', 'Takumi',
-//     'Chioma', 'Juan', 'Huan', 'Vladimir', 'Layla', 'Pablo', 'Deepika', 'Fyodor', 'Noor', 'Ryu',
-//     'Nia', 'Luis', 'Jia', 'Nikolai', 'Imani', 'Ricardo', 'Kavya', 'Igor', 'Samira', 'Shinji'
-// ];
-//
-// const lastNames = [
-//     'Kim', 'Patel', 'Nguyen', 'Garcia', 'Mohammed', 'Chen', 'Thapa', 'Fernandez', 'Hassan', 'Tanaka',
-//     'Krishnan', 'Moreno', 'Wang', 'Khan', 'Perez', 'Singh', 'Rodriguez', 'Ali', 'Kumar', 'Suzuki',
-//     'Gupta', 'Gonzalez', 'Zhang', 'Ahmed', 'Martinez', 'Shah', 'Lopez', 'Malik', 'Johansson', 'Sato',
-//     'Diaz', 'Li', 'Hussain', 'Andersson', 'Sanchez', 'Mukherjee', 'Hernandez', 'Liu', 'Rahman', 'Nakamura',
-//     'Ramirez', 'Xu', 'Iqbal', 'Lindberg', 'Rivera', 'Banerjee', 'Torres', 'Wei', 'Sheikh', 'Yamamoto'
-// ];
-//
-
 const fs = require('fs');
 const database = require(__dirname + '/../database');
 const names = ['Mary Melton', 'Cody Hill', 'Karen Hamilton', 'Robert Bradshaw', 'Jeremy Morrison', 'Angela Powell',
@@ -80,6 +63,8 @@ async function createDB() {
 }
 
 async function printAll() {
+    let users = await database.getAllUser();
+    console.log(users);
     let students = await database.getAllStudent();
     console.log(students);
     let teachers = await database.getAllTeacher();
