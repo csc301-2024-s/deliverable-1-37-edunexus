@@ -1,6 +1,8 @@
 module.exports = {
     packagerConfig: {
         asar: true,
+        extraResource: ['./edunexus.db'],
+
     },
     rebuildConfig: {},
     makers: [
@@ -42,7 +44,7 @@ module.exports = {
                             },
                         },
                     ],
-                },
+                }
             },
         },
     ],

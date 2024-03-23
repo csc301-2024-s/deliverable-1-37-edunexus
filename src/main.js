@@ -10,6 +10,12 @@ const isDev = !app.isPackaged;
 
 const db = require('./database/database');
 
+
+// Connect and initialize db
+let dbPath = (isDev ? './edunexus.db' : process.resourcesPath + '/edunexus.db');
+db.connectDB(dbPath);
+db.initDB();
+
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
     app.quit();
