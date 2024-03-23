@@ -22,8 +22,16 @@ const Dashboard = ({classes, selectedClass, classColumns, classData}) => {
     return (
         <div>
             <h2>{className.name}</h2>
-            <DataGridDemo classColumns={classColumns} classData={classData} setSelectedRow={setSelectedRow} selectedRow={selectedRow}/>
-            <Buttons selectedRow={selectedRow}/>
+            <DataGridDemo 
+                classColumns={classColumns} 
+                classData={classData} 
+                setSelectedRow={setSelectedRow} 
+                selectedRow={selectedRow}
+            />
+            <Buttons 
+                selectedRow={selectedRow} 
+                classData={classData}
+            />
         </div>
     );
 };
