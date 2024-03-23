@@ -10,6 +10,7 @@ import Draggable from 'react-draggable';
 import { BarChart } from '@mui/x-charts/BarChart';
 import Typography from '@mui/material/Typography';
 
+
 function getStudentMarkByStudentNumber(studentNumber, setStudentMarks) {
     window.api.send('get-student-marks', studentNumber);
 
@@ -155,7 +156,7 @@ export default function StudentInfo(props) {
                 <DialogActions>
                     <Button autoFocus onClick={handleClose}>
                         Close
-                    </Button>
+                    </Button>            
                 </DialogActions>
             </Dialog>
         </React.Fragment>
