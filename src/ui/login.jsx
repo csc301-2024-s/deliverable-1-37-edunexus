@@ -75,6 +75,7 @@ export function Login({ onLogin }) {
                             onChange={handlePasswordChange}
                         />
                         <Button
+                            id='signinBtn'
                             type='submit'
                             fullWidth
                             variant='contained'
