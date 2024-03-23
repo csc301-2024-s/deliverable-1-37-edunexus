@@ -5,7 +5,10 @@ import '@emotion/styled';
 import './styles.css'; 
 
 
-function Buttons({selectedRow, classData}) {
+function Buttons({
+    selectedRow,
+    classData
+}) {
     const [showPopup, setShowPopup] = useState(false);
 
     const togglePopup = () => {
@@ -38,13 +41,62 @@ function Buttons({selectedRow, classData}) {
         XLSX.writeFile(wb, 'class_list.xlsx');
     };
 
+    const handleUploadClick = (event) => {
+        event.preventDefault();
+        window.api.send('open-file-dialog');
+    };
+    
+    window.api.receive('selected-file', (filePath) => {
+        console.log('buttons filepath', filePath);
+        window.api.send('read-excel-file', filePath);
+
+        // try {
+        //     const workbook = XLSX.readFile(filePath);
+        //     console.log('buttons workbook', workbook);
+        //     const sheetName = workbook.SheetNames[0];
+        //     const worksheet = workbook.Sheets[sheetName];
+        //     const data = XLSX.utils.sheet_to_json(worksheet, {header:1}); 
+
+        //     const markName = data[0][2];
+
+        //     const studentData = data.slice(1).filter(row => 
+        //         classData.some(student => student.studentNumber === row[0])
+        //     );
+        
+        //     const marksToInsert = studentData.map(row => ({
+        //         name: markName,
+        //         mark: row[2],
+        //         studentNumber: row[0],
+        //         classID: classID
+        //     }));
+        
+        //     window.api.send('save-marks-to-db', marksToInsert);
+
+        // } catch (error) {
+        //     console.error('Error reading file:', error);
+        // }
+    });
+
+    window.api.receive('excel-file-data', (data) => {
+        console.log('buttons Received data from Excel file:', data);
+    });
+
+    window.api.receive('save-marks-to-db-response', (response) => {
+        if (response.error) {
+            console.error('Failed to save marks:', response.error);
+        } else {
+            console.log('Marks saved successfully');
+        }
+    });
+
     return (
         <div className="buttons-container" style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
 
             <Button 
                 variant="contained" 
-                style={{ backgroundColor: '#76ABAE', color: '#FFFFFF' }}>
-                Upload a Spreadsheet
+                style={{ backgroundColor: '#76ABAE', color: '#FFFFFF' }}
+                onClick={handleUploadClick}>
+                Upload class list
             </Button>
 
             {showPopup && <PopupComponent onClose={togglePopup} />}
@@ -65,7 +117,7 @@ function Buttons({selectedRow, classData}) {
             <Button 
                 variant="contained" 
                 style={{ backgroundColor: '#76ABAE', color: '#FFFFFF' }}>
-                Visualize Class Statistics
+                Visualize Class Stats
             </Button>
 
             <Button 

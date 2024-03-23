@@ -1,10 +1,11 @@
-const {app, BrowserWindow, ipcMain} = require('electron');
+const {app, BrowserWindow, ipcMain, dialog} = require('electron');
 
 // TODO: REPORT GENERATION IS BROKEN DUE TO SHARP DEPENDENCY
 // Import for report generation - BROKEN
 // const {generateReport} = require('./report/reportGenerator');
-// const path = require('path');
-// const fs = require('fs');
+const XLSX = require('xlsx');
+const path = require('path');
+const fs = require('fs');
 
 const isDev = !app.isPackaged;
 
@@ -23,6 +24,8 @@ const createWindow = () => {
         webPreferences: {
             // eslint-disable-next-line no-undef
             preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
+            contextIsolation: true,
+            nodeIntegration: false,
         },
     });
 
@@ -42,6 +45,24 @@ const createWindow = () => {
 // Some APIs can only be used after this event occurs.
 // app.on('ready', createWindow);
 app.whenReady().then(() => {
+    console.log('App is ready, setting up read-excel-file IPC listener');
+    ipcMain.on('read-excel-file', (event, filePath) => {
+
+        console.log('main filepath:', filePath);
+    
+        try {
+            const workbook = XLSX.readFile(filePath);
+            console.log('main workbook', workbook);
+            const firstSheetName = workbook.SheetNames[0];
+            const worksheet = workbook.Sheets[firstSheetName];
+            const data = XLSX.utils.sheet_to_json(worksheet);
+            event.reply('excel-file-data', data);
+        } catch (error) {
+            console.error('Error reading Excel file:', error);
+            event.reply('excel-file-error', error.message);
+        }
+    });
+
     createWindow();
 });
 
@@ -66,7 +87,64 @@ app.on('activate', () => {
 // In this file you can include the rest of your app's specific main process
 // code. You can also put them in separate files and import them here.
 
+ipcMain.on('read-file', (event, filePath) => {
+    const fullPath = path.join(app.getPath('downloads'), filePath);
+    fs.readFile(fullPath, 'utf8', (err, data) => {
+        if (err) {
+            console.error('Failed to read file:', err);
+            event.sender.send('file-read-error', err.message);
+            return;
+        }
+        event.sender.send('file-content', data);
+    });
+});
 
+console.log('Setting up read-excel-file IPC listener');
+// ipcMain.on('read-excel-file', (event, filePath) => {
+
+//     console.log('main filepath:', filePath);
+
+//     try {
+//         const workbook = XLSX.readFile(filePath);
+//         console.log('main workbook', workbook);
+//         const firstSheetName = workbook.SheetNames[0];
+//         const worksheet = workbook.Sheets[firstSheetName];
+//         const data = XLSX.utils.sheet_to_json(worksheet);
+//         event.reply('excel-file-data', data);
+//     } catch (error) {
+//         console.error('Error reading Excel file:', error);
+//         event.reply('excel-file-error', error.message);
+//     }
+// });
+
+ipcMain.on('open-file-dialog', (event) => {
+    dialog.showOpenDialog({
+        properties: ['openFile'],
+        filters: [
+            { name: 'Spreadsheets', extensions: ['xlsx'] }
+        ]
+    }).then(result => {
+        if (!result.canceled && result.filePaths.length > 0) {
+            event.sender.send('selected-file', result.filePaths[0]);
+        }
+    }).catch(err => {
+        console.log(err);
+    });
+});
+
+ipcMain.on('save-marks-to-db', async (event, marksToInsert) => {
+    for (const {name, mark, studentNumber, classID} of marksToInsert) {
+        console.log(name, mark, studentNumber, classID);
+        try {
+            await db.insertMark(name, mark, studentNumber, classID);
+        } catch (error) {
+            console.error('Error saving data to the database:', error);
+            event.sender.send('save-marks-to-db-response', {error: error.message});
+            break;
+        }
+    }
+    event.sender.send('save-marks-to-db-response', {success: true});
+});
 
 // TODO: The sharp package utilized causes issues during build
 ipcMain.on('request-report-generation', async (event, studentId) => {
