@@ -15,7 +15,6 @@ function getStudentMarkByStudentNumber(studentNumber, setStudentMarks) {
     window.api.send('get-student-marks', studentNumber);
 
     window.api.receive('get-student-marks-response', (data) => {
-        console.log(data);
         setStudentMarks(data);
         return data;
     });

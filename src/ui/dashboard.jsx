@@ -31,6 +31,7 @@ const Dashboard = ({classes, selectedClass, classColumns, classData}) => {
             <Buttons 
                 selectedRow={selectedRow} 
                 classData={classData}
+                className={className.name}
             />
         </div>
     );
