@@ -1,5 +1,5 @@
 const {generateReport} = require('./report/reportGenerator');
-const {app, BrowserWindow, ipcMain} = require('electron');
+const {app, BrowserWindow, ipcMain, dialog} = require('electron');
 const db = require('./database/database');
 const archiver = require('archiver');
 const path = require('path');
@@ -77,28 +77,43 @@ app.on('activate', () => {
 function createZipFromPDFs(pdfPaths, zipPath) {
     console.log('Creating zip: ', zipPath);
     return new Promise((resolve, reject) => {
-        const output = fs.createWriteStream(zipPath);
-        const archive = archiver('zip', {
-            zlib: { level: 9 }
-        });
+        dialog.showSaveDialog({
+            title: 'Save Student Report',
+            defaultPath: zipPath,
+            filters: [
+                { name: 'Zip Files', extensions: ['zip'] }
+            ]
+        }).then(result => {
+            if (!result.canceled) {
+                const output = fs.createWriteStream(result.filePath);
+                const archive = archiver('zip', {
+                    zlib: { level: 9 }
+                });
 
-        output.on('close', function() {
-            console.log(archive.pointer() + ' total bytes');
-            console.log('Archiver has been finalized and the output file descriptor has closed.');
-            resolve();
-        });
+                output.on('close', function() {
+                    console.log(archive.pointer() + ' total bytes');
+                    console.log('Archiver has been finalized and the output file descriptor has closed.');
+                    resolve();
+                });
 
-        archive.on('error', function(err) {
+                archive.on('error', function(err) {
+                    reject(err);
+                });
+
+                archive.pipe(output);
+
+                pdfPaths.forEach(pdfPath => {
+                    archive.file(pdfPath, { name: path.basename(pdfPath) });
+                });
+
+                archive.finalize();
+            } else {
+                reject(new Error('User cancelled the save dialog'));
+            }
+        }).catch(err => {
+            console.error('Failed to show save dialog', err);
             reject(err);
         });
-
-        archive.pipe(output);
-
-        pdfPaths.forEach(pdfPath => {
-            archive.file(pdfPath, { name: path.basename(pdfPath) });
-        });
-
-        archive.finalize();
     });
 }
 
