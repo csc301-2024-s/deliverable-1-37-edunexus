@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TextField, Button, Container, Typography, Box, Alert } from '@mui/material'; // Import Alert here
+import { TextField, Button, Container, Typography, Box, Alert } from '@mui/material';
 import SchoolIcon from '@mui/icons-material/School';
 import { useNavigate } from 'react-router-dom';
 
@@ -34,6 +34,11 @@ export function Login({ onLogin }) {
         setPassword(event.target.value);
     };
 
+    /**
+     * Handles the form submission for user login.
+     *
+     * @param {React.FormEvent<HTMLFormElement>} e - The form event
+     */
     const handleSubmit = (e) => {
         e.preventDefault();
 
