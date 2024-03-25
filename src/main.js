@@ -153,7 +153,7 @@ ipcMain.on(
                 if (filteredAndEnrichedData.length === 1) {
                     outputPath = path.join(isDev ? __dirname : process.resourcesPath, `student_${studentDetails.id}.pdf`);
                 } else {
-                    outputPath = path.join(isDev ? __dirname : process.resourcesPath, `temp_report_${studentDetails.id}.pdf`);
+                    outputPath = path.join(isDev ? __dirname : process.resourcesPath, `student_id_${studentDetails.id}.pdf`);
                 }
                 const reportPath = await generateReport(studentDetails, outputPath);
                 pdfPaths.push(reportPath);
