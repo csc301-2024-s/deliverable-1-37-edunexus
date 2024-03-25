@@ -36,7 +36,7 @@ jobs:
       run: npm install
 
     - name: Build the app (Staging)
-      if: github.ref == 'refs/heads/dev'
+      if: github.ref != 'refs/heads/main'
       run: npm run make -- --publish onTagOrDraft
 
     - name: Build the app (Production)
