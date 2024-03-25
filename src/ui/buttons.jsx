@@ -4,7 +4,12 @@ import * as XLSX from 'xlsx';
 import '@emotion/styled';
 import './styles.css'; 
 
-
+/**
+ * This is a React functional component that renders a set of buttons.
+ * It uses the useState hook to manage the state of the component.
+ * The component also imports Button from '@mui/material/Button' and XLSX from 'xlsx'.
+ * It also imports '@emotion/styled' and './styles.css'.
+ */
 function Buttons({selectedRow, classData}) {
     const [showPopup, setShowPopup] = useState(false);
 
@@ -51,6 +56,11 @@ function Buttons({selectedRow, classData}) {
         });
     };
 
+    /**
+     * This function adds totals and averages to the student data.
+     * @param {Array} data - The student data to be processed.
+     * @returns {Array} - The student data with added totals and averages.
+     */
     function addTotalsAndAveragesToStudentData(data) {
         if (data.length === 0) return [];
     
@@ -162,6 +172,10 @@ function Buttons({selectedRow, classData}) {
     );
 }
 
+/**
+ * This is a docstring for the function.
+ * It describes the purpose of the function, its parameters, and its return value.
+ */
 function PopupComponent({ onClose }) {
     return (
         <div className="popup">
