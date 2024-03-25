@@ -75,7 +75,7 @@ const NavigationSidebar = ({ user, classes, onClassChange, onLogout }) => {
     return (
         <div
             style={{
-                height: '97vh',
+                height: '97%',
                 display: 'flex',
                 flexDirection: 'column',
             }}
@@ -141,7 +141,7 @@ const NavigationSidebar = ({ user, classes, onClassChange, onLogout }) => {
                             {renderClassList()}
                         </Box>
                     </Grid>
-                    <Grid item>
+                    <div className="buttons-container" style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
                         <Button
                             variant="contained"
                             style={{ backgroundColor: '#76ABAE', color: '#EEEEEE' }}
@@ -153,13 +153,13 @@ const NavigationSidebar = ({ user, classes, onClassChange, onLogout }) => {
                         {/* {user.role === 'admin' && ( */}
                         <Button
                             variant="contained"
-                            style={{ backgroundColor: '#76ABAE', color: '#EEEEEE', marginTop: '10px' }}
+                            style={{ backgroundColor: '#76ABAE', color: '#EEEEEE'}}
                             onClick={() => navigate('/admin')}
                         >
                             Admin
                         </Button>
                         {/* )} */}
-                    </Grid>
+                    </div>
                 </Grid>
             </Card>
         </div>
