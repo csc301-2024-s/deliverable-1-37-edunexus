@@ -3,25 +3,45 @@ import { TextField, Button, Container, Typography, Box, Alert } from '@mui/mater
 import SchoolIcon from '@mui/icons-material/School';
 import { useNavigate } from 'react-router-dom';
 
+/**
+ * Login component for handling user authentication.
+ *
+ * @param {Object} props - Component props
+ * @param {Function} props.onLogin - Callback function after successful login
+ * @returns {React.ReactElement} The rendered login form component
+ */
 export function Login({ onLogin }) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-    const [error, setError] = useState(''); // State to manage login error message
+    const [error, setError] = useState('');
     const navigate = useNavigate();
 
+    /**
+     * Handles changes to the username input field.
+     *
+     * @param {React.ChangeEvent<HTMLInputElement>} event - The change event
+     */
     const handleUsernameChange = (event) => {
         setUsername(event.target.value);
     };
 
+    /**
+     * Handles changes to the password input field.
+     *
+     * @param {React.ChangeEvent<HTMLInputElement>} event - The change event
+     */
     const handlePasswordChange = (event) => {
         setPassword(event.target.value);
     };
 
     const handleSubmit = (e) => {
         e.preventDefault();
+
+        // Callback function to process data upon login
         const data = { username, password };
         window.api.send('login-authentication', data);
 
+        // If login was successful, call onLogin and navigate to dashboard
         window.api.receive('login-success', () => {
             onLogin();
             navigate('/dashboard');
