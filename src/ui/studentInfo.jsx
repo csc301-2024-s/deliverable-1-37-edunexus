@@ -15,6 +15,7 @@ import Typography from '@mui/material/Typography';
  * @param {string} studentNumber - The unique identifier for the student.
  * @param {function} setStudentMarks - Callback function to set the student's marks in the state.
  */
+
 function getStudentMarkByStudentNumber(studentNumber, setStudentMarks) {
     window.api.send('get-student-marks', studentNumber);
 
@@ -201,7 +202,7 @@ export default function StudentInfo(props) {
                 <DialogActions>
                     <Button autoFocus onClick={handleClose}>
                         Close
-                    </Button>
+                    </Button>            
                 </DialogActions>
             </Dialog>
         </React.Fragment>

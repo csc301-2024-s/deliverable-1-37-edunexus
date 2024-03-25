@@ -21,6 +21,9 @@ const Dashboard = ({classes, selectedClass, classColumns, classData}) => {
     // Use optional chaining to safely access the class name
     const className = classes.find(subject => subject.id === selectedClass);
 
+    // Keep track of the selected rows
+    const [selectedRow, setSelectedRow] = React.useState([]);
+
     if (className) {
         console.log(className.name);
     } else {
@@ -31,8 +34,16 @@ const Dashboard = ({classes, selectedClass, classColumns, classData}) => {
     return (
         <div>
             <h2>{className.name}</h2>
-            <DataGridDemo classColumns={classColumns} classData={classData}/>
-            <Buttons/>
+            <DataGridDemo 
+                classColumns={classColumns} 
+                classData={classData} 
+                setSelectedRow={setSelectedRow} 
+                selectedRow={selectedRow}
+            />
+            <Buttons 
+                selectedRow={selectedRow} 
+                classData={classData}
+            />
         </div>
     );
 };

@@ -14,8 +14,7 @@ import { DataGrid } from '@mui/x-data-grid';
  *                                  item represents one row.
  * @returns {React.Element} A Box element containing the DataGrid or a loading message.
  */
-export default function DataGridDemo({classColumns, classData}) {
-
+export default function DataGridDemo({classColumns, classData, selectedRow, setSelectedRow}) {
     return (
         <Box sx={{height: 600, width: '100%'}}>
             {/* Conditional rendering to check if there is data and columns present */}
@@ -33,6 +32,16 @@ export default function DataGridDemo({classColumns, classData}) {
                     pageSizeOptions={[5, 10, 20, 50]}
                     checkboxSelection
                     disableRowSelectionOnClick
+                    onRowSelectionModelChange={(id) => {
+                        const selectedIDs = new Set(id);
+                        const selectedRowData = classData.filter((row) =>
+                            selectedIDs.has(row._id)
+                        );
+                        selectedRowData.forEach((eachItem)=> {
+                            console.log(eachItem.email);
+                        });
+                        setSelectedRow(id);
+                        console.log(selectedRow);}}
                 />
             ) : (
                 <div>Loading data...</div>
