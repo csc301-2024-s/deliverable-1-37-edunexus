@@ -1,17 +1,21 @@
-const {app, BrowserWindow, ipcMain, dialog} = require('electron');
+const {app, BrowserWindow, ipcMain} = require('electron');
 
-// Import for report generation
-const {generateReport} = require('./report/reportGenerator');
+// TODO: REPORT GENERATION IS BROKEN DUE TO SHARP DEPENDENCY
+// Import for report generation - BROKEN
+// const {generateReport} = require('./report/reportGenerator');
 // const path = require('path');
-const fs = require('fs');
-
-// const path = require('path');
-
-const { getAllClass } = require('./database/database');
-// For login authentication
-const { checkUserPassword } = require('./database/database');
+// const fs = require('fs');
 
 const isDev = !app.isPackaged;
+
+
+const db = require('./database/database');
+
+
+// Connect and initialize db
+let dbPath = (isDev ? './edunexus.db' : process.resourcesPath + '/edunexus.db');
+db.connectDB(dbPath);
+db.initDB();
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
@@ -70,46 +74,58 @@ app.on('activate', () => {
 // code. You can also put them in separate files and import them here.
 
 
+
+// TODO: The sharp package utilized causes issues during build
 ipcMain.on('request-report-generation', async (event, studentId) => {
     try {
-        console.log('received report request');
-        const reportPath = await generateReport(studentId);
+        console.log('received report request for student: ', studentId);
+        // const reportPath = await generateReport(studentId);
 
-        const {filePath} = await dialog.showSaveDialog({
-            buttonLabel: 'Save Report',
-            defaultPath: `report_${studentId}.pdf`,
-            filters: [
-                {name: 'PDF Documents', extensions: ['pdf']}
-            ]
-        });
+        // const {filePath} = await dialog.showSaveDialog({
+        //     buttonLabel: 'Save Report',
+        //     defaultPath: `report_${studentId}.pdf`,
+        //     filters: [
+        //         {name: 'PDF Documents', extensions: ['pdf']}
+        //     ]
+        // });
 
-        if (filePath) {
-            try {
-                fs.copyFileSync(reportPath, filePath);
-                fs.unlinkSync(reportPath);
-                event.sender.send('report-generation-complete', filePath);
-            } catch (error) {
-                console.error('Error moving the file:', error);
-                event.sender.send('report-generation-failed', error.message);
-            }
-        } else {
-            event.sender.send('report-generation-cancelled');
-            fs.unlinkSync(reportPath);
-        }
+        // if (filePath) {
+        //     try {
+        //         fs.copyFileSync(reportPath, filePath);
+        //         fs.unlinkSync(reportPath);
+        //         event.sender.send('report-generation-complete', filePath);
+        //     } catch (error) {
+        //         console.error('Error moving the file:', error);
+        //         event.sender.send('report-generation-failed', error.message);
+        //     }
+        // } else {
+        //     event.sender.send('report-generation-cancelled');
+        //     fs.unlinkSync(reportPath);
+        // }
     } catch (error) {
         console.error('Error generating report:', error);
         event.sender.send('report-generation-failed', error.message);
     }
 });
 
-ipcMain.on('load-sign-in', async (event, teacherId) => {
-    var temp = getAllClass();
-    console.log(temp);
+ipcMain.on('get-classes-by-teacher', async (event, teacher_id) => {
+    if (isDev) console.log('received from frontend ' + teacher_id);
+    try {
+        const classes = await db.getAllClass();
+        console.log('classes = ' + classes);
+        const classesForTeacher = classes
+            .filter(cls => cls.teacherNumber === teacher_id)
+            .map(cls => ({ id: cls.id, name: cls.name }));
+
+        event.sender.send('classes-for-teacher', classesForTeacher);
+    } catch (error) {
+        event.sender.send('classes-for-teacher', { error: error.message });
+    }
 });
 
 ipcMain.on('login-authentication', async (event, data) => {
     const {username, password} = data;
-    const loginSuccess = await checkUserPassword(username, password);
+    const loginSuccess = await db.checkUserPassword(username, password);
 
     if (loginSuccess) {
         event.sender.send('login-success');
@@ -118,62 +134,45 @@ ipcMain.on('login-authentication', async (event, data) => {
     }
 });
 
-// function handleSignupData(event, args) {
-//     saveUserDataToDatabase(args.username, args.email, args.password)
-//         .then(result => {
-//             event.reply('signupResponse', result);
-//         })
-//         .catch(error => {
-//             event.reply('signupResponse', {success: false, error: error.message});
-//         });
-// }
+ipcMain.on('get-datagrid-by-class', async (event, class_id) => {
+    if (isDev) console.log(`received from frontend - datagrid for class ${class_id}`);
 
-// OTHER IMPLEMENTATIONS
-// ---------------------------------------------------------------------------
+    try {
+        const datagrid_items = await db.getStudentAndMarkByClass(class_id);
+        try {
+            const datagrid_columns = await db.getMarkNameByClass(class_id);
 
+            console.log({columns: datagrid_columns, items: datagrid_items});
 
-// let mainWindow;
+            event.sender.send('datagrid-for-class', {columns: datagrid_columns, items: datagrid_items});
+        } catch (error) {
+            event.sender.send('datagrid-for-class', {error: error.message});
+        }
+    } catch (error) {
+        event.sender.send('datagrid-for-class', {error: error.message});
+    }
+});
 
-// ipcMain.on('signupData', handleSignupData);
+ipcMain.on('get-student', async (event, studentNumber) => {
+    // if (isDev) console.log(`received from frontend - get student ${studentNumber}`);
 
-//   ipcMain.on('loginData', async (event, args) => {
-//     try {
-//         const user = await verifyUser(args.email, args.password);
-//         if (user) {
-//           const safeUser = { id: user.id, name: user.name, email: user.email };
-//           event.reply('loginResponse', { success: true, user: safeUser });
-//         } else {
-//           event.reply('loginResponse', { success: false, error: 'Invalid credentials' });
-//         }
-//     } catch (error) {
-//         event.reply('loginResponse', { success: false, error: error.message });
-//     }
+    try {
+        const student = await db.getStudent(studentNumber);
+        event.sender.send('get-student-response', student);
+    } catch (error) {
+        event.sender.send('get-student-response', {error: error.message});
+    }
+});
 
+ipcMain.on('get-student-marks', async (event, studentNumber) => {
+    if (isDev) console.log(`received from frontend - get student marks ${studentNumber}`);
 
-// Set for delete
-//
-// async function initializeDatabase() {
-//   try {
-//     await createUsersTable();
-//     console.log('Users table is ready.');
-//   } catch (error) {
-//     console.error('Error creating users table:', error);
-//   }
-// }
-
-// async function saveUserDataToDatabase(username, email, password) {
-//   try {
-//     const existingUser = await getUserByEmail(email);
-//     if (existingUser) {
-//       return { success: false, error: 'Email already in use' };
-//     }
-
-//     const userId = await insertUser(username, email, password);
-//     return { success: true, userId };
-//   } catch (error) {
-//     if (error.code === 'SQLITE_CONSTRAINT') {
-//       return { success: false, error: 'Email already in use' };
-//     }
-//     return { success: false, error: error.message };
-//   }
-// }
+    try {
+        const marks = await db.getStudentMark(studentNumber);
+        // console.log('marks = ' + marks);
+        console.log(marks);
+        event.sender.send('get-student-marks-response', marks);
+    } catch (error) {
+        event.sender.send('get-student-marks-response', {error: error.message});
+    }
+});

@@ -3,65 +3,76 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
 // Create a new database if it does not exist, and open database for read and write
-let db = new sqlite3.Database(__dirname + '/edunexus.db', sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE, (err) => {
-    if (err) {
-        return err.message;
-    }
-});
+let db;
 
+function connectDB(path) {
+    db = new sqlite3.Database(path, sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE, (err) => {
+        if (err) {
+            return err.message;
+        }
+    });
+}
 
 // Create tables if not created
-db.parallelize(() => {
-    db.run(`CREATE TABLE IF NOT EXISTS student (
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
-          studentNumber INTEGER UNIQUE,
-          name TEXT NOT NULL,
-          age INTEGER NOT NULL
-          )`)
-        .run(`CREATE TABLE IF NOT EXISTS teacher (
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
-          teacherNumber INTEGER UNIQUE,
-          name TEXT NOT NULL UNIQUE
-          )`)
-        .run(`CREATE TABLE IF NOT EXISTS subject (
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
-          name TEXT NOT NULL UNIQUE
-          )`)
-        .run(`CREATE TABLE IF NOT EXISTS user (
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
-          username TEXT NOT NULL UNIQUE,
-          password TEXT NOT NULL
-          )`)
-        .run('PRAGMA foreign_keys = ON');
-});
-db.serialize(() => {
-    db.run(`CREATE TABLE IF NOT EXISTS class (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT NOT NULL,
-            year INTEGER NOT NULL,
-            grade INTEGER NOT NULL,
-            teacherNumber INTEGER REFERENCES teacher (teacherNumber),
-            subjectID INTEGER REFERENCES subject (id)
-            )`)
-        .run(`CREATE TABLE IF NOT EXISTS mark (
-            name TEXT NOT NULL,
-            mark INTEGER NOT NULL,
-            studentNumber INTEGER REFERENCES student (studentNumber),
-            classID INTEGER REFERENCES class (id),
-            PRIMARY KEY (name, studentNumber, classID)
-            )`);
-});
-
+function initDB() {
+    try {
+        db.parallelize(() => {
+            db.run(`CREATE TABLE IF NOT EXISTS student (
+                  id INTEGER PRIMARY KEY AUTOINCREMENT,
+                  studentNumber INTEGER UNIQUE,
+                  name TEXT NOT NULL,
+                  age INTEGER NOT NULL
+                  )`)
+                .run(`CREATE TABLE IF NOT EXISTS teacher (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    teacherNumber INTEGER UNIQUE,
+                    name TEXT NOT NULL UNIQUE
+                    )`)
+                .run(`CREATE TABLE IF NOT EXISTS subject (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    name TEXT NOT NULL UNIQUE
+                    )`)
+                .run(`CREATE TABLE IF NOT EXISTS user (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    username TEXT NOT NULL UNIQUE,
+                    password TEXT NOT NULL,
+                    teacherNumber INTEGER
+                    )`)
+                .run('PRAGMA foreign_keys = ON');
+        });
+        db.serialize(() => {
+            db.run(`CREATE TABLE IF NOT EXISTS class (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    name TEXT NOT NULL,
+                    year INTEGER NOT NULL,
+                    grade INTEGER NOT NULL,
+                    teacherNumber INTEGER REFERENCES teacher (teacherNumber),
+                    subjectID INTEGER REFERENCES subject (id)
+                    )`)
+                .run(`CREATE TABLE IF NOT EXISTS mark (
+                    name TEXT NOT NULL,
+                    mark INTEGER NOT NULL,
+                    studentNumber INTEGER REFERENCES student (studentNumber),
+                    classID INTEGER REFERENCES class (id),
+                    PRIMARY KEY (name, studentNumber, classID)
+                    )`);
+        });
+        return true;
+    }
+    catch (err) {
+        return err.message;
+    }
+}
 // user related functions
 // password is not encrypted for now as we're not sure where will it be encrypted
-function insertUser(username, password) {
+function insertUser(username, password, teacherNumber = 0) {
     return new Promise((resolve, reject) => {
-        const sql = 'INSERT INTO user (username, password) VALUES(?, ?)';
+        const sql = 'INSERT INTO user (username, password, teacherNumber) VALUES(?, ?, ?)';
         bcrypt.hash(password, saltRounds, function(err, hash) {
             if (err) {
                 reject (err);
             }
-            db.run(sql, [username, hash], function (err) {
+            db.run(sql, [username, hash, teacherNumber], function (err) {
                 if (err) {
                     reject(err);
                 }
@@ -93,12 +104,14 @@ function checkUserPassword(username, password) {
             if (!user) {
                 resolve(false);
             }
-            bcrypt.compare(password, user.password, function(err, result) {
-                if (err) {
-                    reject(err);
-                }
-                resolve(result);
-            });
+            else {
+                bcrypt.compare(password, user.password, function(err, result) {
+                    if (err) {
+                        reject(err);
+                    }
+                    resolve(result);
+                });
+            }
         });
     });
 }
@@ -132,6 +145,17 @@ function updateUserPassword(username, password) {
     });
 }
 
+function updateUserTeacherNumber(username, teacherNumber) {
+    return new Promise((resolve, reject) => {
+        const sql = 'UPDATE user SET teacherNumber = ? WHERE username = ?';
+        db.run(sql, [username, teacherNumber], function (err) {
+            if (err) {
+                reject(err);
+            }
+            resolve(this.changes);
+        });
+    });
+}
 
 // student related
 // may need to check for integer for studentNumber and age
@@ -384,7 +408,7 @@ function insertMark(name, mark, studentNumber, classID) {
 
 function getAllMark() {
     return new Promise((resolve, reject) => {
-        const sql = 'SELECT mark, studentNumber FROM mark';
+        const sql = 'SELECT * FROM mark';
         db.all(sql, (err, mark) => {
             if (err) {
                 reject(err);
@@ -432,7 +456,7 @@ function getStudentAvgMarkByYear(studentNumber, year) {
 
 function getClassMark(classID) {
     return new Promise((resolve, reject) => {
-        const sql = 'SELECT mark, studentNumber FROM mark WHERE classID = ?';
+        const sql = 'SELECT * FROM mark WHERE classID = ?';
         db.all(sql, [classID], (err, mark) => {
             if (err) {
                 reject(err);
@@ -454,6 +478,8 @@ function getStudentMarkByClass(studentNumber, classID) {
     });
 }
 
+
+// TODO: Fix bug: it only fetchs for one subject only
 function getStudentMark(studentNumber) {
     return new Promise((resolve, reject) => {
         let sql = 'SELECT DISTINCT classID FROM mark WHERE studentNumber = ?';
@@ -461,9 +487,9 @@ function getStudentMark(studentNumber) {
             if (err) {
                 reject(err);
             }
-            let res = [];
+            let res = {};
             for (let i = 0; i < classIDs.length; i++) {
-                let classID = classIDs[0].classID;
+                let classID = classIDs[i].classID;
                 let className = (await getClassName(classID)).name;
                 let m = {};
                 let mark = await getStudentMarkByClass(studentNumber, classID);
@@ -481,6 +507,18 @@ function getStudentMarksByYear(studentNumber, year) {
     return new Promise((resolve, reject) => {
         const sql = 'SELECT mark, classID FROM mark WHERE studentNumber = ? AND year = ?';
         db.all(sql, [studentNumber, year], (err, mark) => {
+            if (err) {
+                reject(err);
+            }
+            resolve(mark);
+        });
+    });
+}
+
+function getMarkNameByClass(classID) {
+    return new Promise((resolve, reject) => {
+        const sql = 'SELECT DISTINCT name FROM mark WHERE classID = ?';
+        db.all(sql, [classID], (err, mark) => {
             if (err) {
                 reject(err);
             }
@@ -530,12 +568,16 @@ function getStudentAndMarkByClass(classID) {
 }
 
 module.exports = {
+    // Database
+    connectDB,
+    initDB,
     // User
     insertUser,
     getUser,
     checkUserPassword,
     deleteUser,
     updateUserPassword,
+    updateUserTeacherNumber,
     // Student
     insertStudent,
     getStudent,
@@ -565,6 +607,7 @@ module.exports = {
     getClassMark,
     getStudentMark,
     getStudentMarksByYear,
+    getMarkNameByClass,
     deleteMark,
     // Mixed
     getStudentAndMarkByClass

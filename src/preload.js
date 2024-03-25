@@ -3,18 +3,18 @@
 
 const {contextBridge, ipcRenderer} = require('electron');
 
-contextBridge.exposeInMainWorld('api', {
-    // pingPong: (title) => ipcRenderer.send('ping-pong', title)
+// Add new channel to the validChannels arrays
+let validChannels = ['loginData', 'signupData', 'request-report-generation', 'get-classes-by-teacher', 'get-datagrid-by-class', 'get-student', 'get-student-marks', 'login-authentication'];
+let validReceiveChannels = ['loginResponse', 'signupResponse', 'report-generation-complete', 'report-generation-failed', 'classes-for-teacher', 'datagrid-for-class', 'get-student-response', 'get-student-marks-response', 'login-failed', 'login-success'];
 
+contextBridge.exposeInMainWorld('api', {
     send: (channel, data) => {
-        let validChannels = ['loginData', 'signupData', 'request-report-generation', 'login-authentication'];
         if (validChannels.includes(channel)) {
             ipcRenderer.send(channel, data);
         }
     },
     receive: (channel, func) => {
-        let validChannels = ['loginResponse', 'signupResponse', 'report-generation-complete', 'report-generation-failed', 'login-failed', 'login-success'];
-        if (validChannels.includes(channel)) {
+        if (validReceiveChannels.includes(channel)) {
             ipcRenderer.on(channel, (event, ...args) => func(...args));
         }
     }

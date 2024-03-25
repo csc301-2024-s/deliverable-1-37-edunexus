@@ -29,24 +29,15 @@ EduNexus is an educational support application designed to automate and personal
 - **Simplified Workflow**: Easily upload data, generate reports, and download PDFs through a streamlined interface.
 
 
-
 ## Installation
 
-Download and clone the repository. 
-
-Navigate to the directory that contains this readme.md
-
-```
-deliverable-1-37-edunexus/deliverables/D2/edunexus/
-```
+Download and clone the repository.
 
 Install all node dependencies:
 
 ```bash
 npm install
 ```
-
-## Run Things
 
 **The Development Environment**
 
@@ -83,18 +74,11 @@ Note: `npm package` will only package for the platform you are currently running
   - [Medium Article](https://medium.com/folkdevelopers/the-ultimate-guide-to-electron-with-react-8df8d73f4c97) *Scroll down to "How to implement Routes in Electron with React"*
   - [Stack Overflow](https://stackoverflow.com/questions/36505404/how-to-use-react-router-with-electron)
 
-[![Review Assignment Due Date](https://classroom.github.com/assets/deadline-readme-button-24ddc0f5d75046c5622901739e7c5dd533143b0c8e959d652212380cedb1ea36.svg)](https://classroom.github.com/a/u3U9Ll19)
-
-[Review our planning.md](../deliverable-1-37-edunexus/main/deliverables/D1/planning.md) *FIX*
-
-[See our Meeting Minutes]() *(pending setup)*
+[See our D3 writeup]
 
 ## Meeting Times
 - Thursday: 7:30-9:00pm during tutorial time (Zoom)
 - Friday: 6:00-7:00pm (Discord)
-
-## Setup
-1. To be filled out when we start coding...
 
 ### Frameworks
 - **Database:** [SQLite](https://www.sqlite.org/index.html)

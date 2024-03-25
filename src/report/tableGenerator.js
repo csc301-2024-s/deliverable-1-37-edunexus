@@ -13,7 +13,7 @@ async function addTableToPDF(doc, tableRows, docWidth = 612) {
     const rowHeight = 20;
     const columnWidths = [90, 90, 90, 230];
     const numRows = 13;
-  
+
     doc.fontSize(10).fillColor('black').font('Helvetica-Bold');
     const headers = ['Subject', 'Student Mark', 'Class Average', 'Subject Comment'];
     doc.rect(startX, startY, sum(columnWidths), rowHeight).fill('#D3D3D3');
