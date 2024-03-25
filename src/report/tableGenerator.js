@@ -59,6 +59,10 @@ function drawTableGrid(doc, numRows, columnWidths, startX, startY, rowHeight) {
     }
 }
 
+/**
+ * This is a docstring for the function.
+ * It describes the purpose of the function, its parameters, and its return value.
+ */
 function sum(array, start = 0, end = array.length) {
     return array.slice(start, end).reduce((acc, val) => acc + val, 0);
 }
