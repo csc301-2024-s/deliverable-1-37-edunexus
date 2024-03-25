@@ -55,15 +55,20 @@ async function generateReport(studentDetails, outputPath) {
 
         if (formattedName.length > 14) {
             const names = formattedName.split(' ');
-            if (names.length > 1) {
-                formattedName = names.slice(0, -1).join(' ') + ' ' + names.slice(-1)[0][0] + '.';
+            if (names.length > 2) {
+                let abbreviatedName = names.slice(0, 2).join(' ');
+                for (let i = 2; i < names.length; i++) {
+                    abbreviatedName += ' ' + names[i][0] + '.';
+                }
+                formattedName = abbreviatedName;
             }
         }
+
         doc.fontSize(12).text(`Name: ${formattedName}`, 150, 120);
 
-        doc.fontSize(12).text(`Class: ${studentDetails.id}`, 280, 120);
+        doc.fontSize(12).text(`Class: ${studentDetails.id}`, 300, 120);
 
-        doc.fontSize(12).text(`Class Teacher: ${'John Doe'}`, 370, 120);
+        doc.fontSize(12).text(`Class Teacher: ${'John Doe'}`, 380, 120);
 
         const tableRows = [
             ['HW1', `${studentDetails.HW1.score}`, `${studentDetails.HW1.average}`, 'Very Good, aim higher!'],
