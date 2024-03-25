@@ -3,57 +3,66 @@ const bcrypt = require('bcrypt');
 const saltRounds = 10;
 
 // Create a new database if it does not exist, and open database for read and write
-let db = new sqlite3.Database( './edunexus.db', sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE, (err) => {
-    if (err) {
-        return err.message;
-    }
-});
+let db;
 
+function connectDB(path) {
+    db = new sqlite3.Database(path, sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE, (err) => {
+        if (err) {
+            return err.message;
+        }
+    });
+}
 
 // Create tables if not created
-db.parallelize(() => {
-    db.run(`CREATE TABLE IF NOT EXISTS student (
-          id INTEGER PRIMARY KEY AUTOINCREMENT,
-          studentNumber INTEGER UNIQUE,
-          name TEXT NOT NULL,
-          age INTEGER NOT NULL
-          )`)
-        .run(`CREATE TABLE IF NOT EXISTS teacher (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            teacherNumber INTEGER UNIQUE,
-            name TEXT NOT NULL UNIQUE
-            )`)
-        .run(`CREATE TABLE IF NOT EXISTS subject (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT NOT NULL UNIQUE
-            )`)
-        .run(`CREATE TABLE IF NOT EXISTS user (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            username TEXT NOT NULL UNIQUE,
-            password TEXT NOT NULL,
-            admin INTEGER NOT NULL,
-            teacherNumber INTEGER
-            )`)
-        .run('PRAGMA foreign_keys = ON');
-});
-db.serialize(() => {
-    db.run(`CREATE TABLE IF NOT EXISTS class (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT NOT NULL,
-            year INTEGER NOT NULL,
-            grade INTEGER NOT NULL,
-            teacherNumber INTEGER REFERENCES teacher (teacherNumber),
-            subjectID INTEGER REFERENCES subject (id)
-            )`)
-        .run(`CREATE TABLE IF NOT EXISTS mark (
-            name TEXT NOT NULL,
-            mark INTEGER NOT NULL,
-            studentNumber INTEGER REFERENCES student (studentNumber),
-            classID INTEGER REFERENCES class (id),
-            PRIMARY KEY (name, studentNumber, classID)
-            )`);
-});
-
+function initDB() {
+    try {
+        db.parallelize(() => {
+            db.run(`CREATE TABLE IF NOT EXISTS student (
+                  id INTEGER PRIMARY KEY AUTOINCREMENT,
+                  studentNumber INTEGER UNIQUE,
+                  name TEXT NOT NULL,
+                  age INTEGER NOT NULL
+                  )`)
+                .run(`CREATE TABLE IF NOT EXISTS teacher (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    teacherNumber INTEGER UNIQUE,
+                    name TEXT NOT NULL UNIQUE
+                    )`)
+                .run(`CREATE TABLE IF NOT EXISTS subject (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    name TEXT NOT NULL UNIQUE
+                    )`)
+                .run(`CREATE TABLE IF NOT EXISTS user (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    username TEXT NOT NULL UNIQUE,
+                    password TEXT NOT NULL,
+                    teacherNumber INTEGER
+                    )`)
+                .run('PRAGMA foreign_keys = ON');
+        });
+        db.serialize(() => {
+            db.run(`CREATE TABLE IF NOT EXISTS class (
+                    id INTEGER PRIMARY KEY AUTOINCREMENT,
+                    name TEXT NOT NULL,
+                    year INTEGER NOT NULL,
+                    grade INTEGER NOT NULL,
+                    teacherNumber INTEGER REFERENCES teacher (teacherNumber),
+                    subjectID INTEGER REFERENCES subject (id)
+                    )`)
+                .run(`CREATE TABLE IF NOT EXISTS mark (
+                    name TEXT NOT NULL,
+                    mark INTEGER NOT NULL,
+                    studentNumber INTEGER REFERENCES student (studentNumber),
+                    classID INTEGER REFERENCES class (id),
+                    PRIMARY KEY (name, studentNumber, classID)
+                    )`);
+        });
+        return true;
+    }
+    catch (err) {
+        return err.message;
+    }
+}
 // user related functions
 function insertUser(username, password, admin = 0, teacherNumber = 0) {
     return new Promise((resolve, reject) => {
@@ -592,6 +601,9 @@ function disconnectDB() {
 }
 
 module.exports = {
+    // Database
+    connectDB,
+    initDB,
     // User
     insertUser,
     getUser,

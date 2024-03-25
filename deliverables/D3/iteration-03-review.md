@@ -1,49 +1,44 @@
-# Your Team Number and Name
-
- > _Note:_ This document is meant to be written during (or shortly after) your review meeting, which should happen fairly close to the due date.      
- >      
- > _Suggestion:_ Have your review meeting a day or two before the due date. This way you will have some time to go over (and edit) this document, and all team members should have a chance to make their contribution.
+# Team 37, EduNexus
 
 
-## Iteration XX - Review & Retrospect
+## Iteration 1 - Review & Retrospect
 
- * When: FILL IN THE DATE WHEN YOU ACTUALLY HAD YOUR REVIEW MEETING
- * Where: PHYSICAL LOCATION AND/OR ONLINE
+> NOTE: We are completing this deliverable without a partner and therefore did not have a partner meeting
+
+ * When: N/A
+ * Where: N/A
 
 ## Process - Reflection
 
 
 #### Q1. What worked well
 
-List **process-related** (i.e. team organization and how you work) decisions and actions that worked well.
+1. EsLint. EsLint forced the team to mantain good code quality. Although painful at first due to some line ending issues
+and having to fix previously negleted code, enabling EsLint ensured that we were staying on top of our code style. This 
+was further helped by us deciding to use pre-commit hooks that force EsLint. 
+2. One effective approach that contributed positively to our software engineering project was the implementation of pair programming. This collaborative technique proved particularly beneficial when team members with specialized expertise in certain areas were able to mentor and assist others, thereby accelerating the overall programming process. A notable instance of this was when a team member encountered difficulties in comprehending specific aspects of our React code. Through pair programming, they gained a clearer understanding and were able to progress more efficiently. This method not only facilitated knowledge sharing but also enhanced the cohesiveness and productivity of our team.
+3. Another successful strategy in our project was conducting group calls during the merging of our branches. This collaborative approach significantly expedited the merging process and reduced the likelihood of errors. Moreover, the responsiveness and willingness of all team members to assist one another were commendable, contributing to a smooth and efficient workflow. As a result, the development process in D3 was significantly smoother compared to D2
 
-
- * 2 - 4 important decisions, processes, actions, or anything else that worked well for you, ordered from most to least important.
- * Give a supporting argument about what makes you think that way.
- * Feel free to refer/link to process artifact(s).
 
 #### Q2. What did not work well
 
-List **process-related** (i.e. team organization and how you work) decisions and actions that did not work well.
-
- * 2 - 4 important decisions, processes, actions, or anything else that did not work well for you, ordered from most to least important.
- * Give a supporting argument about what makes you think that way.
- * Feel free to refer/link to process artifact(s).
+1. During the development of D2, we operated in separate sub-teams with limited communication. This led to discrepancies in expectations between the different groups, highlighting the importance of regular interaction and alignment among all team members.
+2. An area for improvement in our team is to prioritize completing tasks well in advance of their deadlines. By doing so, we can reduce stress for all members and create a more comfortable working environment. Additionally, scheduling collaborative work sessions earlier in the timeline can help mitigate any scheduling conflicts that may arise among group members, ensuring a smoother and more efficient workflow.
 
 
 #### Q3(a). Planned changes
 
-List any **process-related** (i.e. team organization and/or how you work) changes you are planning to make (if there are any)
-
- * Ordered from most to least important, with supporting argument explaining a change.
+ * A planned adjustment for our team is to increase the frequency of our in-person collaborative work sessions. While virtual sessions have proven valuable, we believe that face-to-face interactions will further enhance our ability to support each other and improve the overall efficiency of our workflow.
 
 #### Q3(b). Integration & Next steps
 Briefly explain how you integrated the previously developed individuals components as one product (i.e. How did you be combine the code from 3 sub-repos previously created) and if/how the assignment was helpful or not helpful.
 
- * Keep this very short (1-3 lines).
+ * We integrated code from various sub-branches, establishing a partially functional prototype, then we focus towards actively building upon the prototype.
 
 
 ## Product - Review
+
+> NOTE: We are completing this deliverable without a partner and therefore did not perform a demo.
 
 #### Q4. How was your product demo?
  * How did you prepare your demo?
