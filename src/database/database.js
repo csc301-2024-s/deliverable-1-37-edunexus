@@ -161,6 +161,18 @@ function insertStudent(name, studentNumber, age) {
     });
 }
 
+function updateStudentName(name, studentNumber) {
+    return new Promise((resolve, reject) => {
+        const sql = 'UPDATE student SET name = ? WHERE studentNumber = ?';
+        db.run(sql, [name, studentNumber], function (err) {
+            if (err) {
+                return reject(err);
+            }
+            return resolve(this.changes);
+        });
+    });
+}
+
 function getStudent(studentNumber) {
     return new Promise((resolve, reject) => {
         const sql = 'SELECT * FROM student WHERE studentNumber = ?';
@@ -384,6 +396,18 @@ function deleteClass(id) {
 
 // mark related
 
+function updateMark(newMark, studentNumber, name, classID) {
+    return new Promise((resolve, reject) => {
+        const sql = 'UPDATE mark SET mark = ? WHERE studentNumber = ? AND name = ? AND classID = ?';
+        db.run(sql, [newMark, studentNumber, name,  classID], function (err) {
+            if (err) {
+                return reject(err);
+            }
+            return resolve(this.changes);
+        });
+    });
+}
+
 function insertMark(name, mark, studentNumber, classID) {
     return new Promise((resolve, reject) => {
         const sql = 'INSERT INTO mark (name, mark, studentNumber, classID) VALUES(?, ?, ?, ?)';
@@ -557,6 +581,17 @@ function getStudentAndMarkByClass(classID) {
     });
 }
 
+// Row related
+function updateRow(diff) {
+    if ('studentName' in diff) {
+        updateStudentName(diff.studentName, diff.id);
+    } else {
+        /* eslint-disable no-unused-vars */
+        const { classId, className, id, ...rest} = diff;
+        updateMark(Object.values(rest)[0], diff.id,  Object.keys(rest)[0], diff.classId);
+    }
+}
+
 module.exports = {
     // User
     insertUser,
@@ -597,5 +632,6 @@ module.exports = {
     getMarkNameByClass,
     deleteMark,
     // Mixed
-    getStudentAndMarkByClass
+    getStudentAndMarkByClass,
+    updateRow
 };

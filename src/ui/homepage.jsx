@@ -33,6 +33,7 @@ const Homepage = ({ onLogout, classes }) => {
     React.useEffect(() => {
         // Function to handle the data received from the main process
 
+        // staticColumns are the columns in which there is no number incrementor or decrementor?
         const staticColumns = [
             {field: 'id', headerName: 'Student ID', width: 90, editable: false,
                 align: 'center',
@@ -73,7 +74,7 @@ const Homepage = ({ onLogout, classes }) => {
             // TODO not removing the listener will cause a memory leak but there is currently an error in this
             // window.api.remove('datagrid-for-class', handleDataResponse);
         };
-    }, [selectedClass]);
+    }, [selectedClass]); 
 
     return (
         <Box className="grid-container">

@@ -13,7 +13,7 @@ const Dashboard = ({classes, selectedClass, classColumns, classData}) => {
     const [selectedRow, setSelectedRow] = React.useState([]);
 
     if (className) {
-        console.log(className.name); // This will log "English"
+        console.log(className); // This will log "English"
     } else {
         console.log('No item found with id:', selectedClass);
         return <div>Loading class data...</div>;
@@ -22,7 +22,7 @@ const Dashboard = ({classes, selectedClass, classColumns, classData}) => {
     return (
         <div>
             <h2>{className.name}</h2>
-            <DataGridDemo classColumns={classColumns} classData={classData} setSelectedRow={setSelectedRow} selectedRow={selectedRow}/>
+            <DataGridDemo classColumns={classColumns} className={className} classData={classData} setSelectedRow={setSelectedRow} selectedRow={selectedRow}/>
             <Buttons selectedRow={selectedRow}/>
         </div>
     );

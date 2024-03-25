@@ -158,3 +158,13 @@ ipcMain.on('get-student-marks', async (event, studentNumber) => {
         event.sender.send('get-student-marks-response', {error: error.message});
     }
 });
+
+// Used to update the row of a student in the database
+ipcMain.on('update-row', async (event, row_data) => {
+    try {
+        await db.updateRow(row_data);
+    } catch (error) {
+        event.sender.send('update-row-response', {error: error.message});
+    }
+});
+
