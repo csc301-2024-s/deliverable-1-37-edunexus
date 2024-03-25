@@ -162,7 +162,6 @@ ipcMain.on('get-student-marks', async (event, studentNumber) => {
 ipcMain.on('insert-student', async (event, student) => {
     try {
         const response = await db.insertStudent(student.name, student.studentNumber, student.age);
-        console.log(response);
         event.sender.send('insert-student-response', response);
     } catch (error) {
         event.sender.send('insert-student-response', {error: error.message});
@@ -172,26 +171,26 @@ ipcMain.on('insert-student', async (event, student) => {
 ipcMain.on('insert-user', async (event, user) => {
     try {
         const response = await db.insertUser(user.username, user.password);
-        console.log(response);
+        event.sender.send('insert-user-response', response);
     } catch (error) {
-        console.log(error.message);
+        event.sender.send('insert-user-response', {error: error.message});
     }
 });
 
 ipcMain.on('insert-class', async (event, classObject) => {
     try {
         const response = await db.insertClass(classObject.name, classObject.year, classObject.grade, classObject.teacherNumber, 1);
-        console.log(response);
+        event.sender.send('insert-class-response', response);
     } catch (error) {
-        console.log(error.message);
+        event.sender.send('insert-class-response', {error: error.message});
     }
 });
 
 ipcMain.on('insert-teacher', async (event, teacher) => {
     try {
         const response = await db.insertTeacher(teacher.name, teacher.teacherNumber);
-        console.log(response);
+        event.sender.send('insert-teacher-response', response);
     } catch (error) {
-        console.log(error.message);
+        event.sender.send('insert-teacher-response', {error: error.message});
     }
 });

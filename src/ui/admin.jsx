@@ -26,67 +26,86 @@ function Admin() {
 
 
     const handleAddUser = () => {
-        window.api.send('insert-user', {username: username, password: password});
-        window.api.receive('insert-user-response', (response) => {
-            // Handle the response  
-            if (response) {
-                // Object created successfully
-                setUserAddSuccess('User added successfully');
-                setUserAddError('');
-            } else {
+        const responseHandler = (response) => {
+            if (response.error) {
                 // Error occurred
                 setUserAddError('Error adding user');
                 setUserAddSuccess('');
+            } else {
+                // Object created successfully
+                setUserAddSuccess('User added successfully');
+                setUserAddError('');
             }
-        });
+        };
+
+        window.api.send('insert-user', {username: username, password: password});
+        window.api.receive('insert-user-response', responseHandler);
+        return () => {
+            window.api.remove('insert-user-response', responseHandler);
+        };
     };
 
     const handleAddStudent = () => {
-        window.api.send('insert-student', {name: studentName, studentNumber: studentNumber, age: age});
-        window.api.receive('insert-student-response', (response) => {
-            // Handle the response  
-            if (response) {
+        const responseHandler = (response) => {
+            if (response.error) {
+                // Error occurred
+                setStudentAddError('Error adding student: student number is already used');
+                setStudentAddSuccess('');
+            } else {
                 // Object created successfully
                 setStudentAddSuccess('Student added successfully');
                 setStudentAddError('');
-            } else {
-                // Error occurred
-                setStudentAddError('Error adding student');
-                setStudentAddSuccess('');
             }
-        });
+        };
+
+        window.api.send('insert-student', {name: studentName, studentNumber: studentNumber, age: age});
+        // TODO: Add response handling
+        window.api.receive('insert-student-response', responseHandler);
+        return () => {
+            window.api.remove('insert-student-response', responseHandler);
+        };
     }; 
 
     const handleAddClass = () => {
-        window.api.send('insert-class', {name: className, year: year, grade: grade, teacherNumber: classTeacherNumber});
-        window.api.receive('insert-class-response', (response) => {
-            // Handle the response  
-            if (response) {
+        const responseHandler = (response) => {
+            if (response.error) {
+                // Error occurred
+                setClassAddError('Error adding class: teacher number is not valid');
+                setClassAddSuccess('');
+            } else {
                 // Object created successfully
                 setClassAddSuccess('Class added successfully');
                 setClassAddError('');
-            } else {
-                // Error occurred
-                setClassAddError('Error adding class');
-                setClassAddSuccess('');
             }
-        });
+        };
+
+        window.api.send('insert-class', {name: className, year: year, grade: grade, teacherNumber: classTeacherNumber});
+        // TODO: Add response handling
+        window.api.receive('insert-class-response', responseHandler);
+        return () => {
+            window.api.remove('insert-class-response', responseHandler);
+        };
     };
 
     const handleAddTeacher = () => {
-        window.api.send('insert-teacher', {name: teacherName, teacherNumber: teacherNumber});
-        window.api.receive('insert-teacher-response', (response) => {
-            // Handle the response  
-            if (response) {
+        const responseHandler = (response) => {
+            if (response.error) {
+                // Error occurred
+                setTeacherAddError('Error adding teacher: teacher number is already used');
+                setTeacherAddSuccess('');
+            } else {
                 // Object created successfully
                 setTeacherAddSuccess('Teacher added successfully');
                 setTeacherAddError('');
-            } else {
-                // Error occurred
-                setTeacherAddError('Error adding teacher');
-                setTeacherAddSuccess('');
             }
-        });
+        };
+
+        window.api.send('insert-teacher', {name: teacherName, teacherNumber: teacherNumber});
+        // TODO: Add response handling
+        window.api.receive('insert-teacher-response', responseHandler);
+        return () => {
+            window.api.remove('insert-teacher-response', responseHandler);
+        };
     };
 
     return (

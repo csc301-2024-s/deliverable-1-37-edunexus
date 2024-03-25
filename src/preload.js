@@ -8,9 +8,14 @@ let validChannels = ['loginData', 'signupData', 'request-report-generation', 'ge
     'insert-student',
     'insert-user',
     'insert-class',
-    'insert-teacher'];
+    'insert-teacher'
+];
 let validReceiveChannels = ['loginResponse', 'signupResponse', 'report-generation-complete', 'report-generation-failed', 'classes-for-teacher', 'datagrid-for-class', 'get-student-response', 'get-student-marks-response',
-    'insert-student-response'];
+    'insert-student-response',
+    'insert-user-response',
+    'insert-class-response',
+    'insert-teacher-response'
+];
 
 contextBridge.exposeInMainWorld('api', {
     send: (channel, data) => {
