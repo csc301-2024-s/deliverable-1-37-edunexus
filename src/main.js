@@ -159,21 +159,15 @@ ipcMain.on(
                 pdfPaths.push(reportPath);
             }
 
-            if (pdfPaths.length === 1) {
-                const singlePdfPath = pdfPaths[0];
-                const newPdfPath = path.join(path.dirname(singlePdfPath), `student_${filteredAndEnrichedData[0].id}.pdf`);
-                fs.renameSync(singlePdfPath, newPdfPath);
-                event.sender.send('report-generation-complete', newPdfPath);
-            } else {
-                const zipDirectory = path.join(__dirname, 'path', 'to', 'reports');
-                const zipFileName = `class_reports_${Date.now()}.zip`;
-                const zipPath = path.join(zipDirectory, zipFileName);
+            const zipDirectory = path.join(__dirname, 'path', 'to', 'reports');
+            const zipFileName = 'reports.zip';
+            const zipPath = path.join(zipDirectory, zipFileName);
 
-                ensureDirectoryExists(zipPath);
+            ensureDirectoryExists(zipPath);
 
-                await createZipFromPDFs(pdfPaths, zipPath);
-                event.sender.send('report-generation-complete', zipPath);
-            }
+            await createZipFromPDFs(pdfPaths, zipPath);
+            event.sender.send('report-generation-complete', zipPath);
+            
         } catch (error) {
             console.error('Error in report generation:', error);
             event.sender.send('report-generation-failed', error.message);
