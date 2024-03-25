@@ -1,7 +1,6 @@
 const { contextBridge, ipcRenderer } = require('electron');
 
-// Define the channels that can be used for sending and receiving messages
-// to ensure that only valid channels are used for IPC (Inter-Process Communication).
+
 let validChannels = [
     'loginData',
     'signupData',
@@ -26,31 +25,13 @@ let validReceiveChannels = [
     'login-success'
 ];
 
-
-/**
- * Expose a secure API to the renderer process using the `contextBridge` API.
- * This API will be available in the renderer under `window.api`.
- */
 contextBridge.exposeInMainWorld('api', {
-    /**
-     * Sends an IPC message to the main process, but only if the channel is valid.
-     *
-     * @param {string} channel - The channel name to send the data to.
-     * @param {any} data - The data to send to the main process.
-     */
     send: (channel, data) => {
         if (validChannels.includes(channel)) {
             ipcRenderer.send(channel, data);
         }
     },
 
-    /**
-     * Registers a listener for an IPC message from the main process, but only if the channel is valid.
-     *
-     * @param {string} channel - The channel name to listen to.
-     * @param {function} func - The callback function to invoke when the message is received.
-     * @returns {function} A function that removes the listener when called.
-     */
     receive: (channel, func) => {
         if (validReceiveChannels.includes(channel)) {
             const listener = (event, ...args) => func(...args);

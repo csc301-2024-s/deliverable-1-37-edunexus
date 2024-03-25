@@ -50,6 +50,7 @@
     "@mui/material": "^5.15.10",
     "@mui/x-charts": "^6.19.5",
     "@mui/x-data-grid": "^6.19.4",
+    "archiver": "^7.0.1",
     "aws-sdk": "^2.1576.0",
     "bcrypt": "^5.1.1",
     "electron-squirrel-startup": "^1.0.0",

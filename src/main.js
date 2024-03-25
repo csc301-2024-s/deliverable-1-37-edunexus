@@ -1,15 +1,12 @@
+const {generateReport} = require('./report/reportGenerator');
 const {app, BrowserWindow, ipcMain} = require('electron');
+const db = require('./database/database');
+const archiver = require('archiver');
+const path = require('path');
+const fs = require('fs');
 
-// TODO: REPORT GENERATION IS BROKEN DUE TO SHARP DEPENDENCY
-// Import for report generation - BROKEN
-// const {generateReport} = require('./report/reportGenerator');
-// const path = require('path');
-// const fs = require('fs');
 
 const isDev = !app.isPackaged;
-
-
-const db = require('./database/database');
 
 
 // Connect and initialize db
@@ -30,6 +27,7 @@ const createWindow = () => {
         webPreferences: {
             // eslint-disable-next-line no-undef
             preload: MAIN_WINDOW_PRELOAD_WEBPACK_ENTRY,
+            contextIsolation: true,
         },
     });
 
@@ -70,43 +68,102 @@ app.on('activate', () => {
     }
 });
 
-// In this file you can include the rest of your app's specific main process
-// code. You can also put them in separate files and import them here.
+/**
+ * This function creates a zip file from a list of PDF files.
+ * @param {Array} pdfPaths - The paths of the PDF files to be zipped.
+ * @param {string} zipPath - The path where the zip file will be saved.
+ * @returns {Promise} - A promise that resolves when the zip file is created.
+ */
+function createZipFromPDFs(pdfPaths, zipPath) {
+    console.log('Creating zip: ', zipPath);
+    return new Promise((resolve, reject) => {
+        const output = fs.createWriteStream(zipPath);
+        const archive = archiver('zip', {
+            zlib: { level: 9 }
+        });
 
+        output.on('close', function() {
+            console.log(archive.pointer() + ' total bytes');
+            console.log('Archiver has been finalized and the output file descriptor has closed.');
+            resolve();
+        });
 
+        archive.on('error', function(err) {
+            reject(err);
+        });
 
-// TODO: The sharp package utilized causes issues during build
-ipcMain.on('request-report-generation', async (event, studentId) => {
-    try {
-        console.log('received report request for student: ', studentId);
-        // const reportPath = await generateReport(studentId);
+        archive.pipe(output);
 
-        // const {filePath} = await dialog.showSaveDialog({
-        //     buttonLabel: 'Save Report',
-        //     defaultPath: `report_${studentId}.pdf`,
-        //     filters: [
-        //         {name: 'PDF Documents', extensions: ['pdf']}
-        //     ]
-        // });
+        pdfPaths.forEach(pdfPath => {
+            archive.file(pdfPath, { name: path.basename(pdfPath) });
+        });
 
-        // if (filePath) {
-        //     try {
-        //         fs.copyFileSync(reportPath, filePath);
-        //         fs.unlinkSync(reportPath);
-        //         event.sender.send('report-generation-complete', filePath);
-        //     } catch (error) {
-        //         console.error('Error moving the file:', error);
-        //         event.sender.send('report-generation-failed', error.message);
-        //     }
-        // } else {
-        //     event.sender.send('report-generation-cancelled');
-        //     fs.unlinkSync(reportPath);
-        // }
-    } catch (error) {
-        console.error('Error generating report:', error);
-        event.sender.send('report-generation-failed', error.message);
+        archive.finalize();
+    });
+}
+
+/**
+ * This function ensures that a directory exists.
+ * If the directory does not exist, it will be created.
+ * @param {string} filePath - The path of the directory to be ensured.
+ */
+function ensureDirectoryExists(filePath) {
+    const dirname = path.dirname(filePath);
+    if (fs.existsSync(dirname)) {
+        return true;
     }
-});
+    ensureDirectoryExists(dirname);
+    fs.mkdirSync(dirname);
+}
+
+/**
+ * This function is used to handle the 'request-report-generation' event.
+ * It generates a report for the provided data and sends the report path back to the sender.
+ * In case of an error, it sends the error message back to the sender.
+ */
+ipcMain.on(
+    'request-report-generation',
+    async (event, filteredAndEnrichedData) => {
+        try {
+
+            if (filteredAndEnrichedData.length === 0) {
+                event.sender.send('report-generation-failed', 'No data found for selected class');
+                return;
+            }
+
+            const pdfPaths = [];
+
+            for (const studentDetails of filteredAndEnrichedData) {
+                let outputPath;
+                if (filteredAndEnrichedData.length === 1) {
+                    outputPath = path.join(isDev ? __dirname : process.resourcesPath, `student_${studentDetails.id}.pdf`);
+                } else {
+                    outputPath = path.join(isDev ? __dirname : process.resourcesPath, `temp_report_${studentDetails.id}.pdf`);
+                }
+                const reportPath = await generateReport(studentDetails, outputPath);
+                pdfPaths.push(reportPath);
+            }
+
+            if (pdfPaths.length === 1) {
+                const singlePdfPath = pdfPaths[0];
+                const newPdfPath = path.join(path.dirname(singlePdfPath), `student_${filteredAndEnrichedData[0].id}.pdf`);
+                fs.renameSync(singlePdfPath, newPdfPath);
+                event.sender.send('report-generation-complete', newPdfPath);
+            } else {
+                const zipDirectory = path.join(__dirname, 'path', 'to', 'reports');
+                const zipFileName = `class_reports_${Date.now()}.zip`;
+                const zipPath = path.join(zipDirectory, zipFileName);
+
+                ensureDirectoryExists(zipPath);
+
+                await createZipFromPDFs(pdfPaths, zipPath);
+                event.sender.send('report-generation-complete', zipPath);
+            }
+        } catch (error) {
+            console.error('Error in report generation:', error);
+            event.sender.send('report-generation-failed', error.message);
+        }
+    });
 
 /**
  * Handles the 'get-classes-by-teacher' event to retrieve classes taught by a specific teacher.
