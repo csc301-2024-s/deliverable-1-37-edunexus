@@ -108,6 +108,12 @@ ipcMain.on('request-report-generation', async (event, studentId) => {
     }
 });
 
+/**
+ * Handles the 'get-classes-by-teacher' event to retrieve classes taught by a specific teacher.
+ * @param {string} teacher_id - The ID of the teacher whose classes are being requested.
+ * Logs the classes retrieved from the database and sends them back to the sender.
+ * In case of an error, sends the error message back to the sender.
+ */
 ipcMain.on('get-classes-by-teacher', async (event, teacher_id) => {
     if (isDev) console.log('received from frontend ' + teacher_id);
     try {
@@ -134,6 +140,12 @@ ipcMain.on('login-authentication', async (event, data) => {
     }
 });
 
+/**
+ * Handles the 'get-datagrid-by-class' event to retrieve datagrid data for a specific class.
+ * @param {string} class_id - The ID of the class for which the datagrid data is being requested.
+ * Logs the datagrid data retrieved from the database and sends it back to the sender.
+ * In case of an error, sends the error message back to the sender.
+ */
 ipcMain.on('get-datagrid-by-class', async (event, class_id) => {
     if (isDev) console.log(`received from frontend - datagrid for class ${class_id}`);
 
@@ -153,6 +165,12 @@ ipcMain.on('get-datagrid-by-class', async (event, class_id) => {
     }
 });
 
+/**
+ * Handles the 'get-student' event to retrieve data for a specific student.
+ * @param {string} studentNumber - The number of the student whose data is being requested.
+ * Sends the retrieved student data back to the sender.
+ * In case of an error, sends the error message back to the sender.
+ */
 ipcMain.on('get-student', async (event, studentNumber) => {
     // if (isDev) console.log(`received from frontend - get student ${studentNumber}`);
 
@@ -164,6 +182,12 @@ ipcMain.on('get-student', async (event, studentNumber) => {
     }
 });
 
+/**
+ * Handles the 'get-student-marks' event to retrieve marks for a specific student.
+ * @param {string} studentNumber - The number of the student whose marks are being requested.
+ * Logs the retrieved marks and sends them back to the sender.
+ * In case of an error, sends the error message back to the sender.
+ */
 ipcMain.on('get-student-marks', async (event, studentNumber) => {
     if (isDev) console.log(`received from frontend - get student marks ${studentNumber}`);
 

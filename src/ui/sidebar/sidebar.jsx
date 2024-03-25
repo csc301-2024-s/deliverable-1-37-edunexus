@@ -19,10 +19,25 @@ import {
 } from '@mui/material';
 import SchoolIcon from '@mui/icons-material/School'; // For class icons
 
+/**
+ * Navigation sidebar component.
+ *
+ * @component
+ * @param {Object} props
+ * @param {Object} props.user - The user object containing the user's information.
+ * @param {Array} props.classes - Array of class objects that the user has access to.
+ * @param {Function} props.onClassChange - Function to be called when a class is selected.
+ * @param {Function} props.onLogout - Function to be called when the logout button is clicked.
+ */
 const NavigationSidebar = ({user, classes, onClassChange, onLogout}) => {
     const navigate = useNavigate();
     const [searchText, setSearchText] = useState('');
 
+    /**
+     * Handles the search text field change event.
+     *
+     * @param {Object} event - The event object.
+     */
     const handleSearch = (event) => {
         setSearchText(event.target.value);
     };
@@ -31,18 +46,29 @@ const NavigationSidebar = ({user, classes, onClassChange, onLogout}) => {
         classItem.name.toLowerCase().includes(searchText.toLowerCase())
     );
 
+    /**
+     * Handles the list item click event.
+     *
+     * @param {number} index - The index of the clicked item.
+     */
     const handleListItemClick = (index) => {
         console.log('Clicked item index:', index);
-        // Additional logic for when an item is clicked
-        // TODO add fetch database for new class information
         onClassChange(index);
     };
 
+    /**
+     * Handles the logout button click event.
+     */
     const handleLogout = () => {
         onLogout(); // Call the logout function passed from App
         navigate('/login'); // Redirect to login page
     };
 
+    /**
+     * Renders the class list.
+     *
+     * @returns {React.ReactNode} The class list component.
+     */
     const renderClassList = () => {
         if (!classes.length) {
             return <Typography sx={{color: '#EEEEEE', margin: 2}}>Loading classes...</Typography>;
@@ -140,7 +166,8 @@ const NavigationSidebar = ({user, classes, onClassChange, onLogout}) => {
                     <Grid item>
                         <Button variant="contained"
                             style={{backgroundColor: '#76ABAE', color: '#EEEEEE'}}
-                            onClick={() => handleLogout()}>
+                            onClick={() => handleLogout()}
+                            id='logoutBtn'>
                             Logout
                         </Button>
                     </Grid>
