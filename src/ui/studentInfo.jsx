@@ -125,10 +125,10 @@ export default function StudentInfo(props) {
 
     return (
         <React.Fragment>
-            <Button style={{ justifyContent: 'flex-start' }} variant="text" size='small' onClick={handleClickOpen}>
+            <Button style={{ justifyContent: 'flex-start' }} variant="text" size='small' onClick={handleClickOpen}id='studentInfoBtn'>
                 {studentNumber}
             </Button>
-            <Dialog
+            <Dialog id='studentInfoPopup'
                 open={open}
                 onClose={handleClose}
                 PaperComponent={PaperComponent}
@@ -142,8 +142,8 @@ export default function StudentInfo(props) {
                 <DialogContent dividers={true} sx={{ display: 'flex', justifyContent: 'center' }}>
                     <DialogContentText>
                         {Object.keys(studentData).map((subject, index) => {
-                            return (<>
-                                <div key={index}>
+                            return (<div key={index}>
+                                <div>
                                     <h3 style={{textAlign: 'center'}}>{subject}</h3>
                                     <ul>
                                         {Object.keys(studentData[subject]).map((exam, index) => {
@@ -155,7 +155,7 @@ export default function StudentInfo(props) {
                                         })}
                                     </ul>
                                 </div>
-                            </>
+                            </div>
                             );
                         })
                         }
@@ -163,8 +163,8 @@ export default function StudentInfo(props) {
 
                     <DialogContentText>
                         {getCourses(studentData).slice(0, numCoursesPerColumn).map((course, index) => {
-                            return (<>
-                                <div key={index}>
+                            return (<div key={index}>
+                                <div >
                                     <Typography variant="h6" align='center' component={'div'} sx={{ marginBottom: -5 }}>
                                         {course}
                                     </Typography>
@@ -174,15 +174,15 @@ export default function StudentInfo(props) {
                                         width={graphWidth}
                                         height={graphHeight} />
                                 </div>
-                            </>
+                            </div>
                             );
                         })}
 
                     </DialogContentText>
                     <DialogContentText>
                         {getCourses(studentData).slice(numCoursesPerColumn).map((course, index) => {
-                            return (<>
-                                <div key={index}>
+                            return (<div key={index}>
+                                <div>
                                     <Typography variant="h6" align='center' component={'div'} sx={{ marginBottom: -5 }}>
                                         {course}
                                     </Typography>
@@ -192,7 +192,7 @@ export default function StudentInfo(props) {
                                         width={graphWidth}
                                         height={graphHeight} />
                                 </div>
-                            </>
+                            </div>
 
                             );
                         })}

@@ -166,7 +166,8 @@ const NavigationSidebar = ({user, classes, onClassChange, onLogout}) => {
                     <Grid item>
                         <Button variant="contained"
                             style={{backgroundColor: '#76ABAE', color: '#EEEEEE'}}
-                            onClick={() => handleLogout()}>
+                            onClick={() => handleLogout()}
+                            id='logoutBtn'>
                             Logout
                         </Button>
                     </Grid>
