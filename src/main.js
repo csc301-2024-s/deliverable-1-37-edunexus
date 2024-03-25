@@ -8,6 +8,7 @@ const {app, BrowserWindow, ipcMain} = require('electron');
 
 const isDev = !app.isPackaged;
 
+
 const db = require('./database/database');
 
 
@@ -125,6 +126,17 @@ ipcMain.on('get-classes-by-teacher', async (event, teacher_id) => {
         event.sender.send('classes-for-teacher', classesForTeacher);
     } catch (error) {
         event.sender.send('classes-for-teacher', { error: error.message });
+    }
+});
+
+ipcMain.on('login-authentication', async (event, data) => {
+    const {username, password} = data;
+    const loginSuccess = await db.checkUserPassword(username, password);
+
+    if (loginSuccess) {
+        event.sender.send('login-success');
+    } else {
+        event.sender.send('login-failed');
     }
 });
 

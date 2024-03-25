@@ -32,19 +32,28 @@ export function Login({ onLogin }) {
     const handlePasswordChange = (event) => {
         setPassword(event.target.value);
     };
-
+  
     /**
      * Handles the form submission for user login.
      *
      * @param {React.FormEvent<HTMLFormElement>} event - The form event
      */
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        // TODO: @Kevin implement calls to backend
-        // Authentication logic goes here
+    const handleSubmit = (e) => {
+        e.preventDefault();
 
-        onLogin();
-        navigate('/dashboard');
+        // Callback function to process data upon login
+        const data = { username, password };
+        window.api.send('login-authentication', data);
+
+        // If login was successful, call onLogin and navigate to dashboard
+        window.api.receive('login-success', () => {
+            onLogin();
+            navigate('/dashboard');
+        });
+
+        window.api.receive('login-failed', () => {
+            // TODO: Alert user that login failed, potentially with a pop-up
+        });
     };
 
     return (
