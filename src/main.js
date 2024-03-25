@@ -10,6 +10,12 @@ const isDev = !app.isPackaged;
 
 const db = require('./database/database');
 
+
+// Connect and initialize db
+let dbPath = (isDev ? './edunexus.db' : process.resourcesPath + '/edunexus.db');
+db.connectDB(dbPath);
+db.initDB();
+
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
     app.quit();
@@ -69,37 +75,37 @@ app.on('activate', () => {
 
 
 // TODO: The sharp package utilized causes issues during build
-// ipcMain.on('request-report-generation', async (event, studentId) => {
-//     try {
-//         console.log('received report request');
-//         const reportPath = await generateReport(studentId);
-//
-//         const {filePath} = await dialog.showSaveDialog({
-//             buttonLabel: 'Save Report',
-//             defaultPath: `report_${studentId}.pdf`,
-//             filters: [
-//                 {name: 'PDF Documents', extensions: ['pdf']}
-//             ]
-//         });
-//
-//         if (filePath) {
-//             try {
-//                 fs.copyFileSync(reportPath, filePath);
-//                 fs.unlinkSync(reportPath);
-//                 event.sender.send('report-generation-complete', filePath);
-//             } catch (error) {
-//                 console.error('Error moving the file:', error);
-//                 event.sender.send('report-generation-failed', error.message);
-//             }
-//         } else {
-//             event.sender.send('report-generation-cancelled');
-//             fs.unlinkSync(reportPath);
-//         }
-//     } catch (error) {
-//         console.error('Error generating report:', error);
-//         event.sender.send('report-generation-failed', error.message);
-//     }
-// });
+ipcMain.on('request-report-generation', async (event, studentId) => {
+    try {
+        console.log('received report request for student: ', studentId);
+        // const reportPath = await generateReport(studentId);
+
+        // const {filePath} = await dialog.showSaveDialog({
+        //     buttonLabel: 'Save Report',
+        //     defaultPath: `report_${studentId}.pdf`,
+        //     filters: [
+        //         {name: 'PDF Documents', extensions: ['pdf']}
+        //     ]
+        // });
+
+        // if (filePath) {
+        //     try {
+        //         fs.copyFileSync(reportPath, filePath);
+        //         fs.unlinkSync(reportPath);
+        //         event.sender.send('report-generation-complete', filePath);
+        //     } catch (error) {
+        //         console.error('Error moving the file:', error);
+        //         event.sender.send('report-generation-failed', error.message);
+        //     }
+        // } else {
+        //     event.sender.send('report-generation-cancelled');
+        //     fs.unlinkSync(reportPath);
+        // }
+    } catch (error) {
+        console.error('Error generating report:', error);
+        event.sender.send('report-generation-failed', error.message);
+    }
+});
 
 ipcMain.on('get-classes-by-teacher', async (event, teacher_id) => {
     if (isDev) console.log('received from frontend ' + teacher_id);

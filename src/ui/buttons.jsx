@@ -1,35 +1,78 @@
 import React, { useState } from 'react';
 import Button from '@mui/material/Button';
+import * as XLSX from 'xlsx';
 import '@emotion/styled';
 import './styles.css'; 
 
 
-function Buttons() {
+function Buttons({selectedRow, classData}) {
     const [showPopup, setShowPopup] = useState(false);
 
     const togglePopup = () => {
         setShowPopup(!showPopup);
     };
-  
+
+    console.log('this is in buttons', classData);
+    
+    const downloadExcel = () => {
+        const processedData = classData.map(row => {
+
+            const keys = Object.keys(row);
+
+            const studentNumberKey = keys[0];
+            const studentNameKey = keys[1];
+
+            return {
+                'Student ID': row[studentNumberKey],
+                'Student Name': row[studentNameKey],
+                'Next Exam/Test': ''
+            };
+        });
+    
+        console.log('Processed Data for Excel:', processedData);
+    
+        const ws = XLSX.utils.json_to_sheet(processedData);
+        const wb = XLSX.utils.book_new();
+
+        XLSX.utils.book_append_sheet(wb, ws, 'CompleteData');
+        XLSX.writeFile(wb, 'class_list.xlsx');
+    };
+
     return (
         <div className="buttons-container" style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
-            <Button variant="outlined" style={{ color: '#76ABAE', borderColor: '#76ABAE' }}>
+
+            <Button 
+                variant="contained" 
+                style={{ backgroundColor: '#76ABAE', color: '#FFFFFF' }}>
                 Upload a Spreadsheet
             </Button>
+
             {showPopup && <PopupComponent onClose={togglePopup} />}
 
-            {/* <button>Generate PDF</button> */}
             <Button variant="contained"
                 onClick={() => {
-                    const data = {studentId: '1', single: true};
+                    // For now, we will only use the first element in the selectedRow array
+                    // TODO: Handle multiple selected rows
+                    const data = {studentId: selectedRow[0], single: true};
                     window.api.send('request-report-generation', data);
                     console.log('Report Generation was clicked');
+                    console.log(data);
                 }}
                 style={{ backgroundColor: '#76ABAE', color: '#FFFFFF' }}>
                 Generate PDF
             </Button>
-            <Button variant="outlined" style={{ color: '#76ABAE', borderColor: '#76ABAE' }}>
+
+            <Button 
+                variant="contained" 
+                style={{ backgroundColor: '#76ABAE', color: '#FFFFFF' }}>
                 Visualize Class Statistics
+            </Button>
+
+            <Button 
+                variant="contained" 
+                style={{ backgroundColor: '#76ABAE', color: '#FFFFFF' }} 
+                onClick={downloadExcel}>
+                Download Class List
             </Button>
         </div> 
     );
