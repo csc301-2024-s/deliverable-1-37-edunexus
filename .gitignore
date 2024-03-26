@@ -5,6 +5,8 @@
 .idea
 *out
 
+pixman*
+
 # Logs
 logs
 *.log

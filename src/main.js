@@ -8,7 +8,14 @@ const {app, BrowserWindow, ipcMain} = require('electron');
 
 const isDev = !app.isPackaged;
 
+
 const db = require('./database/database');
+
+
+// Connect and initialize db
+let dbPath = (isDev ? './edunexus.db' : process.resourcesPath + '/edunexus.db');
+db.connectDB(dbPath);
+db.initDB();
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
 if (require('electron-squirrel-startup')) {
@@ -69,38 +76,44 @@ app.on('activate', () => {
 
 
 // TODO: The sharp package utilized causes issues during build
-// ipcMain.on('request-report-generation', async (event, studentId) => {
-//     try {
-//         console.log('received report request');
-//         const reportPath = await generateReport(studentId);
-//
-//         const {filePath} = await dialog.showSaveDialog({
-//             buttonLabel: 'Save Report',
-//             defaultPath: `report_${studentId}.pdf`,
-//             filters: [
-//                 {name: 'PDF Documents', extensions: ['pdf']}
-//             ]
-//         });
-//
-//         if (filePath) {
-//             try {
-//                 fs.copyFileSync(reportPath, filePath);
-//                 fs.unlinkSync(reportPath);
-//                 event.sender.send('report-generation-complete', filePath);
-//             } catch (error) {
-//                 console.error('Error moving the file:', error);
-//                 event.sender.send('report-generation-failed', error.message);
-//             }
-//         } else {
-//             event.sender.send('report-generation-cancelled');
-//             fs.unlinkSync(reportPath);
-//         }
-//     } catch (error) {
-//         console.error('Error generating report:', error);
-//         event.sender.send('report-generation-failed', error.message);
-//     }
-// });
+ipcMain.on('request-report-generation', async (event, studentId) => {
+    try {
+        console.log('received report request for student: ', studentId);
+        // const reportPath = await generateReport(studentId);
 
+        // const {filePath} = await dialog.showSaveDialog({
+        //     buttonLabel: 'Save Report',
+        //     defaultPath: `report_${studentId}.pdf`,
+        //     filters: [
+        //         {name: 'PDF Documents', extensions: ['pdf']}
+        //     ]
+        // });
+
+        // if (filePath) {
+        //     try {
+        //         fs.copyFileSync(reportPath, filePath);
+        //         fs.unlinkSync(reportPath);
+        //         event.sender.send('report-generation-complete', filePath);
+        //     } catch (error) {
+        //         console.error('Error moving the file:', error);
+        //         event.sender.send('report-generation-failed', error.message);
+        //     }
+        // } else {
+        //     event.sender.send('report-generation-cancelled');
+        //     fs.unlinkSync(reportPath);
+        // }
+    } catch (error) {
+        console.error('Error generating report:', error);
+        event.sender.send('report-generation-failed', error.message);
+    }
+});
+
+/**
+ * Handles the 'get-classes-by-teacher' event to retrieve classes taught by a specific teacher.
+ * @param {string} teacher_id - The ID of the teacher whose classes are being requested.
+ * Logs the classes retrieved from the database and sends them back to the sender.
+ * In case of an error, sends the error message back to the sender.
+ */
 ipcMain.on('get-classes-by-teacher', async (event, teacher_id) => {
     if (isDev) console.log('received from frontend ' + teacher_id);
     try {
@@ -116,6 +129,25 @@ ipcMain.on('get-classes-by-teacher', async (event, teacher_id) => {
     }
 });
 
+ipcMain.on('login-authentication', async (event, data) => {
+    const {username, password} = data;
+    const loginSuccess = await db.checkUserPassword(username, password);
+
+    if (loginSuccess) {
+        const userInfo = await db.getUser(username);
+
+        event.sender.send('login-success', {isAdmin: userInfo.admin, teacherId: userInfo.teacherNumber});
+    } else {
+        event.sender.send('login-failed');
+    }
+});
+
+/**
+ * Handles the 'get-datagrid-by-class' event to retrieve datagrid data for a specific class.
+ * @param {string} class_id - The ID of the class for which the datagrid data is being requested.
+ * Logs the datagrid data retrieved from the database and sends it back to the sender.
+ * In case of an error, sends the error message back to the sender.
+ */
 ipcMain.on('get-datagrid-by-class', async (event, class_id) => {
     if (isDev) console.log(`received from frontend - datagrid for class ${class_id}`);
 
@@ -135,6 +167,12 @@ ipcMain.on('get-datagrid-by-class', async (event, class_id) => {
     }
 });
 
+/**
+ * Handles the 'get-student' event to retrieve data for a specific student.
+ * @param {string} studentNumber - The number of the student whose data is being requested.
+ * Sends the retrieved student data back to the sender.
+ * In case of an error, sends the error message back to the sender.
+ */
 ipcMain.on('get-student', async (event, studentNumber) => {
     // if (isDev) console.log(`received from frontend - get student ${studentNumber}`);
 
@@ -146,6 +184,12 @@ ipcMain.on('get-student', async (event, studentNumber) => {
     }
 });
 
+/**
+ * Handles the 'get-student-marks' event to retrieve marks for a specific student.
+ * @param {string} studentNumber - The number of the student whose marks are being requested.
+ * Logs the retrieved marks and sends them back to the sender.
+ * In case of an error, sends the error message back to the sender.
+ */
 ipcMain.on('get-student-marks', async (event, studentNumber) => {
     if (isDev) console.log(`received from frontend - get student marks ${studentNumber}`);
 
@@ -156,5 +200,77 @@ ipcMain.on('get-student-marks', async (event, studentNumber) => {
         event.sender.send('get-student-marks-response', marks);
     } catch (error) {
         event.sender.send('get-student-marks-response', {error: error.message});
+    }
+});
+
+ipcMain.on('insert-student', async (event, student) => {
+    try {
+        const response = await db.insertStudent(student.name, student.studentNumber, student.age);
+        event.sender.send('insert-student-response', response);
+    } catch (error) {
+        event.sender.send('insert-student-response', {error: error.message});
+    }
+});
+
+ipcMain.on('insert-user', async (event, user) => {
+    try {
+        const response = await db.insertUser(user.username, user.password, 0, 101);
+        event.sender.send('insert-user-response', response);
+    } catch (error) {
+        event.sender.send('insert-user-response', {error: error.message});
+    }
+});
+
+ipcMain.on('insert-class', async (event, classObject) => {
+    try {
+        const response = await db.insertClass(classObject.name, classObject.year, classObject.grade, classObject.teacherNumber, 1);
+        event.sender.send('insert-class-response', response);
+    } catch (error) {
+        event.sender.send('insert-class-response', {error: error.message});
+    }
+});
+
+ipcMain.on('insert-teacher', async (event, teacher) => {
+    try {
+        const response = await db.insertTeacher(teacher.name, teacher.teacherNumber);
+        event.sender.send('insert-teacher-response', response);
+    } catch (error) {
+        event.sender.send('insert-teacher-response', {error: error.message});
+    }
+});
+
+ipcMain.on('delete-student', async (event, student) => {
+    try {
+        const response = await db.deleteStudent(student.studentNumber);
+        event.sender.send('delete-student-response', response);
+    } catch (error) {
+        event.sender.send('delete-student-response', {error: error.message});
+    }
+});
+
+ipcMain.on('delete-user', async (event, user) => {
+    try {
+        const response = await db.deleteUser(user.username);
+        event.sender.send('delete-user-response', response);
+    } catch (error) {
+        event.sender.send('delete-user-response', {error: error.message});
+    }
+});
+
+ipcMain.on('delete-class', async (event, classObject) => {
+    try {
+        const response = await db.deleteClass(classObject.id);
+        event.sender.send('delete-class-response', response);
+    } catch (error) {
+        event.sender.send('delete-class-response', {error: error.message});
+    }
+});
+
+ipcMain.on('delete-teacher', async (event, teacher) => {
+    try {
+        const response = await db.deleteTeacher(teacher.teacherNumber);
+        event.sender.send('delete-teacher-response', response);
+    } catch (error) {
+        event.sender.send('delete-teacher-response', {error: error.message});
     }
 });

@@ -1,5 +1,4 @@
 import * as React from 'react';
-// import { createRoot } from 'react-dom/client';
 import { useState } from 'react';
 
 import './styles.css';
@@ -13,7 +12,12 @@ const user = {
     role: 'Instructor',
 };
 
-
+/**
+ * Renames the `studentNumber` property to `id` for each student in an array.
+ *
+ * @param {Object[]} students - The array of student objects to transform.
+ * @returns {Object[]} The transformed array of student objects with `studentNumber` renamed to `id`.
+ */
 function renameStudentNumberToId(students) {
     return students.map(student => {
         const { studentNumber, ...rest } = student;
@@ -21,7 +25,21 @@ function renameStudentNumberToId(students) {
     });
 }
 
-const Homepage = ({ onLogout, classes }) => {
+/**
+ * Represents the homepage component of the application.
+ *
+ * The Homepage component is the main container for the application's user interface.
+ * It includes a navigation sidebar, a dashboard displaying student data, and
+ * handles the dynamic fetching and displaying of this data based on the selected class.
+ *
+ * @component
+ * @param {Object} props - The properties passed to the component.
+ * @param {Function} props.onLogout - The function to call when logging out.
+ * @param {Object[]} props.classes - The list of classes to display in the sidebar for selection.
+ * @param {boolean} userIsAdmin - Whether the currently logged-in user is an admin
+ * @returns {React.ReactElement} The Homepage component.
+ */
+const Homepage = ({ onLogout, classes , userIsAdmin}) => {
     const [selectedClass, setSelectedClass] = useState(1);
 
 
@@ -67,18 +85,17 @@ const Homepage = ({ onLogout, classes }) => {
 
         window.api.send('get-datagrid-by-class', selectedClass);
 
-        window.api.receive('datagrid-for-class', handleDataResponse);
+        const removeListener = window.api.receive('datagrid-for-class', handleDataResponse);
 
         return () => {
-            // TODO not removing the listener will cause a memory leak but there is currently an error in this
-            // window.api.remove('datagrid-for-class', handleDataResponse);
+            removeListener();
         };
     }, [selectedClass]);
 
     return (
         <Box className="grid-container">
             {/* Navigation Sidebar */}
-            <NavigationSidebar user={user} classes={classes} onClassChange={setSelectedClass} onLogout={onLogout}/>
+            <NavigationSidebar user={user} admin={userIsAdmin} classes={classes} onClassChange={setSelectedClass} onLogout={onLogout} userIsAdmin={userIsAdmin}/>
 
             {/* Main Content Area */}
             <Box component="main" sx={{ p: 3 }}>

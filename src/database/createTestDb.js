@@ -21,13 +21,21 @@ const names = ['Mary Melton', 'Cody Hill', 'Karen Hamilton', 'Robert Bradshaw', 
     'John Jimenez', 'Beverly Mcdonald', 'Kyle Ramirez', 'Cheyenne Landry', 'Andrew Knight', 'Lance Hernandez',
     'Austin Gamble', 'Scott Andrews DVM', 'Theresa Jones', 'Sonya Clark', 'Jay Navarro', 'Anthony Johnson', 'Joel Miller', 
     'Dr. Tamara Gardner', 'Christina Jenkins', 'Allison Johnson', 'Matthew Estrada', 'Angela Hernandez'];
-const markNames = ['HW1', 'HW2', 'HW3', 'HW4', 'HW5', 'HW6', 'HW7', 'Test1', 'Test2', 'Test3', 'Exam'];
+const markNames = ['HW1', 'HW2', 'HW3', 'Test', 'Exam'];
 const classNames = ['Math', 'English', 'Geography'];
 
 async function init() {
-    let studentNumber, name, age;
+    // initialize database
+    await database.initDB();
     // User
-    await database.insertUser('admin', 'password');
+    await database.insertUser('admin', 'password', 1, 101);
+    // Teacher
+    await database.insertTeacher('Default teacher 1', 101);
+    await database.insertSubject('');
+}
+
+async function fillData() {
+    let studentNumber, name, age;
     // Student
     for (let i = 0; i < names.length; i++) {
         studentNumber = i + 100;
@@ -35,11 +43,9 @@ async function init() {
         age = 12 + Math.floor(i / 10);
         await database.insertStudent(name, studentNumber, age);
     }
-    await database.insertTeacher('', 101);
-    await database.insertSubject('');
     for (let grade = 7; grade <= 9; grade++) {
         for (let i = 0; i < classNames.length; i++) {
-            await database.insertClass(classNames[i], 2024, grade, 101, 1);
+            await database.insertClass(classNames[i] + ' grade ' + grade, 2024, grade, 101, 1);
         }
     }
     for (let i = 0; i < names.length; i++) {
@@ -56,6 +62,8 @@ async function init() {
 }
 
 async function printAll() {
+    let users = await database.getAllUser();
+    console.log(users);
     let students = await database.getAllStudent();
     console.log(students);
     let teachers = await database.getAllTeacher();
@@ -68,5 +76,11 @@ async function printAll() {
     console.log(marks);
 }
 
-init();
-printAll();
+async function main() {
+    await database.connectDB('./edunexus.db');
+    await init();
+    await fillData();
+    await printAll();
+}
+
+main();
