@@ -236,3 +236,39 @@ ipcMain.on('insert-teacher', async (event, teacher) => {
         event.sender.send('insert-teacher-response', {error: error.message});
     }
 });
+
+ipcMain.on('delete-student', async (event, student) => {
+    try {
+        const response = await db.deleteStudent(student.studentNumber);
+        event.sender.send('delete-student-response', response);
+    } catch (error) {
+        event.sender.send('delete-student-response', {error: error.message});
+    }
+});
+
+ipcMain.on('delete-user', async (event, user) => {
+    try {
+        const response = await db.deleteUser(user.username);
+        event.sender.send('delete-user-response', response);
+    } catch (error) {
+        event.sender.send('delete-user-response', {error: error.message});
+    }
+});
+
+ipcMain.on('delete-class', async (event, classObject) => {
+    try {
+        const response = await db.deleteClass(classObject.id);
+        event.sender.send('delete-class-response', response);
+    } catch (error) {
+        event.sender.send('delete-class-response', {error: error.message});
+    }
+});
+
+ipcMain.on('delete-teacher', async (event, teacher) => {
+    try {
+        const response = await db.deleteTeacher(teacher.teacherNumber);
+        event.sender.send('delete-teacher-response', response);
+    } catch (error) {
+        event.sender.send('delete-teacher-response', {error: error.message});
+    }
+});

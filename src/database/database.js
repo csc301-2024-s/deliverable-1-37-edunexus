@@ -13,6 +13,17 @@ function connectDB(path) {
     });
 }
 
+function disconnectDB() {
+    return new Promise((resolve, reject) => {
+        db.close((err) => {
+            if (err) {
+                return reject(err);
+            }
+            return resolve(true);
+        });
+    });
+}
+
 // Create tables if not created
 function initDB() {
     try {
@@ -26,17 +37,18 @@ function initDB() {
                 .run(`CREATE TABLE IF NOT EXISTS teacher (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     teacherNumber INTEGER UNIQUE,
-                    name TEXT NOT NULL UNIQUE
+                    name TEXT NOT NULL
                     )`)
                 .run(`CREATE TABLE IF NOT EXISTS subject (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    name TEXT NOT NULL UNIQUE
+                    name TEXT NOT NULL
                     )`)
                 .run(`CREATE TABLE IF NOT EXISTS user (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
                     username TEXT NOT NULL UNIQUE,
                     password TEXT NOT NULL,
-                    teacherNumber INTEGER
+                    admin INTEGER NOT NULL,
+                    teacherNumber INTEGER NOT NULL
                     )`)
                 .run('PRAGMA foreign_keys = ON');
         });
@@ -578,31 +590,11 @@ function getStudentAndMarkByClass(classID) {
     });
 }
 
-function reconnectDB() {
-    return new Promise((resolve, reject) => {
-        db = new sqlite3.Database( './edunexus.db', sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE, (err) => {
-            if (err) {
-                return reject(err);
-            }
-            return resolve(true);
-        });
-    });
-}
-
-function disconnectDB() {
-    return new Promise((resolve, reject) => {
-        db.close((err) => {
-            if (err) {
-                return reject(err);
-            }
-            return resolve(true);
-        });
-    });
-}
 
 module.exports = {
     // Database
     connectDB,
+    disconnectDB,
     initDB,
     // User
     insertUser,
@@ -645,7 +637,4 @@ module.exports = {
     deleteMark,
     // Mixed
     getStudentAndMarkByClass,
-    // DB
-    reconnectDB,
-    disconnectDB
 };

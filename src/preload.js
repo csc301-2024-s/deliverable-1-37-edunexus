@@ -14,7 +14,11 @@ let validChannels = [
     'insert-student',
     'insert-user',
     'insert-class',
-    'insert-teacher'
+    'insert-teacher',
+    'delete-student',
+    'delete-user',
+    'delete-class',
+    'delete-teacher'
 ];
 
 let validReceiveChannels = [
@@ -31,7 +35,11 @@ let validReceiveChannels = [
     'insert-student-response',
     'insert-user-response',
     'insert-class-response',
-    'insert-teacher-response'
+    'insert-teacher-response',
+    'delete-student-response',
+    'delete-user-response',
+    'delete-class-response',
+    'delete-teacher-response'
 ];
 
 

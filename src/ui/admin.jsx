@@ -13,6 +13,10 @@ function Admin() {
     const [year, setYear] = useState('');
     const [grade, setGrade] = useState('');
     const [classTeacherNumber, setClassTeacherNumber] = useState('');
+    const [deleteUsername, setDeleteUsername] = useState('');
+    const [deleteStudentNumber, setDeleteStudentNumber] = useState('');
+    const [deleteTeacherNumber, setDeleteTeacherNumber] = useState('');
+    const [deleteClassID, setDeleteClassID] = useState('');
 
     // Success and Error states
     const [userAddSuccess, setUserAddSuccess] = useState('');
@@ -23,13 +27,22 @@ function Admin() {
     const [classAddError, setClassAddError] = useState('');
     const [teacherAddSuccess, setTeacherAddSuccess] = useState('');
     const [teacherAddError, setTeacherAddError] = useState('');
+    
+    const [userDeleteSuccess, setUserDeleteSuccess] = useState('');
+    const [userDeleteError, setUserDeleteError] = useState('');
+    const [studentDeleteSuccess, setStudentDeleteSuccess] = useState('');
+    const [studentDeleteError, setStudentDeleteError] = useState('');
+    const [classDeleteSuccess, setClassDeleteSuccess] = useState('');
+    const [classDeleteError, setClassDeleteError] = useState('');
+    const [teacherDeleteSuccess, setTeacherDeleteSuccess] = useState('');
+    const [teacherDeleteError, setTeacherDeleteError] = useState('');
 
 
     const handleAddUser = () => {
         const responseHandler = (response) => {
             if (response.error) {
                 // Error occurred
-                setUserAddError('Error adding user');
+                setUserAddError('Error adding user: username is already used');
                 setUserAddSuccess('');
             } else {
                 // Object created successfully
@@ -59,7 +72,6 @@ function Admin() {
         };
 
         window.api.send('insert-student', {name: studentName, studentNumber: studentNumber, age: age});
-        // TODO: Add response handling
         window.api.receive('insert-student-response', responseHandler);
         return () => {
             window.api.remove('insert-student-response', responseHandler);
@@ -80,7 +92,6 @@ function Admin() {
         };
 
         window.api.send('insert-class', {name: className, year: year, grade: grade, teacherNumber: classTeacherNumber});
-        // TODO: Add response handling
         window.api.receive('insert-class-response', responseHandler);
         return () => {
             window.api.remove('insert-class-response', responseHandler);
@@ -101,10 +112,106 @@ function Admin() {
         };
 
         window.api.send('insert-teacher', {name: teacherName, teacherNumber: teacherNumber});
-        // TODO: Add response handling
         window.api.receive('insert-teacher-response', responseHandler);
         return () => {
             window.api.remove('insert-teacher-response', responseHandler);
+        };
+    };
+
+    const handleDeleteUser = () => {
+        const responseHandler = (response) => {
+            if (response.error) {
+                // Error occurred
+                setUserDeleteError('Error deleteing user');
+                setUserDeleteSuccess('');
+            } else if (!response) {
+                // Error occurred
+                setUserDeleteError('Error deleteing user: username not found');
+                setUserDeleteSuccess('');
+            } else {
+                // Object created successfully
+                setUserDeleteSuccess('User deleted successfully');
+                setUserDeleteError('');
+            }
+        };
+
+        window.api.send('delete-user', {username: deleteUsername});
+        window.api.receive('delete-user-response', responseHandler);
+        return () => {
+            window.api.remove('delete-user-response', responseHandler);
+        };
+    };
+
+
+    const handleDeleteStudent = () => {
+        const responseHandler = (response) => {
+            if (response.error) {
+                // Error occurred
+                setStudentDeleteError('Error deleteing student');
+                setStudentDeleteSuccess('');
+            } else if (!response) {
+                // Error occurred
+                setStudentDeleteError('Error deleteing student: student number not found');
+                setStudentDeleteSuccess('');
+            } else {
+                // Object created successfully
+                setStudentDeleteSuccess('Student deleted successfully');
+                setStudentDeleteError('');
+            }
+        };
+
+        window.api.send('delete-student', {studentNumber: deleteStudentNumber});
+        window.api.receive('delete-student-response', responseHandler);
+        return () => {
+            window.api.remove('delete-student-response', responseHandler);
+        };
+    }; 
+
+    const handleDeleteClass = () => {
+        const responseHandler = (response) => {
+            if (response.error) {
+                // Error occurred
+                setClassDeleteError('Error deleteing class');
+                setClassDeleteSuccess('');
+            } else if (!response) {
+                // Error occurred
+                setClassDeleteError('Error deleteing class: class ID not found');
+                setClassDeleteSuccess('');
+            } else {
+                // Object created successfully
+                setClassDeleteSuccess('Class deleted successfully');
+                setClassDeleteError('');
+            }
+        };
+
+        window.api.send('delete-class', {id: deleteClassID});
+        window.api.receive('delete-class-response', responseHandler);
+        return () => {
+            window.api.remove('delete-class-response', responseHandler);
+        };
+    };
+
+    const handleDeleteTeacher = () => {
+        const responseHandler = (response) => {
+            if (response.error) {
+                // Error occurred
+                setTeacherDeleteError('Error deleteing teacher');
+                setTeacherDeleteSuccess('');
+            } else if (!response) {
+                // Error occurred
+                setTeacherDeleteError('Error deleteing teacher: teacher number not found');
+                setTeacherDeleteSuccess('');
+            } else {
+                // Object created successfully
+                setTeacherDeleteSuccess('Teacher deleted successfully');
+                setTeacherDeleteError('');
+            }
+        };
+
+        window.api.send('delete-teacher', {teacherNumber: deleteTeacherNumber});
+        window.api.receive('delete-teacher-response', responseHandler);
+        return () => {
+            window.api.remove('delete-teacher-response', responseHandler);
         };
     };
 
@@ -244,6 +351,84 @@ function Admin() {
                     </Button>
                     {classAddSuccess && <p style={{ color: 'green' }}>{classAddSuccess}</p>}
                     {classAddError && <p style={{ color: 'red' }}>{classAddError}</p>}
+                </Grid>
+
+                
+                <Grid item>
+                    <h2>Delete User</h2>
+                    <TextField
+                        type="text"
+                        placeholder="Username"
+                        value={deleteUsername}
+                        onChange={(e) => setDeleteUsername(e.target.value)}
+                        sx={{ marginBottom: 1 }}
+                    />
+                    <br />
+                    <Button
+                        variant="contained"
+                        style={{ backgroundColor: '#76ABAE', color: '#EEEEEE'}}
+                        onClick={handleDeleteUser}>Delete User
+                    </Button>
+                    {userDeleteSuccess && <p style={{ color: 'green' }}>{userDeleteSuccess}</p>}
+                    {userDeleteError && <p style={{ color: 'red' }}>{userDeleteError}</p>}
+                </Grid>
+
+                <Grid item>
+                    <h2>Delete Teacher</h2>
+                    <TextField
+                        type="text"
+                        placeholder="Teacher number"
+                        value={deleteTeacherNumber}
+                        onChange={(e) => setDeleteTeacherNumber(e.target.value)}
+                        sx={{ marginBottom: 1 }}
+                    />
+                    <br />
+                    <Button
+                        variant="contained"
+                        style={{ backgroundColor: '#76ABAE', color: '#EEEEEE'}}
+                        onClick={handleDeleteTeacher}>Delete Teacher
+                    </Button>
+                    {teacherDeleteSuccess && <p style={{ color: 'green' }}>{teacherDeleteSuccess}</p>}
+                    {teacherDeleteError && <p style={{ color: 'red' }}>{teacherDeleteError}</p>}
+                </Grid>
+
+                <Grid item>
+                    <h2>Delete Student</h2>
+                    <TextField
+                        type="text"
+                        placeholder="Student number"
+                        value={deleteStudentNumber}
+                        onChange={(e) => setDeleteStudentNumber(e.target.value)}
+                        sx={{ marginBottom: 1 }}
+                    />
+
+                    <br />
+                    <Button
+                        variant="contained"
+                        style={{ backgroundColor: '#76ABAE', color: '#EEEEEE'}}
+                        onClick={handleDeleteStudent}>Delete Student
+                    </Button>  
+                    {studentDeleteSuccess && <p style={{ color: 'green' }}>{studentDeleteSuccess}</p>}
+                    {studentDeleteError && <p style={{ color: 'red' }}>{studentDeleteError}</p>}
+                </Grid>
+                
+                <Grid item>
+                    <h2>Delete Class</h2>
+                    <TextField
+                        type="text"
+                        placeholder="Class ID"
+                        value={deleteClassID}
+                        onChange={(e) => setDeleteClassID(e.target.value)}
+                        sx={{ marginBottom: 1 }}
+                    />
+                    <br />
+                    <Button
+                        variant="contained"
+                        style={{ backgroundColor: '#76ABAE', color: '#EEEEEE'}}
+                        onClick={handleDeleteClass}>Delete Class
+                    </Button>
+                    {classDeleteSuccess && <p style={{ color: 'green' }}>{classDeleteSuccess}</p>}
+                    {classDeleteError && <p style={{ color: 'red' }}>{classDeleteError}</p>}
                 </Grid>
             </Grid>
         </div>

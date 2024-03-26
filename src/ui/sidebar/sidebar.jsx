@@ -172,7 +172,7 @@ const NavigationSidebar = ({user, classes, onClassChange, onLogout}) => {
                             variant="contained"
                             style={{ backgroundColor: '#76ABAE', color: '#EEEEEE' }}
                             onClick={() => handleLogout()}
-                            id='logoutBtn'>
+                            id='logoutBtn'
                         >
                             Logout
                         </Button>
