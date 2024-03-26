@@ -1,5 +1,6 @@
-import React, { useState } from 'react';
-import { Button, TextField, Grid } from '@mui/material';
+import React, {useState} from 'react';
+import {useNavigate} from 'react-router-dom';
+import {Button, TextField, Grid} from '@mui/material';
 
 function Admin() {
     const [username, setUsername] = useState('');
@@ -27,7 +28,7 @@ function Admin() {
     const [classAddError, setClassAddError] = useState('');
     const [teacherAddSuccess, setTeacherAddSuccess] = useState('');
     const [teacherAddError, setTeacherAddError] = useState('');
-    
+
     const [userDeleteSuccess, setUserDeleteSuccess] = useState('');
     const [userDeleteError, setUserDeleteError] = useState('');
     const [studentDeleteSuccess, setStudentDeleteSuccess] = useState('');
@@ -37,6 +38,7 @@ function Admin() {
     const [teacherDeleteSuccess, setTeacherDeleteSuccess] = useState('');
     const [teacherDeleteError, setTeacherDeleteError] = useState('');
 
+    const navigate = useNavigate();
 
     const handleAddUser = () => {
         const responseHandler = (response) => {
@@ -76,7 +78,7 @@ function Admin() {
         return () => {
             window.api.remove('insert-student-response', responseHandler);
         };
-    }; 
+    };
 
     const handleAddClass = () => {
         const responseHandler = (response) => {
@@ -165,7 +167,7 @@ function Admin() {
         return () => {
             window.api.remove('delete-student-response', responseHandler);
         };
-    }; 
+    };
 
     const handleDeleteClass = () => {
         const responseHandler = (response) => {
@@ -226,25 +228,25 @@ function Admin() {
                         placeholder="Username"
                         value={username}
                         onChange={(e) => setUsername(e.target.value)}
-                        sx={{ marginBottom: 1 }}
+                        sx={{marginBottom: 1}}
                     />
-                    <br />
-                    
+                    <br/>
+
                     <TextField
                         type="password"
                         placeholder="Password"
                         value={password}
                         onChange={(e) => setPassword(e.target.value)}
-                        sx={{ marginBottom: 1 }}
+                        sx={{marginBottom: 1}}
                     />
-                    <br />
+                    <br/>
                     <Button
                         variant="contained"
-                        style={{ backgroundColor: '#76ABAE', color: '#EEEEEE'}}
+                        style={{backgroundColor: '#76ABAE', color: '#EEEEEE'}}
                         onClick={handleAddUser}>Add User
                     </Button>
-                    {userAddSuccess && <p style={{ color: 'green' }}>{userAddSuccess}</p>}
-                    {userAddError && <p style={{ color: 'red' }}>{userAddError}</p>}
+                    {userAddSuccess && <p style={{color: 'green'}}>{userAddSuccess}</p>}
+                    {userAddError && <p style={{color: 'red'}}>{userAddError}</p>}
                 </Grid>
 
                 <Grid item>
@@ -254,24 +256,24 @@ function Admin() {
                         placeholder="Name"
                         value={teacherName}
                         onChange={(e) => setTeacherName(e.target.value)}
-                        sx={{ marginBottom: 1 }}
+                        sx={{marginBottom: 1}}
                     />
-                    <br />
+                    <br/>
                     <TextField
                         type="text"
                         placeholder="Teacher number"
                         value={teacherNumber}
                         onChange={(e) => setTeacherNumber(e.target.value)}
-                        sx={{ marginBottom: 1 }}
+                        sx={{marginBottom: 1}}
                     />
-                    <br />
+                    <br/>
                     <Button
                         variant="contained"
-                        style={{ backgroundColor: '#76ABAE', color: '#EEEEEE'}}
+                        style={{backgroundColor: '#76ABAE', color: '#EEEEEE'}}
                         onClick={handleAddTeacher}>Add Teacher
                     </Button>
-                    {teacherAddSuccess && <p style={{ color: 'green' }}>{teacherAddSuccess}</p>}
-                    {teacherAddError && <p style={{ color: 'red' }}>{teacherAddError}</p>}
+                    {teacherAddSuccess && <p style={{color: 'green'}}>{teacherAddSuccess}</p>}
+                    {teacherAddError && <p style={{color: 'red'}}>{teacherAddError}</p>}
                 </Grid>
 
                 <Grid item>
@@ -281,35 +283,35 @@ function Admin() {
                         placeholder="Name"
                         value={studentName}
                         onChange={(e) => setStudentName(e.target.value)}
-                        sx={{ marginBottom: 1 }}
+                        sx={{marginBottom: 1}}
                     />
-                    <br />
+                    <br/>
                     <TextField
                         type="number"
                         placeholder="Age"
                         value={age}
                         onChange={(e) => setAge(e.target.value)}
-                        sx={{ marginBottom: 1 }}
+                        sx={{marginBottom: 1}}
                     />
-                    <br />
+                    <br/>
                     <TextField
                         type="text"
                         placeholder="Student number"
                         value={studentNumber}
                         onChange={(e) => setStudentNumber(e.target.value)}
-                        sx={{ marginBottom: 1 }}
+                        sx={{marginBottom: 1}}
                     />
 
-                    <br />
+                    <br/>
                     <Button
                         variant="contained"
-                        style={{ backgroundColor: '#76ABAE', color: '#EEEEEE'}}
+                        style={{backgroundColor: '#76ABAE', color: '#EEEEEE'}}
                         onClick={handleAddStudent}>Add Student
-                    </Button>  
-                    {studentAddSuccess && <p style={{ color: 'green' }}>{studentAddSuccess}</p>}
-                    {studentAddError && <p style={{ color: 'red' }}>{studentAddError}</p>}
+                    </Button>
+                    {studentAddSuccess && <p style={{color: 'green'}}>{studentAddSuccess}</p>}
+                    {studentAddError && <p style={{color: 'red'}}>{studentAddError}</p>}
                 </Grid>
-                
+
                 <Grid item>
                     <h2>Add Class</h2>
                     <TextField
@@ -317,43 +319,43 @@ function Admin() {
                         placeholder="Class Name"
                         value={className}
                         onChange={(e) => setClassName(e.target.value)}
-                        sx={{ marginBottom: 1 }}
+                        sx={{marginBottom: 1}}
                     />
-                    <br />
+                    <br/>
                     <TextField
                         type="text"
                         placeholder="Year"
                         value={year}
                         onChange={(e) => setYear(e.target.value)}
-                        sx={{ marginBottom: 1 }}
+                        sx={{marginBottom: 1}}
                     />
-                    <br />
+                    <br/>
                     <TextField
                         type="text"
                         placeholder="Grade"
                         value={grade}
                         onChange={(e) => setGrade(e.target.value)}
-                        sx={{ marginBottom: 1 }}
+                        sx={{marginBottom: 1}}
                     />
-                    <br />
+                    <br/>
                     <TextField
                         type="text"
                         placeholder="Teacher number"
                         value={classTeacherNumber}
                         onChange={(e) => setClassTeacherNumber(e.target.value)}
-                        sx={{ marginBottom: 1 }}
+                        sx={{marginBottom: 1}}
                     />
-                    <br />
+                    <br/>
                     <Button
                         variant="contained"
-                        style={{ backgroundColor: '#76ABAE', color: '#EEEEEE'}}
+                        style={{backgroundColor: '#76ABAE', color: '#EEEEEE'}}
                         onClick={handleAddClass}>Add Class
                     </Button>
-                    {classAddSuccess && <p style={{ color: 'green' }}>{classAddSuccess}</p>}
-                    {classAddError && <p style={{ color: 'red' }}>{classAddError}</p>}
+                    {classAddSuccess && <p style={{color: 'green'}}>{classAddSuccess}</p>}
+                    {classAddError && <p style={{color: 'red'}}>{classAddError}</p>}
                 </Grid>
 
-                
+
                 <Grid item>
                     <h2>Delete User</h2>
                     <TextField
@@ -361,16 +363,16 @@ function Admin() {
                         placeholder="Username"
                         value={deleteUsername}
                         onChange={(e) => setDeleteUsername(e.target.value)}
-                        sx={{ marginBottom: 1 }}
+                        sx={{marginBottom: 1}}
                     />
-                    <br />
+                    <br/>
                     <Button
                         variant="contained"
-                        style={{ backgroundColor: '#76ABAE', color: '#EEEEEE'}}
+                        style={{backgroundColor: '#76ABAE', color: '#EEEEEE'}}
                         onClick={handleDeleteUser}>Delete User
                     </Button>
-                    {userDeleteSuccess && <p style={{ color: 'green' }}>{userDeleteSuccess}</p>}
-                    {userDeleteError && <p style={{ color: 'red' }}>{userDeleteError}</p>}
+                    {userDeleteSuccess && <p style={{color: 'green'}}>{userDeleteSuccess}</p>}
+                    {userDeleteError && <p style={{color: 'red'}}>{userDeleteError}</p>}
                 </Grid>
 
                 <Grid item>
@@ -380,16 +382,16 @@ function Admin() {
                         placeholder="Teacher number"
                         value={deleteTeacherNumber}
                         onChange={(e) => setDeleteTeacherNumber(e.target.value)}
-                        sx={{ marginBottom: 1 }}
+                        sx={{marginBottom: 1}}
                     />
-                    <br />
+                    <br/>
                     <Button
                         variant="contained"
-                        style={{ backgroundColor: '#76ABAE', color: '#EEEEEE'}}
+                        style={{backgroundColor: '#76ABAE', color: '#EEEEEE'}}
                         onClick={handleDeleteTeacher}>Delete Teacher
                     </Button>
-                    {teacherDeleteSuccess && <p style={{ color: 'green' }}>{teacherDeleteSuccess}</p>}
-                    {teacherDeleteError && <p style={{ color: 'red' }}>{teacherDeleteError}</p>}
+                    {teacherDeleteSuccess && <p style={{color: 'green'}}>{teacherDeleteSuccess}</p>}
+                    {teacherDeleteError && <p style={{color: 'red'}}>{teacherDeleteError}</p>}
                 </Grid>
 
                 <Grid item>
@@ -399,19 +401,19 @@ function Admin() {
                         placeholder="Student number"
                         value={deleteStudentNumber}
                         onChange={(e) => setDeleteStudentNumber(e.target.value)}
-                        sx={{ marginBottom: 1 }}
+                        sx={{marginBottom: 1}}
                     />
 
-                    <br />
+                    <br/>
                     <Button
                         variant="contained"
-                        style={{ backgroundColor: '#76ABAE', color: '#EEEEEE'}}
+                        style={{backgroundColor: '#76ABAE', color: '#EEEEEE'}}
                         onClick={handleDeleteStudent}>Delete Student
-                    </Button>  
-                    {studentDeleteSuccess && <p style={{ color: 'green' }}>{studentDeleteSuccess}</p>}
-                    {studentDeleteError && <p style={{ color: 'red' }}>{studentDeleteError}</p>}
+                    </Button>
+                    {studentDeleteSuccess && <p style={{color: 'green'}}>{studentDeleteSuccess}</p>}
+                    {studentDeleteError && <p style={{color: 'red'}}>{studentDeleteError}</p>}
                 </Grid>
-                
+
                 <Grid item>
                     <h2>Delete Class</h2>
                     <TextField
@@ -419,18 +421,24 @@ function Admin() {
                         placeholder="Class ID"
                         value={deleteClassID}
                         onChange={(e) => setDeleteClassID(e.target.value)}
-                        sx={{ marginBottom: 1 }}
+                        sx={{marginBottom: 1}}
                     />
-                    <br />
+                    <br/>
                     <Button
                         variant="contained"
-                        style={{ backgroundColor: '#76ABAE', color: '#EEEEEE'}}
+                        style={{backgroundColor: '#76ABAE', color: '#EEEEEE'}}
                         onClick={handleDeleteClass}>Delete Class
                     </Button>
-                    {classDeleteSuccess && <p style={{ color: 'green' }}>{classDeleteSuccess}</p>}
-                    {classDeleteError && <p style={{ color: 'red' }}>{classDeleteError}</p>}
+                    {classDeleteSuccess && <p style={{color: 'green'}}>{classDeleteSuccess}</p>}
+                    {classDeleteError && <p style={{color: 'red'}}>{classDeleteError}</p>}
                 </Grid>
             </Grid>
+            <Button
+                variant="contained"
+                style={{backgroundColor: '#76ABAE', color: '#EEEEEE', marginTop: 10}}
+                onClick={() => navigate('/dashboard')}
+            > Exit Admin
+            </Button>
         </div>
     );
 }

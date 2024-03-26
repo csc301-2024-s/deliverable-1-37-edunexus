@@ -134,7 +134,9 @@ ipcMain.on('login-authentication', async (event, data) => {
     const loginSuccess = await db.checkUserPassword(username, password);
 
     if (loginSuccess) {
-        event.sender.send('login-success');
+        const userInfo = await db.getUser(username);
+
+        event.sender.send('login-success', {isAdmin: userInfo.admin, teacherId: userInfo.teacherNumber});
     } else {
         event.sender.send('login-failed');
     }
@@ -212,7 +214,7 @@ ipcMain.on('insert-student', async (event, student) => {
 
 ipcMain.on('insert-user', async (event, user) => {
     try {
-        const response = await db.insertUser(user.username, user.password);
+        const response = await db.insertUser(user.username, user.password, 0, 101);
         event.sender.send('insert-user-response', response);
     } catch (error) {
         event.sender.send('insert-user-response', {error: error.message});

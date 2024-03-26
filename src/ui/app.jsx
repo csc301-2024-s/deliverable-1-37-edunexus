@@ -27,6 +27,7 @@ const App = () => {
 
     // React state to track the currently logged-in users' classes
     const [classesForTeacher, setClassesForTeacher] = React.useState([]);
+    const [userIsAdmin, setUserIsAdmin] = React.useState(false);
 
     /**
      * Sets up an effect for managing event listeners for class data.
@@ -57,15 +58,14 @@ const App = () => {
 
     /**
      * Handles login logic, sets the logged-in state, and requests class data.
-     * @param {number} teacherId - The ID of the teacher logging in.
+     * @param {object} userInfo - The information of the teacher logging in.
      */
-    const handleLogin = (teacherId) => {
+    const handleLogin = (userInfo) => {
         setIsLoggedIn(true);
 
         //TEMP - SET TEACHERID BY LOGIN ID
-        teacherId = 101;
-
-        window.api.send('get-classes-by-teacher', teacherId);
+        setUserIsAdmin(userInfo.isAdmin);
+        window.api.send('get-classes-by-teacher', userInfo.teacherId);
     };
 
     /**
@@ -86,7 +86,7 @@ const App = () => {
                 <Route
                     path="/dashboard"
                     element={isLoggedIn ?
-                        <Homepage onLogout={handleLogout} classes={classesForTeacher}/> :
+                        <Homepage onLogout={handleLogout} classes={classesForTeacher} userIsAdmin={userIsAdmin}/> :
                         <Navigate replace to="/login"/>}
                 />
                 <Route
