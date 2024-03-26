@@ -1,24 +1,63 @@
 import React, { useState } from 'react';
 import Button from '@mui/material/Button';
+import * as XLSX from 'xlsx';
 import '@emotion/styled';
-import './styles.css'; 
+import './styles.css';
+import ClassStats from './classStats.jsx';
 
+/**
+ * `Buttons` is a React component that renders a set of buttons for uploading spreadsheets,
+ * generating PDF reports, and visualizing class statistics. It also manages the state
+ * for showing a popup component that provides instructions for uploading a spreadsheet.
+ *
+ * @returns {React.JSX.Element} The `Buttons` component renders three buttons with different functionalities
+ * and a `PopupComponent` if the `showPopup` state is true.
+ */
+function Buttons({selectedRow, classData, className}) {
 
-function Buttons({selectedRow}) {
     const [showPopup, setShowPopup] = useState(false);
 
     const togglePopup = () => {
         setShowPopup(!showPopup);
     };
-  
+
+    console.log('this is in buttons', classData);
+    
+    const downloadExcel = () => {
+        const processedData = classData.map(row => {
+
+            const keys = Object.keys(row);
+
+            const studentNumberKey = keys[0];
+            const studentNameKey = keys[1];
+
+            return {
+                'Student ID': row[studentNumberKey],
+                'Student Name': row[studentNameKey],
+                'Next Exam/Test': ''
+            };
+        });
+    
+        console.log('Processed Data for Excel:', processedData);
+    
+        const ws = XLSX.utils.json_to_sheet(processedData);
+        const wb = XLSX.utils.book_new();
+
+        XLSX.utils.book_append_sheet(wb, ws, 'CompleteData');
+        XLSX.writeFile(wb, 'class_list.xlsx');
+    };
+
     return (
         <div className="buttons-container" style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
-            <Button variant="outlined" style={{ color: '#76ABAE', borderColor: '#76ABAE' }}>
+
+            <Button 
+                variant="contained" 
+                style={{ backgroundColor: '#76ABAE', color: '#FFFFFF' }}>
                 Upload a Spreadsheet
             </Button>
+
             {showPopup && <PopupComponent onClose={togglePopup} />}
 
-            {/* <button>Generate PDF</button> */}
             <Button variant="contained"
                 onClick={() => {
                     // For now, we will only use the first element in the selectedRow array
@@ -31,13 +70,28 @@ function Buttons({selectedRow}) {
                 style={{ backgroundColor: '#76ABAE', color: '#FFFFFF' }}>
                 Generate PDF
             </Button>
-            <Button variant="outlined" style={{ color: '#76ABAE', borderColor: '#76ABAE' }}>
-                Visualize Class Statistics
+
+            <ClassStats className={className} classData={classData}/>
+
+            <Button 
+                variant="contained" 
+                style={{ backgroundColor: '#76ABAE', color: '#FFFFFF' }} 
+                onClick={downloadExcel}>
+                Download Class List
             </Button>
         </div> 
     );
 }
 
+/**
+ * `PopupComponent` is a React component that displays a modal popup with instructions
+ * for uploading a spreadsheet. It includes an input for file upload and a close button
+ * to dismiss the popup.
+ *
+ * @param {Object} props - The props object for the `PopupComponent`.
+ * @param {Function} props.onClose - A function to call when the popup should be closed.
+ * @returns {React.JSX.Element} The `PopupComponent` renders a modal with instructions and a file input.
+ */
 function PopupComponent({ onClose }) {
     return (
         <div className="popup">
