@@ -177,7 +177,7 @@ const NavigationSidebar = ({user, classes, onClassChange, onLogout}) => {
                             Logout
                         </Button>
                         {/* TODO: placeholder for admin state */}
-                        {/* {user.role === 'admin' && ( */}
+                        {/* {user.admin == 1 && ( */}
                         <Button
                             variant="contained"
                             style={{ backgroundColor: '#76ABAE', color: '#EEEEEE'}}
