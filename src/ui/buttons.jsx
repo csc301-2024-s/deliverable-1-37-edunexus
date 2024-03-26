@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import Button from '@mui/material/Button';
 import * as XLSX from 'xlsx';
 import '@emotion/styled';
-import './styles.css'; 
+import './styles.css';
+import ClassStats from './classStats.jsx';
 
 /**
  * `Buttons` is a React component that renders a set of buttons for uploading spreadsheets,
@@ -12,7 +13,8 @@ import './styles.css';
  * @returns {React.JSX.Element} The `Buttons` component renders three buttons with different functionalities
  * and a `PopupComponent` if the `showPopup` state is true.
  */
-function Buttons({selectedRow, classData}) {
+function Buttons({selectedRow, classData, className}) {
+
     const [showPopup, setShowPopup] = useState(false);
 
     const togglePopup = () => {
@@ -69,11 +71,7 @@ function Buttons({selectedRow, classData}) {
                 Generate PDF
             </Button>
 
-            <Button 
-                variant="contained" 
-                style={{ backgroundColor: '#76ABAE', color: '#FFFFFF' }}>
-                Visualize Class Statistics
-            </Button>
+            <ClassStats className={className} classData={classData}/>
 
             <Button 
                 variant="contained" 
