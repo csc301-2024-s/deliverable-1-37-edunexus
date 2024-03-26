@@ -18,6 +18,7 @@ export default function DataGridDemo({classColumns, classData, selectedRow, setS
 
         // Call an API to update the student with the new data, sending the new data
         window.api.send('update-row', diff);
+        return diff;
     };
 
     return (
