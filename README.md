@@ -28,6 +28,11 @@ EduNexus is an educational support application designed to automate and personal
 - **Access Control**: Manage user roles with different access levels to maintain data security and privacy.
 - **Simplified Workflow**: Easily upload data, generate reports, and download PDFs through a streamlined interface.
 
+## Using the pre-packaged database
+Admin username: admin
+Password: password
+
+Within the admin view, you can add other teachers. Due to an implementation bug, all teachers will be assigned to the same classes but loging in with those new teacher accounts will remove access to the "admin" button allowing management of the school.
 
 ## Installation
 
@@ -73,8 +78,6 @@ Note: `npm package` will only package for the platform you are currently running
 - React Routing
   - [Medium Article](https://medium.com/folkdevelopers/the-ultimate-guide-to-electron-with-react-8df8d73f4c97) *Scroll down to "How to implement Routes in Electron with React"*
   - [Stack Overflow](https://stackoverflow.com/questions/36505404/how-to-use-react-router-with-electron)
-
-[See our D3 writeup]
 
 ## Meeting Times
 - Thursday: 7:30-9:00pm during tutorial time (Zoom)
