@@ -25,11 +25,17 @@ const markNames = ['HW1', 'HW2', 'HW3', 'Test', 'Exam'];
 const classNames = ['Math', 'English', 'Geography'];
 
 async function init() {
-    let studentNumber, name, age;
     // initialize database
     await database.initDB();
     // User
-    await database.insertUser('admin', 'password', 1);
+    await database.insertUser('admin', 'password', 1, 101);
+    // Teacher
+    await database.insertTeacher('Default teacher 1', 101);
+    await database.insertSubject('');
+}
+
+async function fillData() {
+    let studentNumber, name, age;
     // Student
     for (let i = 0; i < names.length; i++) {
         studentNumber = i + 100;
@@ -37,8 +43,6 @@ async function init() {
         age = 12 + Math.floor(i / 10);
         await database.insertStudent(name, studentNumber, age);
     }
-    await database.insertTeacher('', 101);
-    await database.insertSubject('');
     for (let grade = 7; grade <= 9; grade++) {
         for (let i = 0; i < classNames.length; i++) {
             await database.insertClass(classNames[i] + ' grade ' + grade, 2024, grade, 101, 1);
@@ -58,6 +62,8 @@ async function init() {
 }
 
 async function printAll() {
+    let users = await database.getAllUser();
+    console.log(users);
     let students = await database.getAllStudent();
     console.log(students);
     let teachers = await database.getAllTeacher();
@@ -73,6 +79,7 @@ async function printAll() {
 async function main() {
     await database.connectDB('./edunexus.db');
     await init();
+    await fillData();
     await printAll();
 }
 
