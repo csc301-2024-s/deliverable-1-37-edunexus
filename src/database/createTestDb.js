@@ -29,7 +29,7 @@ async function init() {
     // initialize database
     await database.initDB();
     // User
-    await database.insertUser('admin', 'password', 1);
+    await database.insertUser('user', 'password');
     // Student
     for (let i = 0; i < names.length; i++) {
         studentNumber = i + 100;
@@ -37,6 +37,7 @@ async function init() {
         age = 12 + Math.floor(i / 10);
         await database.insertStudent(name, studentNumber, age);
     }
+    // Teacher
     await database.insertTeacher('', 101);
     await database.insertSubject('');
     for (let grade = 7; grade <= 9; grade++) {

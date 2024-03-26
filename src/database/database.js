@@ -67,7 +67,12 @@ function initDB() {
                     studentNumber INTEGER REFERENCES student (studentNumber),
                     classID INTEGER REFERENCES class (id),
                     PRIMARY KEY (name, studentNumber, classID)
-                    )`);
+                    )`)
+                .run(`INSERT OR IGNORE INTO user(username, password, admin, teacherNumber) 
+                    VALUES('admin', 'password', 1, 0)
+                    `)
+                .run(`INSERT OR IGNORE INTO teacher(teacherNumber, name)
+                    VALUES(0, 'Default Teacher')`);
         });
         return true;
     }
