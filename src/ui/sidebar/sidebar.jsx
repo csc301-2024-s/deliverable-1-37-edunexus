@@ -15,7 +15,7 @@ import {
     ButtonBase,
     Button,
     Grid,
-    Paper
+    Paper,
 } from '@mui/material';
 import SchoolIcon from '@mui/icons-material/School'; // For class icons
 
@@ -29,7 +29,7 @@ import SchoolIcon from '@mui/icons-material/School'; // For class icons
  * @param {Function} props.onClassChange - Function to be called when a class is selected.
  * @param {Function} props.onLogout - Function to be called when the logout button is clicked.
  */
-const NavigationSidebar = ({user, classes, onClassChange, onLogout}) => {
+const NavigationSidebar = ({user, classes, onClassChange, onLogout, userIsAdmin}) => {
     const navigate = useNavigate();
     const [searchText, setSearchText] = useState('');
 
@@ -42,7 +42,7 @@ const NavigationSidebar = ({user, classes, onClassChange, onLogout}) => {
         setSearchText(event.target.value);
     };
 
-    const filteredClasses = classes.filter(classItem =>
+    const filteredClasses = classes.filter((classItem) =>
         classItem.name.toLowerCase().includes(searchText.toLowerCase())
     );
 
@@ -74,10 +74,11 @@ const NavigationSidebar = ({user, classes, onClassChange, onLogout}) => {
             return <Typography sx={{color: '#EEEEEE', margin: 2}}>Loading classes...</Typography>;
         }
         return (
-            <Paper style={{maxHeight: 350, overflow: 'auto'}}
-                sx={{bgcolor: '#31363F', '&::-webkit-scrollbar': {display: 'none'}}}>
+            <Paper
+                style={{maxHeight: 350, overflow: 'auto'}}
+                sx={{bgcolor: '#31363F', '&::-webkit-scrollbar': {display: 'none'}}}
+            >
                 <List>
-
                     {filteredClasses.map((classItem) => (
                         <ButtonBase
                             key={classItem.id}
@@ -91,26 +92,30 @@ const NavigationSidebar = ({user, classes, onClassChange, onLogout}) => {
                                 <ListItemText primary={classItem.name} sx={{color: '#EEEEEE'}}/>
                             </ListItem>
                         </ButtonBase>
-                    ))};
+                    ))}
                 </List>
             </Paper>
         );
     };
 
     return (
-        <div style={{
-            height: '97vh',
-            display: 'flex',
-            flexDirection: 'column',
-        }}>
-            <Card sx={{
-                flexGrow: 1, // Allows the card to fill the space
-                width: '100%',
-                bgcolor: '#31363F',
-                color: 'common.white',
-                borderRadius: 2,
-                boxShadow: 3,
-            }}>
+        <div
+            style={{
+                height: '97%',
+                display: 'flex',
+                flexDirection: 'column',
+            }}
+        >
+            <Card
+                sx={{
+                    flexGrow: 1, // Allows the card to fill the space
+                    width: '100%',
+                    bgcolor: '#31363F',
+                    color: 'common.white',
+                    borderRadius: 2,
+                    boxShadow: 3,
+                }}
+            >
                 <Grid container justifyContent="center" alignItems="center" spacing={2}>
                     <Grid item>
                         <Box>
@@ -118,24 +123,23 @@ const NavigationSidebar = ({user, classes, onClassChange, onLogout}) => {
                             <Box sx={{padding: 2, textAlign: 'center'}}>
                                 {/*<img src="./logo.webp" alt="Logo" style={{maxWidth: '100%'}}/>*/}
                                 <h1>EduNexus</h1>
-
                             </Box>
                             <Divider/>
 
                             {/* User Card */}
-                            <Card sx={{
-                                margin: 2,
-                                bgcolor: 'inherit',
-                                border: '2px solid #EEEEEE',
-                                boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.4)',
-                            }}>
+                            <Card
+                                sx={{
+                                    margin: 2,
+                                    bgcolor: 'inherit',
+                                    border: '2px solid #EEEEEE',
+                                    boxShadow: '0px 4px 4px rgba(0, 0, 0, 0.4)',
+                                }}
+                            >
                                 <CardContent>
                                     <Typography color="#EEEEEE" variant="h6" component="div">
                                         {user.name}
                                     </Typography>
-                                    <Typography color="#EEEEEE">
-                                        {user.role}
-                                    </Typography>
+                                    <Typography color="#EEEEEE">{user.role}</Typography>
                                 </CardContent>
                             </Card>
                             <Divider/>
@@ -153,7 +157,7 @@ const NavigationSidebar = ({user, classes, onClassChange, onLogout}) => {
                                             borderColor: '#878787',
                                         },
                                         '&:hover fieldset': {
-                                            borderColor: '#EEEEEE'
+                                            borderColor: '#EEEEEE',
                                         },
                                     },
                                 }}
@@ -163,14 +167,26 @@ const NavigationSidebar = ({user, classes, onClassChange, onLogout}) => {
                             {renderClassList()}
                         </Box>
                     </Grid>
-                    <Grid item>
-                        <Button variant="contained"
+                    <div className="buttons-container" style={{display: 'flex', gap: '1rem', marginTop: '1rem'}}>
+                        <Button
+                            variant="contained"
                             style={{backgroundColor: '#76ABAE', color: '#EEEEEE'}}
                             onClick={() => handleLogout()}
-                            id='logoutBtn'>
+                            id="logoutBtn"
+                        >
                             Logout
                         </Button>
-                    </Grid>
+                        {/* TODO: placeholder for admin state */}
+                        {userIsAdmin === 1 && (
+                            <Button
+                                variant="contained"
+                                style={{backgroundColor: '#76ABAE', color: '#EEEEEE'}}
+                                onClick={() => navigate('/admin')}
+                            >
+                                Admin
+                            </Button>
+                        )}
+                    </div>
                 </Grid>
             </Card>
         </div>

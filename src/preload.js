@@ -10,7 +10,15 @@ let validChannels = [
     'get-datagrid-by-class',
     'get-student',
     'get-student-marks',
-    'login-authentication'
+    'login-authentication',
+    'insert-student',
+    'insert-user',
+    'insert-class',
+    'insert-teacher',
+    'delete-student',
+    'delete-user',
+    'delete-class',
+    'delete-teacher'
 ];
 
 let validReceiveChannels = [
@@ -23,7 +31,15 @@ let validReceiveChannels = [
     'get-student-response',
     'get-student-marks-response',
     'login-failed',
-    'login-success'
+    'login-success',
+    'insert-student-response',
+    'insert-user-response',
+    'insert-class-response',
+    'insert-teacher-response',
+    'delete-student-response',
+    'delete-user-response',
+    'delete-class-response',
+    'delete-teacher-response'
 ];
 
 
