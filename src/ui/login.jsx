@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TextField, Button, Container, Typography, Box } from '@mui/material';
+import { TextField, Button, Container, Typography, Box, Alert } from '@mui/material';
 import SchoolIcon from '@mui/icons-material/School';
 import { useNavigate } from 'react-router-dom';
 
@@ -13,6 +13,7 @@ import { useNavigate } from 'react-router-dom';
 export function Login({ onLogin }) {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
     const navigate = useNavigate();
 
     /**
@@ -32,11 +33,11 @@ export function Login({ onLogin }) {
     const handlePasswordChange = (event) => {
         setPassword(event.target.value);
     };
-  
+
     /**
      * Handles the form submission for user login.
      *
-     * @param {React.FormEvent<HTMLFormElement>} event - The form event
+     * @param {React.FormEvent<HTMLFormElement>} e - The form event
      */
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -52,7 +53,7 @@ export function Login({ onLogin }) {
         });
 
         window.api.receive('login-failed', () => {
-            // TODO: Alert user that login failed, potentially with a pop-up
+            setError('Incorrect username or password'); // Set error message on login failure
         });
     };
 
@@ -73,6 +74,11 @@ export function Login({ onLogin }) {
                 <Typography component='h1' variant='h5' color='#222831'>
                     Sign in
                 </Typography>
+                {error && (
+                    <Alert severity="error" sx={{ width: '92%', mb: 2, marginTop: 2 }}>
+                        {error}
+                    </Alert>
+                )}
                 <form onSubmit={handleSubmit}>
                     <TextField
                         margin='normal'
