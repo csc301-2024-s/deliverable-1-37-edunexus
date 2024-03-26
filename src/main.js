@@ -159,7 +159,7 @@ ipcMain.on(
                 pdfPaths.push(reportPath);
             }
 
-            const zipDirectory = path.join(__dirname, 'path', 'to', 'reports');
+            const zipDirectory = path.join(isDev ? __dirname : process.resourcesPath, 'path', 'to', 'reports');
             const zipFileName = 'reports.zip';
             const zipPath = path.join(zipDirectory, zipFileName);
 

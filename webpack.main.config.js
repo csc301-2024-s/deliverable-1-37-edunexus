@@ -1,3 +1,6 @@
+const plugins = require('./webpack.main.plugins');
+
+
 module.exports = {
     /**
      * This is the main entry point for your application, it's the first file
@@ -8,4 +11,8 @@ module.exports = {
     module: {
         rules: require('./webpack.rules'),
     },
+    plugins,
+    externals: {
+        sharp: 'commonjs sharp',
+    }
 };
