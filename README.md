@@ -87,7 +87,13 @@ Note: `npm package` will only package for the platform you are currently running
   - **Frontend:** [React](https://react.dev/)
 
 ### Testing
-*pending coding*
+Testing is done by using [WDIO](https://webdriver.io/).
+To run the existing tests, you may run:
+```
+npm run wdio
+```
+
+To add new tests for your code, you may consult [mocha.js](https://mochajs.org/).
 
 ## Collaboration Standards
 To keep on top of any Git Spaghetti that might happen, please stick to these Git Standards when working on your code. Remember if something gets tangled, it's up to the group to untangle it so sticking to these guidelines ensures that that happens as infrequently as possible!
