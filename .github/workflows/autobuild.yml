@@ -1,0 +1,50 @@
+name: Build Electron App
+
+on:
+  push:
+    branches:
+      - main
+      - dev
+  pull_request:
+    branches:
+      - main
+      - dev
+
+jobs:
+  build:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+        node-version: [21]
+        include:
+          - branch: main
+            release_type: production
+          - branch: dev
+            release_type: staging
+
+    steps:
+    - name: Check out code
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: ${{ matrix.node-version }}
+
+    - name: Install dependencies
+      run: npm install
+
+    - name: Build the app (Staging)
+      if: github.ref != 'refs/heads/main'
+      run: npm run make -- --publish onTagOrDraft
+
+    - name: Build the app (Production)
+      if: github.ref == 'refs/heads/main'
+      run: npm run make -- --publish always
+
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v3
+      with:
+        name: ${{ matrix.os }}-${{ matrix.release_type }}-app
+        path: out/make/**/*  # Adjust this path to where Electron Forge outputs your builds

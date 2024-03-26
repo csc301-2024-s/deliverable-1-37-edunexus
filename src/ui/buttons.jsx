@@ -5,8 +5,16 @@ import '@emotion/styled';
 import './styles.css';
 import ClassStats from './classStats.jsx';
 
-
+/**
+ * `Buttons` is a React component that renders a set of buttons for uploading spreadsheets,
+ * generating PDF reports, and visualizing class statistics. It also manages the state
+ * for showing a popup component that provides instructions for uploading a spreadsheet.
+ *
+ * @returns {React.JSX.Element} The `Buttons` component renders three buttons with different functionalities
+ * and a `PopupComponent` if the `showPopup` state is true.
+ */
 function Buttons({selectedRow, classData, className}) {
+
     const [showPopup, setShowPopup] = useState(false);
 
     const togglePopup = () => {
@@ -75,6 +83,15 @@ function Buttons({selectedRow, classData, className}) {
     );
 }
 
+/**
+ * `PopupComponent` is a React component that displays a modal popup with instructions
+ * for uploading a spreadsheet. It includes an input for file upload and a close button
+ * to dismiss the popup.
+ *
+ * @param {Object} props - The props object for the `PopupComponent`.
+ * @param {Function} props.onClose - A function to call when the popup should be closed.
+ * @returns {React.JSX.Element} The `PopupComponent` renders a modal with instructions and a file input.
+ */
 function PopupComponent({ onClose }) {
     return (
         <div className="popup">
