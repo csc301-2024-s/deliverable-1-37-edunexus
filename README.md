@@ -5,6 +5,8 @@
 
 *TODO: License Info Here*
 
+Our demo video can be found [here](https://youtu.be/Wcgy5u6DdR0).
+
 EduNexus is an educational support application designed to automate and personalize the exams report generation and student grade keeping process for schools in underprivileged and crisis-stricken regions. We are completing this project **without** a partner organization.
 ## Key Features
 ### Report Generation
