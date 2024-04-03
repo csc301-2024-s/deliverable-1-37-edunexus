@@ -186,7 +186,10 @@ async function generateReport(studentDetails, outputPath) {
         // graph rectangle
         doc.rect(55, 335, 500, 224).stroke();
 
-        const text = `${studentDetails.studentName}'s Marks vs Class Perfomance`;
+        const studentFirstName = studentDetails.studentName.split(' ')[0];
+
+        const text = `${studentFirstName}'s Marks vs Class Perfomance`;
+
         const pageWidth = 500;
         const startX = 55;
         const textWidth = doc.font('Helvetica').fontSize(10).widthOfString(text);
@@ -203,19 +206,19 @@ async function generateReport(studentDetails, outputPath) {
         doc.rect(55, 565, 500, 75).stroke();
         doc.fontSize(10).font('Helvetica-Bold').text('Overall Comment:', 60, 570, {
             continued: true
-        }).font('Helvetica').text(` ${studentDetails.studentName}, your total score of ${studentDetails.total.studentTotal} reflects your dedication and effort. In particular, your performance in ${maxScoreSubject} with a score of ${maxScore} stands out as exemplary. However, it's crucial to address the variance in your scores, especially in subjects like ${minScoreSubject} where your score was ${minScore}. Balancing your strengths and areas for improvement will enhance your overall academic performance. Keep pushing forward with the determination of a tortoise on a mission, steadily improving across all subjects!`, {
+        }).font('Helvetica').text(` ${studentFirstName}, your total score of ${studentDetails.total.studentTotal} reflects your dedication and effort. In particular, your performance in ${maxScoreSubject} with a score of ${maxScore} stands out as exemplary. However, it's crucial to address the variance in your scores, especially in subjects like ${minScoreSubject} where your score was ${minScore}. Balancing your strengths and areas for improvement will enhance your overall academic performance. Keep pushing forward with the determination of a tortoise on a mission, steadily improving across all subjects!`, {
             width: 495,
             align: 'left',
             lineGap: 2
         });
 
         doc.rect(55, 645, 500, 75).stroke();
-        const remarksTitle = `Headteacher's Remarks for ${studentDetails.studentName}'s Parents:`;
+        const remarksTitle = `Headteacher's Remarks for ${studentFirstName}'s Parents:`;
         doc.fontSize(10).font('Helvetica-Bold').text(remarksTitle, 60, 650, {
             continued: true,
             width: 495,
             align: 'left',
-        }).font('Helvetica').text(` We encourage you to carefully review this report with ${studentDetails.studentName}, offering your guidance and support in areas that require improvement. This collaborative effort can significantly contribute to ${studentDetails.studentName}'s academic growth and confidence. Please note, the school year concludes on August 25th, 2025, and resumes on September 21st, 2025. We wish ${studentDetails.studentName} and your family joyful holidays and look forward to welcoming our students back for another enriching school year!`, {
+        }).font('Helvetica').text(` We encourage you to carefully review this report with ${studentFirstName}, offering your guidance and support in areas that require improvement. This collaborative effort can significantly contribute to ${studentFirstName}'s academic growth and confidence. Please note, the school year concludes on August 25th, 2025, and resumes on September 21st, 2025. We wish ${studentFirstName} and your family joyful holidays and look forward to welcoming our students back for another enriching school year!`, {
             width: 495,
             align: 'left',
             lineGap: 2,
