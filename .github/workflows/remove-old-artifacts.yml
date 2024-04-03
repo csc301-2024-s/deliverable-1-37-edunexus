@@ -1,22 +1,24 @@
-name: Remove old artifacts
+name: Cleanup Artifacts
 
 on:
   schedule:
-    # Every day at 1am
-    - cron: '0 1 * * *'
+    - cron: '0 0 * * *' # Runs every day at midnight
   workflow_dispatch:
 
 jobs:
-  remove-old-artifacts:
+  cleanup:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
-
     steps:
-    - name: Remove old artifacts
-      uses: c-hive/gha-remove-artifacts@v1
-      with:
-        age: '1 month'
-        token: ${{ secrets.GITHUB_TOKEN }}
-        # Optional inputs
-        # skip-tags: true
-        skip-recent: 9
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Keep last 5 artifacts
+        run: |
+          ARTIFACTS=$(curl -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+              "https://api.github.com/repos/${{ github.repository }}/actions/artifacts" | jq -r '.artifacts | sort_by(.created_at) | .[:-5] | .[].id')
+
+          for ARTIFACT in $ARTIFACTS; do
+            echo "Deleting artifact $ARTIFACT"
+            curl -X DELETE -H "Authorization: token ${{ secrets.GITHUB_TOKEN }}" \
+              "https://api.github.com/repos/${{ github.repository }}/actions/artifacts/$ARTIFACT"
+          done
