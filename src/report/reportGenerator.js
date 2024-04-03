@@ -1,43 +1,19 @@
-// // <<<<<<< Updated upstream
-// const PDFDocument = require('pdfkit');
-// const fs = require('fs');
+const PDFDocument = require('pdfkit');
+const fs = require('fs');
 // const path = require('path');
-// // const sharp = require('sharp');
-// const {addTableToPDF} = require('./tableGenerator');
+// const sharp = require('sharp');
+const {addTableToPDF} = require('./tableGenerator');
 // const {generateBarGraphSVG} = require('./graphGenerator');
 
-// function isDev() {
-//     return process.argv[2] == '--dev';
-// }
+/**
+ * This function checks if the application is running in development mode.
+ * @returns {boolean} - True if the application is running in development mode, false otherwise.
+ */
 
-// // TODO: Database team - implement report generating fetching functions
-// async function getStudentDetails(studentId) {
-//     return {
-//         id: studentId,
-//         name: 'John Doe',
-//         class: '5A',
-//         classTeacher: 'Justin Time'
-//     };
-// }
-
-// // TODO FIX: disabling eslint is bad
-// // eslint-disable-next-line no-unused-vars
-// async function getAcademicPerformance(studentId) {
-//     return [
-//         {subject: 'Math', score: 95},
-//         {subject: 'Science', score: 88}
-//     ];
-// }
-
-// // TODO FIX: disabling eslint is bad
-// // eslint-disable-next-line no-unused-vars
-// async function getAttendanceRecords(studentId) {
-//     return [
-//         {date: '2023-01-01', status: 'Present'},
-//         {date: '2023-01-02', status: 'Absent'}
-//     ];
-// }
-
+/**
+ * This function checks if the application is running in development mode.
+ * @returns {boolean} - True if the application is running in development mode, false otherwise.
+ */
 // async function svgToPng(svgString, outputPath, scale = 2) {
 //     const svgBuffer = Buffer.from(svgString);
 //     await sharp(svgBuffer)
@@ -46,324 +22,203 @@
 //         .toFile(outputPath);
 // }
 
-// async function generateReport(studentId, single) {
+/**
+ * This function generates a PDF report from the provided student details and saves it to the specified output path.
+ * @param {object} studentDetails - The details of the student to be included in the report.
+ * @param {string} outputPath - The path where the PDF report will be saved.
+ */
+function generateComment(score) {
+    if (score >= 80) {
+        return 'Excellent, keep it up!';
+    } else if (score >= 65) {
+        return 'Very Good, aim higher!';
+    } else if (score >= 50) {
+        return 'Good, there\'s room for improvement.';
+    } else {
+        return 'Below Average, let\'s work harder.';
+    }
+}
 
-//     try {
-//         console.log(studentId, single);
+/**
+ * This function generates a table of rows for the student details.
+ * @param {object} studentDetails - The details of the student to be included in the report.
+ * @returns {array} - An array of table rows.
+ */
+function generateTableRows(studentDetails) {
 
-//         const studentDetails = await getStudentDetails(studentId);
-//         // TODO FIX: disabling eslint is bad
-//         // eslint-disable-next-line no-unused-vars
-//         const academicPerformance = await getAcademicPerformance(studentId);
-//         // eslint-disable-next-line no-unused-vars
-//         const attendanceRecords = await getAttendanceRecords(studentId);
+    console.log('generate table rows', studentDetails);
 
-//         const doc = new PDFDocument.default();
-//         let reportPath;
-//         if (isDev()) {
-//             reportPath = path.join(__dirname, `report_${studentId}.pdf`);
-//         } else {
-//             reportPath = path.join(process.resourcesPath, `report_${studentId}.pdf`);
-//         }
+    const tableRows = [];
+    
+    const assessments = Object.keys(studentDetails).filter(key => key !== 'total' && key !== 'average');
 
-//         const writeStream = fs.createWriteStream(reportPath);
-//         doc.pipe(writeStream);
+    assessments.forEach(assessment => {
+        const score = studentDetails[assessment].score;
+        const average = studentDetails[assessment].average;
+        const comment = generateComment(score);
+        tableRows.push([assessment, `${score}`, `${average}`, comment]);
+    });
 
-//         let yPos = 55;
+    if (studentDetails.total && studentDetails.average) {
 
-//         doc.fontSize(25).text('XYZ Primary School', {align: 'center', baseline: 'top', y: yPos});
+        tableRows.push([
+            'Total',
+            `${studentDetails.total.studentTotal}`,
+            `${studentDetails.total.classTotal}`,
+            generateComment(studentDetails.total.studentTotal / assessments.length)
+        ]);
 
-//         // implement this later, might take data from the database
+        tableRows.push(
+            [
+                'Average',
+                `${studentDetails.average.studentAverage}`,
+                `${studentDetails.average.classAverage}`,
+                generateComment(studentDetails.average.studentAverage)
+            ]);
+    }
 
-//         // yPos += 25;
+    return tableRows;
+}
 
-//         // doc.fontSize(20).text('Grade 5', {align: 'center', baseline: 'top', y: yPos});
+/**
+ * This function converts an SVG string to a PNG image and saves it to the specified output path.
+ * @param {string} svgString - The SVG string to be converted.
+ * @param {string} outputPath - The path where the PNG image will be saved.
+ * @param {number} scale - The scale factor for the PNG image. Default is 2.
+ */
+async function generateReport(studentDetails, outputPath) {
 
-//         // yPos += 20;
+    try {
+        const doc = new PDFDocument.default();
+        const writeStream = fs.createWriteStream(outputPath);
 
-//         // doc.fontSize(15).text('Term 1 2024', {align: 'center', baseline: 'top', y: yPos});
+        doc.pipe(writeStream);
 
-//         doc.moveTo(55, 103).lineTo(555, 103).stroke();
-//         doc.lineWidth(2.5);
-//         doc.moveTo(55, 100).lineTo(555, 100).stroke();
-//         doc.lineWidth(1);
-//         doc.moveTo(55, 100).lineTo(555, 100).stroke();
+        let yPos = 55;
 
-//         doc.fontSize(12).text(`StudentId: ${studentId}`, 60, 120);
+        doc.fontSize(25).text('EduNexus Future School', {align: 'center', baseline: 'top', y: yPos});
 
-//         doc.fontSize(12).text(`Name: ${studentDetails.name}`, 150, 120);
+        doc.moveTo(55, 103).lineTo(555, 103).stroke();
+        doc.lineWidth(2.5);
+        doc.moveTo(55, 100).lineTo(555, 100).stroke();
+        doc.lineWidth(1);
+        doc.moveTo(55, 100).lineTo(555, 100).stroke();
 
-//         doc.fontSize(12).text(`Class: ${studentDetails.class}`, 280, 120);
+        doc.fontSize(12).text(`StudentId: ${studentDetails.id}`, 60, 120);
 
-//         doc.fontSize(12).text(`Class Teacher: ${studentDetails.classTeacher}`, 370, 120);
+        let formattedName = studentDetails.studentName;
 
+        if (formattedName.length > 14) {
+            const names = formattedName.split(' ');
 
-//         // TODO: We need a DB function to fetch the row for this student
-//         // Also need the averages for each subject
-//         const tableRows = [
-//             ['English', '78', '49.30', 'Very Good, aim higher!'],
-//             ['Kiswahili', '82', '57.50', 'Bora, endelea na bidii hivyo!'],
-//             ['Mathematics', '90', '59.20', 'Excellent, keep it up!'],
-//             ['Sci & Tech', '85', '56.90', 'Excellent, keep it up!'],
-//             ['Art & Craft', '88', '54.20', 'Excellent, keep it up!'],
-//             ['Music', '34', '46.80', 'Below Average, let\'s work harder.'],
-//             ['Home Science', '54', '53.60', 'Average, strive to do better next time.'],
-//             ['Agriculture', '45', '55.90', 'Below Average, let\'s work harder.'],
-//             ['Religious Ed.', '0', '59.00', 'No marks entered, please double check.'],
-//             ['Social Studies', '0', '58.90', 'No marks entered, please double check.'],
-//             ['Physical Ed', '67', '47.10', 'Good, there\'s room for improvement.'],
-//             ['Total', '623', '598.40', 'Average, strive to do better next time.']
-//         ];
+            if (names.length > 2) {
+                let abbreviatedName = names.slice(0, 2).join(' ');
 
-//         await addTableToPDF(doc, tableRows);
+                for (let i = 2; i < names.length; i++) {
+                    abbreviatedName += ' ' + names[i][0] + '.';
+                }
 
-//         const graphData = tableRows.map(row => [row[0], parseFloat(row[1]), parseFloat(row[2])]);
+                formattedName = abbreviatedName;
+            }
+        }
 
-//         const svgString = generateBarGraphSVG(graphData);
+        doc.fontSize(12).text(`Name: ${formattedName}`, 150, 120);
 
-//         let outputPath;
-//         if (isDev()) {
-//             outputPath = path.join(__dirname, 'output.png');
-//         } else {
-//             outputPath = path.join(process.resourcesPath, 'output.png');
-//         }
-//         // await svgToPng(svgString, outputPath);
+        doc.fontSize(12).text(`Class: ${studentDetails.className}`, 300, 120);
 
-//         doc.rect(55, 420, 500, 180).stroke();
+        doc.fontSize(12).text(`Teacher: ${'John Doe'}`, 430, 120);
+            
+        
+        const {
+            // eslint-disable-next-line no-unused-vars
+            id,
 
-//         doc.font('Helvetica').fontSize(10).text(`${studentDetails.name}'s marks vs class average`, 210, 425);
+            // eslint-disable-next-line no-unused-vars
+            studentName,
 
-//         // try {
-//         //     doc.image(outputPath, 110, 430, {width: 600});
-//         // } catch (imageError) {
-//         //     console.error('Error adding image to PDF:', imageError);
-//         //     throw imageError;
-//         // }
+            // eslint-disable-next-line no-unused-vars
+            className,
+            ...detailsWithoutIdAndName 
+        } = studentDetails;
 
-//         doc.rect(55, 610, 500, 50).stroke();
+        const tableRows = generateTableRows(detailsWithoutIdAndName);
 
-//         doc.fontSize(10).text('Overall Comment: Stay determined, John Doe. Your score of 623 is a testament to your hard work. Mathematics and Art & Craft were highlights, but don\'t neglect areas like Social Studies and Religious Ed.. You\'re as persistent as a tortoise on a mission!', 60, 615, {
-//             width: 495,
+        console.log('report table rows', tableRows);
 
-//             align: 'left',
+        for (let i = 0; i < tableRows.length; i++) {
+            for (let j = 1; j < tableRows[i].length - 1; j++) { 
+                if (!isNaN(tableRows[i][j])) {
+                    tableRows[i][j] = parseFloat(tableRows[i][j]).toFixed(2);
+                }
+            }
+        }
 
-//             lineGap: 2
+        await addTableToPDF(doc, tableRows);
 
-//         });
+        // const graphData = tableRows.map(row => [row[0], parseFloat(row[1]), parseFloat(row[2])]);
 
-//         doc.rect(55, 670, 500, 50).stroke();
+        // let imageOutputPath;
+        // if (isDev()) {
+        //     imageOutputPath = path.join(__dirname, 'output.png');
+        // } else {
+        //     imageOutputPath = path.join(process.resourcesPath, 'output.png');
+        // }
 
-//         doc.fontSize(10).text('Headteacher\'s Remarks: Parents, please review this report with your child, offering guidance and support in areas needing improvement. School concludes on August 25th, 2024 and resumes on September 21st, 2024. Wishing you all joyful holidays!', 60, 675, {
-//             width: 495,
+        // const svgString = generateBarGraphSVG(graphData);
 
-//             align: 'left',
+        // await svgToPng(svgString, imageOutputPath);
 
-//             lineGap: 2
+        doc.rect(55, 420, 500, 180).stroke();
 
-//         });
+        doc.font('Helvetica').fontSize(10).text(`${studentDetails.studentName}'s marks vs class average`, 210, 425);
 
-//         doc.end();
+        // try {
+        //     doc.image(imageOutputPath, 110, 430, {width: 600});
+        // } catch (imageError) {
+        //     console.error('Error adding image to PDF:', imageError);
+        //     throw imageError;
+        // }
 
-//         await new Promise((resolve, reject) => {
-//             writeStream.on('finish', resolve);
-//             writeStream.on('error', reject);
-//         });
+        doc.rect(55, 610, 500, 50).stroke();
 
-//         console.log('PDF file written successfully');
+        doc.fontSize(10).text(`Overall Comment: Stay determined, ${studentDetails.studentName}. Your score of, ${studentDetails.total.studentTotal}, is a testament to your hard work. Mathematics and Art & Craft were highlights, but don't neglect areas like Social Studies and Religious Ed.. You're as persistent as a tortoise on a mission!`, 60, 615, {
+            width: 495,
 
-//         return reportPath;
+            align: 'left',
 
-//     } catch (error) {
+            lineGap: 2
 
-//         console.error('Error generating report:', error);
-//         throw error;
+        });
 
-//     }
+        doc.rect(55, 670, 500, 50).stroke();
 
-// }
+        doc.fontSize(10).text('Headteacher\'s Remarks: Parents, please review this report with your child, offering guidance and support in areas needing improvement. School concludes on August 25th, 2025 and resumes on September 21st, 2025. Wishing you all joyful holidays!', 60, 675, {
+            width: 495,
 
-// module.exports = {generateReport};
-// // =======
-// // // const PDFDocument = require('pdfkit');
-// // // const fs = require('fs');
-// // // const path = require('path');
-// // // const sharp = require('sharp');
-// // // const {addTableToPDF} = require('./tableGenerator');
-// // // const {generateBarGraphSVG} = require('./graphGenerator');
-// // //
-// // // function isDev() {
-// // //     return process.argv[2] == '--dev';
-// // // }
-// // //
-// // // // TODO: Database team - implement report generating fetching functions
-// // // async function getStudentDetails(studentId) {
-// // //     return {
-// // //         id: studentId,
-// // //         name: 'John Doe',
-// // //         class: '5A',
-// // //         classTeacher: 'Justin Time'
-// // //     };
-// // // }
-// // //
-// // // // TODO FIX: disabling eslint is bad
-// // // // eslint-disable-next-line no-unused-vars
-// // // async function getAcademicPerformance(studentId) {
-// // //     return [
-// // //         {subject: 'Math', score: 95},
-// // //         {subject: 'Science', score: 88}
-// // //     ];
-// // // }
-// // //
-// // // // TODO FIX: disabling eslint is bad
-// // // // eslint-disable-next-line no-unused-vars
-// // // async function getAttendanceRecords(studentId) {
-// // //     return [
-// // //         {date: '2023-01-01', status: 'Present'},
-// // //         {date: '2023-01-02', status: 'Absent'}
-// // //     ];
-// // // }
-// // //
-// // // async function svgToPng(svgString, outputPath, scale = 2) {
-// // //     const svgBuffer = Buffer.from(svgString);
-// // //     await sharp(svgBuffer)
-// // //         .resize({width: 770 * scale, height: 200 * scale, fit: 'fill'})
-// // //         .png()
-// // //         .toFile(outputPath);
-// // // }
-// // //
-// // // async function generateReport(studentId) {
-// // //
-// // //     console.log(PDFDocument);
-// // //     console.log('bullshit');
-// // //
-// // //     try {
-// // //         const studentDetails = await getStudentDetails(studentId);
-// // //         // TODO FIX: disabling eslint is bad
-// // //         // eslint-disable-next-line no-unused-vars
-// // //         const academicPerformance = await getAcademicPerformance(studentId);
-// // //         // eslint-disable-next-line no-unused-vars
-// // //         const attendanceRecords = await getAttendanceRecords(studentId);
-// // //
-// // //         const doc = new PDFDocument.default();
-// // //         let reportPath;
-// // //         if (isDev()) {
-// // //             reportPath = path.join(__dirname, `report_${studentId}.pdf`);
-// // //         } else {
-// // //             reportPath = path.join(process.resourcesPath, `report_${studentId}.pdf`);
-// // //         }
-// // //
-// // //         const writeStream = fs.createWriteStream(reportPath);
-// // //         doc.pipe(writeStream);
-// // //
-// // //         let yPos = 55;
-// // //
-// // //         doc.fontSize(25).text('XYZ Primary School', {align: 'center', baseline: 'top', y: yPos});
-// // //
-// // //         // implement this later, might take data from the database
-// // //
-// // //         // yPos += 25;
-// // //
-// // //         // doc.fontSize(20).text('Grade 5', {align: 'center', baseline: 'top', y: yPos});
-// // //
-// // //         // yPos += 20;
-// // //
-// // //         // doc.fontSize(15).text('Term 1 2024', {align: 'center', baseline: 'top', y: yPos});
-// // //
-// // //         doc.moveTo(55, 103).lineTo(555, 103).stroke();
-// // //         doc.lineWidth(2.5);
-// // //         doc.moveTo(55, 100).lineTo(555, 100).stroke();
-// // //         doc.lineWidth(1);
-// // //         doc.moveTo(55, 100).lineTo(555, 100).stroke();
-// // //
-// // //         doc.fontSize(12).text(`StudentId: ${studentId}`, 60, 120);
-// // //
-// // //         doc.fontSize(12).text(`Name: ${studentDetails.name}`, 150, 120);
-// // //
-// // //         doc.fontSize(12).text(`Class: ${studentDetails.class}`, 280, 120);
-// // //
-// // //         doc.fontSize(12).text(`Class Teacher: ${studentDetails.classTeacher}`, 370, 120);
-// // //
-// // //         const tableRows = [
-// // //             ['English', '78', '49.30', 'Very Good, aim higher!'],
-// // //             ['Kiswahili', '82', '57.50', 'Bora, endelea na bidii hivyo!'],
-// // //             ['Mathematics', '90', '59.20', 'Excellent, keep it up!'],
-// // //             ['Sci & Tech', '85', '56.90', 'Excellent, keep it up!'],
-// // //             ['Art & Craft', '88', '54.20', 'Excellent, keep it up!'],
-// // //             ['Music', '34', '46.80', 'Below Average, let\'s work harder.'],
-// // //             ['Home Science', '54', '53.60', 'Average, strive to do better next time.'],
-// // //             ['Agriculture', '45', '55.90', 'Below Average, let\'s work harder.'],
-// // //             ['Religious Ed.', '0', '59.00', 'No marks entered, please double check.'],
-// // //             ['Social Studies', '0', '58.90', 'No marks entered, please double check.'],
-// // //             ['Physical Ed', '67', '47.10', 'Good, there\'s room for improvement.'],
-// // //             ['Total', '623', '598.40', 'Average, strive to do better next time.']
-// // //         ];
-// // //
-// // //         await addTableToPDF(doc, tableRows);
-// // //
-// // //         const graphData = tableRows.map(row => [row[0], parseFloat(row[1]), parseFloat(row[2])]);
-// // //
-// // //         const svgString = generateBarGraphSVG(graphData);
-// // //
-// // //         let outputPath;
-// // //         if (isDev()) {
-// // //             outputPath = path.join(__dirname, 'output.png');
-// // //         } else {
-// // //             outputPath = path.join(process.resourcesPath, 'output.png');
-// // //         }
-// // //         await svgToPng(svgString, outputPath);
-// // //
-// // //         doc.rect(55, 420, 500, 180).stroke();
-// // //
-// // //         doc.font('Helvetica').fontSize(10).text(`${studentDetails.name}'s marks vs class average`, 210, 425);
-// // //
-// // //         try {
-// // //             doc.image(outputPath, 110, 430, {width: 600});
-// // //         } catch (imageError) {
-// // //             console.error('Error adding image to PDF:', imageError);
-// // //             throw imageError;
-// // //         }
-// // //
-// // //         doc.rect(55, 610, 500, 50).stroke();
-// // //
-// // //         doc.fontSize(10).text('Overall Comment: Stay determined, John Doe. Your score of 623 is a testament to your hard work. Mathematics and Art & Craft were highlights, but don\'t neglect areas like Social Studies and Religious Ed.. You\'re as persistent as a tortoise on a mission!', 60, 615, {
-// // //             width: 495,
-// // //
-// // //             align: 'left',
-// // //
-// // //             lineGap: 2
-// // //
-// // //         });
-// // //
-// // //         doc.rect(55, 670, 500, 50).stroke();
-// // //
-// // //         doc.fontSize(10).text('Headteacher\'s Remarks: Parents, please review this report with your child, offering guidance and support in areas needing improvement. School concludes on August 25th, 2024 and resumes on September 21st, 2024. Wishing you all joyful holidays!', 60, 675, {
-// // //             width: 495,
-// // //
-// // //             align: 'left',
-// // //
-// // //             lineGap: 2
-// // //
-// // //         });
-// // //
-// // //         doc.end();
-// // //
-// // //         await new Promise((resolve, reject) => {
-// // //             writeStream.on('finish', resolve);
-// // //             writeStream.on('error', reject);
-// // //         });
-// // //
-// // //         console.log('PDF file written successfully');
-// // //
-// // //         return reportPath;
-// // //
-// // //     } catch (error) {
-// // //
-// // //         console.error('Error generating report:', error);
-// // //         throw error;
-// // //
-// // //     }
-// // //
-// // // }
-// // //
-// // // module.exports = {generateReport};
-// // >>>>>>> Stashed changes
+            align: 'left',
+
+            lineGap: 2
+
+        });
+
+        doc.end();
+
+        await new Promise((resolve, reject) => {
+            writeStream.on('finish', resolve);
+            writeStream.on('error', reject);
+        });
+
+        console.log('PDF file written successfully');
+
+        return outputPath;
+
+    } catch (error) {
+
+        console.error('Error generating report:', error);
+        throw error;
+
+    }
+
+}
+
+module.exports = {generateReport};

@@ -1,3 +1,8 @@
+/**
+ * This function generates an SVG string for a bar graph.
+ * @param {Array} graphData - The data for the graph, each data point is an array of strings.
+ * @returns {string} - The SVG string for the bar graph.
+ */
 function generateBarGraphSVG(graphData) {
     const width = 900;
     const height = 200;
@@ -8,14 +13,6 @@ function generateBarGraphSVG(graphData) {
     const maxMark = 100;
 
     const scaleY = (mark) => (height - 50) * (mark / maxMark);
-
-    const nonZeroScoresCount = graphData.slice(0, -1).reduce((count, data) => {
-        return data[1] > 0 ? count + 1 : count;
-    }, 0);
-
-    graphData[graphData.length - 1][1] = graphData[graphData.length - 1][1] / nonZeroScoresCount;
-
-    graphData[graphData.length - 1][2] = graphData[graphData.length - 1][2] / 11;
 
     graphData.forEach((data, i) => {
         const x = i * (barWidth + barSpacing) + 60;
@@ -41,9 +38,7 @@ function generateBarGraphSVG(graphData) {
 
     const yAxisLabels = [0, Math.round(maxMark / 4), Math.round(maxMark / 2), Math.round(3 * maxMark / 4), maxMark];
 
-    // TODO Fix. Eslint ignore is temporary. FIXFIXFIX
-    // eslint-disable-next-line no-unused-vars
-    yAxisLabels.forEach((label, index) => {
+    yAxisLabels.forEach((label) => {
         const y = height - scaleY(label) - 20;
 
         svgString += `<text x="40" y="${y}" text-anchor="end">${label}</text>`;
