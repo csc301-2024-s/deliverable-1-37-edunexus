@@ -46,8 +46,6 @@ function generateComment(score) {
  */
 function generateTableRows(studentDetails) {
 
-    console.log('generate table rows', studentDetails);
-
     const tableRows = [];
     
     const assessments = Object.keys(studentDetails).filter(key => key !== 'total' && key !== 'average');
@@ -143,7 +141,24 @@ async function generateReport(studentDetails, outputPath) {
 
         const tableRows = generateTableRows(detailsWithoutIdAndName);
 
-        console.log('report table rows', tableRows);
+        let minScore = parseFloat(tableRows[0][1]);
+        let maxScore = parseFloat(tableRows[0][1]);
+        let minScoreSubject = tableRows[0][0];
+        let maxScoreSubject = tableRows[0][0];
+
+        for (let i = 0; i < tableRows.length - 2; i++) {
+            let currentScore = parseFloat(tableRows[i][1]);
+            let currentItem = tableRows[i][0];
+
+            if (currentScore < minScore) {
+                minScore = currentScore;
+                minScoreSubject = currentItem;
+            }
+            if (currentScore > maxScore) {
+                maxScore = currentScore;
+                maxScoreSubject = currentItem;
+            }
+        }
 
         for (let i = 0; i < tableRows.length; i++) {
             for (let j = 1; j < tableRows[i].length - 1; j++) { 
@@ -168,9 +183,15 @@ async function generateReport(studentDetails, outputPath) {
 
         // await svgToPng(svgString, imageOutputPath);
 
-        doc.rect(55, 420, 500, 180).stroke();
+        // graph rectangle
+        doc.rect(55, 340, 500, 224).stroke();
 
-        doc.font('Helvetica').fontSize(10).text(`${studentDetails.studentName}'s marks vs class average`, 210, 425);
+        const text = `${studentDetails.studentName}'s Marks vs Class Perfomance`;
+        const pageWidth = 500;
+        const startX = 55;
+        const textWidth = doc.font('Helvetica').fontSize(10).widthOfString(text);
+        const xPosition = 30 + startX + (pageWidth - startX) / 2 - textWidth / 2;
+        doc.font('Helvetica').fontSize(10).text(text, xPosition, 325);
 
         // try {
         //     doc.image(imageOutputPath, 110, 430, {width: 600});
@@ -179,9 +200,9 @@ async function generateReport(studentDetails, outputPath) {
         //     throw imageError;
         // }
 
-        doc.rect(55, 610, 500, 50).stroke();
+        doc.rect(55, 580, 500, 75).stroke();
 
-        doc.fontSize(10).text(`Overall Comment: Stay determined, ${studentDetails.studentName}. Your score of, ${studentDetails.total.studentTotal}, is a testament to your hard work. Mathematics and Art & Craft were highlights, but don't neglect areas like Social Studies and Religious Ed.. You're as persistent as a tortoise on a mission!`, 60, 615, {
+        doc.fontSize(10).text(`Overall Comment: ${studentDetails.studentName}, your total score of ${studentDetails.total.studentTotal} reflects your dedication and effort. In particular, your performance in ${maxScoreSubject} with a score of ${maxScore} stands out as exemplary. However, it's crucial to address the variance in your scores, especially in subjects like ${minScoreSubject} where your score was ${minScore}. Balancing your strengths and areas for improvement will enhance your overall academic performance. Keep pushing forward with the determination of a tortoise on a mission, steadily improving across all subjects!`, 60, 585, {
             width: 495,
 
             align: 'left',

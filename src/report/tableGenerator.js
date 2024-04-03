@@ -32,8 +32,6 @@ async function addTableToPDF(doc, tableRows) {
         doc.text(text, startX + sum(columnWidths, 0, i), 20 + startY + (tableRows.length - 1) * rowHeight + 6, { width: columnWidths[i], align: 'center' });
     });
 
-    console.log('numRows: ', numRows);
-
     drawTableGrid(doc, numRows, columnWidths, startX, startY, rowHeight);
 
 }
