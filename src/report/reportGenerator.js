@@ -184,14 +184,14 @@ async function generateReport(studentDetails, outputPath) {
         // await svgToPng(svgString, imageOutputPath);
 
         // graph rectangle
-        doc.rect(55, 340, 500, 224).stroke();
+        doc.rect(55, 335, 500, 224).stroke();
 
         const text = `${studentDetails.studentName}'s Marks vs Class Perfomance`;
         const pageWidth = 500;
         const startX = 55;
         const textWidth = doc.font('Helvetica').fontSize(10).widthOfString(text);
         const xPosition = 30 + startX + (pageWidth - startX) / 2 - textWidth / 2;
-        doc.font('Helvetica').fontSize(10).text(text, xPosition, 325);
+        doc.font('Helvetica').fontSize(10).text(text, xPosition, 320);
 
         // try {
         //     doc.image(imageOutputPath, 110, 430, {width: 600});
@@ -200,26 +200,26 @@ async function generateReport(studentDetails, outputPath) {
         //     throw imageError;
         // }
 
-        doc.rect(55, 580, 500, 75).stroke();
-
-        doc.fontSize(10).text(`Overall Comment: ${studentDetails.studentName}, your total score of ${studentDetails.total.studentTotal} reflects your dedication and effort. In particular, your performance in ${maxScoreSubject} with a score of ${maxScore} stands out as exemplary. However, it's crucial to address the variance in your scores, especially in subjects like ${minScoreSubject} where your score was ${minScore}. Balancing your strengths and areas for improvement will enhance your overall academic performance. Keep pushing forward with the determination of a tortoise on a mission, steadily improving across all subjects!`, 60, 585, {
+        doc.rect(55, 565, 500, 75).stroke();
+        doc.fontSize(10).font('Helvetica-Bold').text('Overall Comment:', 60, 570, {
+            continued: true
+        }).font('Helvetica').text(` ${studentDetails.studentName}, your total score of ${studentDetails.total.studentTotal} reflects your dedication and effort. In particular, your performance in ${maxScoreSubject} with a score of ${maxScore} stands out as exemplary. However, it's crucial to address the variance in your scores, especially in subjects like ${minScoreSubject} where your score was ${minScore}. Balancing your strengths and areas for improvement will enhance your overall academic performance. Keep pushing forward with the determination of a tortoise on a mission, steadily improving across all subjects!`, {
             width: 495,
-
             align: 'left',
-
             lineGap: 2
-
         });
 
-        doc.rect(55, 670, 500, 50).stroke();
-
-        doc.fontSize(10).text('Headteacher\'s Remarks: Parents, please review this report with your child, offering guidance and support in areas needing improvement. School concludes on August 25th, 2025 and resumes on September 21st, 2025. Wishing you all joyful holidays!', 60, 675, {
+        doc.rect(55, 645, 500, 75).stroke();
+        const remarksTitle = `Headteacher's Remarks for ${studentDetails.studentName}'s Parents:`;
+        doc.fontSize(10).font('Helvetica-Bold').text(remarksTitle, 60, 650, {
+            continued: true,
             width: 495,
-
             align: 'left',
-
-            lineGap: 2
-
+        }).font('Helvetica').text(` We encourage you to carefully review this report with ${studentDetails.studentName}, offering your guidance and support in areas that require improvement. This collaborative effort can significantly contribute to ${studentDetails.studentName}'s academic growth and confidence. Please note, the school year concludes on August 25th, 2025, and resumes on September 21st, 2025. We wish ${studentDetails.studentName} and your family joyful holidays and look forward to welcoming our students back for another enriching school year!`, {
+            width: 495,
+            align: 'left',
+            lineGap: 2,
+            indent: 2
         });
 
         doc.end();
