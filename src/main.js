@@ -30,6 +30,8 @@ const createWindow = () => {
         },
     });
 
+    mainWindow.maximize();
+
     // and load the index.html of the app.
     // eslint-disable-next-line no-undef
     mainWindow.loadURL(MAIN_WINDOW_WEBPACK_ENTRY);

@@ -3,7 +3,8 @@ const fs = require('fs');
 // const path = require('path');
 // const sharp = require('sharp');
 const {addTableToPDF} = require('./tableGenerator');
-// const {generateBarGraphSVG} = require('./graphGenerator');
+const {generateBarGraphSVG} = require('./graphGenerator');
+const SVGtoPDF = require('svg-to-pdfkit');
 
 /**
  * This function checks if the application is running in development mode.
@@ -59,12 +60,12 @@ function generateTableRows(studentDetails) {
 
     if (studentDetails.total && studentDetails.average) {
 
-        tableRows.push([
-            'Total',
-            `${studentDetails.total.studentTotal}`,
-            `${studentDetails.total.classTotal}`,
-            generateComment(studentDetails.total.studentTotal / assessments.length)
-        ]);
+        // tableRows.push([
+        //     'Total',
+        //     `${studentDetails.total.studentTotal}`,
+        //     `${studentDetails.total.classTotal}`,
+        //     generateComment(studentDetails.total.studentTotal / assessments.length)
+        // ]);
 
         tableRows.push(
             [
@@ -170,21 +171,13 @@ async function generateReport(studentDetails, outputPath) {
 
         await addTableToPDF(doc, tableRows);
 
-        // const graphData = tableRows.map(row => [row[0], parseFloat(row[1]), parseFloat(row[2])]);
-
-        // let imageOutputPath;
-        // if (isDev()) {
-        //     imageOutputPath = path.join(__dirname, 'output.png');
-        // } else {
-        //     imageOutputPath = path.join(process.resourcesPath, 'output.png');
-        // }
-
-        // const svgString = generateBarGraphSVG(graphData);
-
-        // await svgToPng(svgString, imageOutputPath);
-
         // graph rectangle
         doc.rect(55, 335, 500, 224).stroke();
+
+        const graphData = tableRows.map(row => [row[0], parseFloat(row[1]), parseFloat(row[2])]);
+        const svgString = generateBarGraphSVG(graphData);
+
+        SVGtoPDF(doc, svgString, 70, 350);
 
         const studentFirstName = studentDetails.studentName.split(' ')[0];
 
@@ -195,13 +188,6 @@ async function generateReport(studentDetails, outputPath) {
         const textWidth = doc.font('Helvetica').fontSize(10).widthOfString(text);
         const xPosition = 30 + startX + (pageWidth - startX) / 2 - textWidth / 2;
         doc.font('Helvetica').fontSize(10).text(text, xPosition, 320);
-
-        // try {
-        //     doc.image(imageOutputPath, 110, 430, {width: 600});
-        // } catch (imageError) {
-        //     console.error('Error adding image to PDF:', imageError);
-        //     throw imageError;
-        // }
 
         doc.rect(55, 565, 500, 75).stroke();
         doc.fontSize(10).font('Helvetica-Bold').text('Overall Comment:', 60, 570, {

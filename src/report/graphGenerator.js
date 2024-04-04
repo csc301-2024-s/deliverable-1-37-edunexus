@@ -5,7 +5,7 @@
  */
 function generateBarGraphSVG(graphData) {
     const width = 900;
-    const height = 200;
+    const height = 250;
     const barWidth = 20;
     const barSpacing = 20;
     let svgString = `<svg width="${width}" height="${height}" xmlns="http://www.w3.org/2000/svg">`;
@@ -15,12 +15,12 @@ function generateBarGraphSVG(graphData) {
     const scaleY = (mark) => (height - 50) * (mark / maxMark);
 
     graphData.forEach((data, i) => {
-        const x = i * (barWidth + barSpacing) + 60;
+        const x = i * (barWidth + barSpacing) + 65;
         const studentMarkHeight = scaleY(data[1]);
         svgString += `<rect x="${x}" y="${height - studentMarkHeight - 20}" width="${barWidth}" height="${studentMarkHeight}" fill="gray"/>`;
     });
 
-    svgString += `<text transform="rotate(-90)" x="${-height / 2}" y="10" text-anchor="middle">Performance</text>`;
+    svgString += `<text transform="rotate(-90)" x="${-height / 2}" y="15" text-anchor="middle">Performance</text>`;
 
     let points = '';
     graphData.forEach((data, i) => {
@@ -44,7 +44,7 @@ function generateBarGraphSVG(graphData) {
         svgString += `<text x="40" y="${y}" text-anchor="end">${label}</text>`;
     });
 
-    const legendX = width - 350;
+    const legendX = width - 400;
 
     svgString += `<rect x="${legendX}" y="20" width="90" height="50" fill="white" stroke="black"/>`;
 
