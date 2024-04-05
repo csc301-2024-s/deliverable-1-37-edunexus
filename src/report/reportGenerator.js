@@ -1,27 +1,8 @@
 const PDFDocument = require('pdfkit');
 const fs = require('fs');
-// const path = require('path');
-// const sharp = require('sharp');
 const {addTableToPDF} = require('./tableGenerator');
 const {generateBarGraphSVG} = require('./graphGenerator');
 const SVGtoPDF = require('svg-to-pdfkit');
-
-/**
- * This function checks if the application is running in development mode.
- * @returns {boolean} - True if the application is running in development mode, false otherwise.
- */
-
-/**
- * This function checks if the application is running in development mode.
- * @returns {boolean} - True if the application is running in development mode, false otherwise.
- */
-// async function svgToPng(svgString, outputPath, scale = 2) {
-//     const svgBuffer = Buffer.from(svgString);
-//     await sharp(svgBuffer)
-//         .resize({width: 770 * scale, height: 200 * scale, fit: 'fill'})
-//         .png()
-//         .toFile(outputPath);
-// }
 
 /**
  * This function generates a PDF report from the provided student details and saves it to the specified output path.
@@ -59,13 +40,6 @@ function generateTableRows(studentDetails) {
     });
 
     if (studentDetails.total && studentDetails.average) {
-
-        // tableRows.push([
-        //     'Total',
-        //     `${studentDetails.total.studentTotal}`,
-        //     `${studentDetails.total.classTotal}`,
-        //     generateComment(studentDetails.total.studentTotal / assessments.length)
-        // ]);
 
         tableRows.push(
             [
@@ -175,11 +149,12 @@ async function generateReport(studentDetails, outputPath) {
         doc.rect(55, 335, 500, 224).stroke();
 
         const graphData = tableRows.map(row => [row[0], parseFloat(row[1]), parseFloat(row[2])]);
-        const svgString = generateBarGraphSVG(graphData);
-
-        SVGtoPDF(doc, svgString, 70, 350);
 
         const studentFirstName = studentDetails.studentName.split(' ')[0];
+
+        const svgString = generateBarGraphSVG(graphData, studentFirstName);
+
+        SVGtoPDF(doc, svgString, 70, 350);
 
         const text = `${studentFirstName}'s Marks vs Class Perfomance`;
 
