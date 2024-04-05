@@ -27,24 +27,19 @@ const Dashboard = ({classes, selectedClass, classColumns, classData}) => {
     if (className) {
         console.log(className.name);
     } else {
-        console.log('No item found with id:', selectedClass);
         return <div>Loading class data...</div>;
     }
 
     return (
         <div>
             <h2>{className.name}</h2>
-            <DataGridDemo 
-                classColumns={classColumns} 
-                classData={classData} 
-                setSelectedRow={setSelectedRow} 
-                selectedRow={selectedRow}
-            />
+            <DataGridDemo classColumns={classColumns} className={className} classData={classData} setSelectedRow={setSelectedRow} selectedRow={selectedRow}/>
             <Buttons 
                 selectedRow={selectedRow} 
                 classData={classData}
                 className={className.name}
             />
+
         </div>
     );
 };

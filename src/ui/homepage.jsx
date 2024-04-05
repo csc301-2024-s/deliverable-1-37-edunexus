@@ -39,7 +39,7 @@ function renameStudentNumberToId(students) {
  * @param {boolean} userIsAdmin - Whether the currently logged-in user is an admin
  * @returns {React.ReactElement} The Homepage component.
  */
-const Homepage = ({ onLogout, classes , userIsAdmin}) => {
+const Homepage = ({ onLogout, classes, userIsAdmin, teacherName}) => {
     const [selectedClass, setSelectedClass] = useState(1);
 
 
@@ -51,6 +51,7 @@ const Homepage = ({ onLogout, classes , userIsAdmin}) => {
     React.useEffect(() => {
         // Function to handle the data received from the main process
 
+        // staticColumns are the columns in which there is no number incrementor or decrementor?
         const staticColumns = [
             {field: 'id', headerName: 'Student ID', width: 90, editable: false,
                 align: 'center',
@@ -90,12 +91,12 @@ const Homepage = ({ onLogout, classes , userIsAdmin}) => {
         return () => {
             removeListener();
         };
-    }, [selectedClass]);
+    }, [selectedClass]); 
 
     return (
         <Box className="grid-container">
             {/* Navigation Sidebar */}
-            <NavigationSidebar user={user} admin={userIsAdmin} classes={classes} onClassChange={setSelectedClass} onLogout={onLogout} userIsAdmin={userIsAdmin}/>
+            <NavigationSidebar user={user} admin={userIsAdmin} classes={classes} onClassChange={setSelectedClass} onLogout={onLogout} userIsAdmin={userIsAdmin} teacherName={teacherName}/>
 
             {/* Main Content Area */}
             <Box component="main" sx={{ p: 3 }}>

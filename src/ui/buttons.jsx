@@ -4,6 +4,9 @@ import * as XLSX from 'xlsx';
 import '@emotion/styled';
 import './styles.css';
 import ClassStats from './classStats.jsx';
+import Modal from '@mui/material/Modal';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
 
 /**
  * `Buttons` is a React component that renders a set of buttons for uploading spreadsheets,
@@ -21,8 +24,112 @@ function Buttons({selectedRow, classData, className}) {
         setShowPopup(!showPopup);
     };
 
-    console.log('this is in buttons', classData);
+    const addAverageScoresToStudentData = (data) => {
+        if (data.length === 0) return [];
+
+        const totals = {};
+        const counts = {};
+        const examKeys = Object.keys(data[0]).slice(2);
+
+        data.forEach(student => {
+            examKeys.forEach(key => {
+                /* eslint-disable */
+                if (student.hasOwnProperty(key) && typeof student[key] === 'number') {
+                    if (!totals[key]) {
+                        totals[key] = 0;
+                        counts[key] = 0;
+                    }
+                    totals[key] += student[key];
+                    counts[key] += 1;
+                }
+            });
+        });
+
+        const averages = {};
+        Object.keys(totals).forEach(test => {
+            averages[test] = totals[test] / counts[test];
+        });
+
+        return data.map(student => {
+            const updatedScores = {};
+            Object.keys(student).forEach(key => {
+                if (examKeys.includes(key)) {
+                    updatedScores[key] = { score: student[key], average: averages[key] };
+                } else {
+                    updatedScores[key] = student[key];
+                }
+            });
+            return updatedScores;
+        });
+    };
+
+    function addTotalsAndAveragesToStudentData(data) {
+
+        if (data.length === 0) return [];
     
+        let classTotal = 0;
+        let classCount = 0;
+    
+        const updatedData = data.map(student => {
+            let studentTotal = 0;
+            let studentCount = 0;
+    
+            Object.entries(student).forEach(([key, value]) => {
+                if (typeof value === 'number') {
+                    studentTotal += value;
+                    studentCount += 1;
+                } else if (value && typeof value.score === 'number') {
+                    studentTotal += value.score;
+                    studentCount += 1;
+                }
+            });
+
+            const studentAverage = studentCount > 0 ? studentTotal / studentCount : 0;
+            classTotal += studentTotal;
+            classCount += studentCount;
+
+            return {
+                ...student,
+                total: { studentTotal, classTotal },
+                average: { studentAverage, classAverage: classCount > 0 ? classTotal / classCount : 0 }
+            };
+        });
+    
+        const classAverage = classCount > 0 ? classTotal / classCount : 0;
+        return updatedData.map(student => ({
+            ...student,
+            total: { ...student.total, classTotal },
+            average: { ...student.average, classAverage }
+        }));
+    }
+    
+    const filterStudentDetails = (data) => {
+
+        return data.filter(studentDetail => selectedRow.includes(studentDetail.id));
+
+    };
+
+    const handleGenerateReports = () => {
+        if (selectedRow.length === 0) {
+            alert('Please select at least one student to generate a report.');
+            return;
+        }
+
+        const dataWithAverages = addAverageScoresToStudentData(classData);
+
+        const enrichedData = addTotalsAndAveragesToStudentData(dataWithAverages);
+    
+        const filteredAndEnrichedData = filterStudentDetails(enrichedData);
+
+        const dataWithClassName = filteredAndEnrichedData.map(student => ({
+            ...student,
+            className: className
+        }));
+
+        window.api.send('request-report-generation', dataWithClassName);
+
+    };
+
     const downloadExcel = () => {
         const processedData = classData.map(row => {
 
@@ -38,8 +145,6 @@ function Buttons({selectedRow, classData, className}) {
             };
         });
     
-        console.log('Processed Data for Excel:', processedData);
-    
         const ws = XLSX.utils.json_to_sheet(processedData);
         const wb = XLSX.utils.book_new();
 
@@ -47,37 +152,68 @@ function Buttons({selectedRow, classData, className}) {
         XLSX.writeFile(wb, 'class_list.xlsx');
     };
 
+    const [open, setOpen] = React.useState(false);
+    const handleOpen = () => setOpen(true);
+    const handleClose = () => setOpen(false);
+
+    const style = {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        width: 400,
+        bgcolor: 'background.paper',
+        border: '2px solid #000',
+        boxShadow: 24,
+        p: 4,
+      };
+
+
     return (
         <div className="buttons-container" style={{ display: 'flex', gap: '1rem', marginTop: '1rem' }}>
 
             <Button 
                 variant="contained" 
-                style={{ backgroundColor: '#76ABAE', color: '#FFFFFF' }}>
-                Upload a Spreadsheet
+                style={{ backgroundColor: '#76ABAE', color: '#FFFFFF' }}
+                onClick={handleOpen}>
+                Upload Spreadsheet
+                
             </Button>
+            <Modal
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="modal-modal-title"
+                aria-describedby="modal-modal-description"
+            >
+                <Box sx={style}>
+                <Typography id="modal-modal-title" variant="h6" component="h2">
+                    Still in development
+                </Typography>
+                <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+                    To be implemented in future versions.
+                </Typography>
+                </Box>
+            </Modal>
 
             {showPopup && <PopupComponent onClose={togglePopup} />}
 
-            <Button variant="contained"
-                onClick={() => {
-                    // For now, we will only use the first element in the selectedRow array
-                    // TODO: Handle multiple selected rows
-                    const data = {studentId: selectedRow[0], single: true};
-                    window.api.send('request-report-generation', data);
-                    console.log('Report Generation was clicked');
-                    console.log(data);
-                }}
+            <Button 
+                variant="contained"
+                onClick={handleGenerateReports}
                 style={{ backgroundColor: '#76ABAE', color: '#FFFFFF' }}>
-                Generate PDF
+                Generate Report
             </Button>
 
-            <ClassStats className={className} classData={classData}/>
+            <ClassStats 
+                className={className} 
+                classData={classData}
+            />
 
             <Button 
                 variant="contained" 
                 style={{ backgroundColor: '#76ABAE', color: '#FFFFFF' }} 
                 onClick={downloadExcel}>
-                Download Class List
+                Download Classlist
             </Button>
         </div> 
     );

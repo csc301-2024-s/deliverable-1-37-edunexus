@@ -25,66 +25,79 @@ function PaperComponent(props) {
 
 
 const getAverage = (classData) => {
-    const exams = classData.map(row => {
+    const exams = classData?.map(row => {
         const value = Object.values(row);
         return value.slice(2);
     });
 
     const result = [];
-    for (let i = 0; i < exams[0]?.length; i++) {
-        let sum = 0;
-        for (let j = 0; j < exams?.length; j++) {
-            sum += exams[j][i];
+    if (exams) {
+        for (let i = 0; i < exams[0]?.length; i++) {
+            let sum = 0;
+            for (let j = 0; j < exams?.length; j++) {
+                sum += exams[j][i];
+            }
+            result.push(sum / exams?.length);
         }
-        result.push(sum / exams?.length);
+        result?.unshift(result?.pop());
+        return result;
     }
-    result?.unshift(result?.pop());
-    return result;
+    
 };
 
 const getMedian = (classData) => {
-    const exams = classData.map(row => {
+    const exams = classData?.map(row => {
         const value = Object.values(row);
         return value.slice(2);
     });
 
     const result = [];
-    for (let i = 0; i < exams[0]?.length; i++) {
-        const median = exams.map(row => row[i]).sort((a, b) => a - b)[Math.floor(exams.length / 2)];
-        result.push(median);
+    if (exams) {
+        for (let i = 0; i < exams[0]?.length; i++) {
+            const median = exams?.map(row => row[i]).sort((a, b) => a - b)[Math.floor(exams.length / 2)];
+            result.push(median);
+        }
+        result?.unshift(result?.pop());
+        return result;
     }
-    result?.unshift(result?.pop());
-    return result;
+    
 };
 
 const getMin= (classData) => {
-    const exams = classData.map(row => {
+    const exams = classData?.map(row => {
         const value = Object.values(row);
         return value.slice(2);
     });
 
     const result = [];
-    for (let i = 0; i < exams[0]?.length; i++) {
-        const min = Math.min(...exams.map(row => row[i]));
-        result.push(min);
+    if (exams) {
+        for (let i = 0; i < exams[0]?.length; i++) {
+            const min = Math.min(...exams.map(row => row[i]));
+            result.push(min);
+        }
+        result?.unshift(result?.pop());
+        return result;
     }
-    result?.unshift(result?.pop());
-    return result;
+    
 };
 
 const getMax= (classData) => {
-    const exams = classData.map(row => {
+    const exams = classData?.map(row => {
         const value = Object.values(row);
         return value.slice(2);
     });
 
     const result = [];
-    for (let i = 0; i < exams[0]?.length; i++) {
-        const max = Math.max(...exams.map(row => row[i]));
-        result.push(max);
+
+    if (exams) {
+        for (let i = 0; i < exams[0]?.length; i++) {
+            const max = Math.max(...exams.map(row => row[i]));
+            result.push(max);
+        }
+        result?.unshift(result?.pop());
+        return result;
     }
-    result?.unshift(result?.pop());
-    return result;
+    
 };
 
 export default function ClassStats({classData, className}) {
@@ -99,11 +112,14 @@ export default function ClassStats({classData, className}) {
     };
 
     const getExams = () => {
-        const exams = classData.map(row => {
+        const exams = classData?.map(row => {
             const keys = Object.keys(row);
             return keys.slice(2).sort();
         });
-        return exams[0];
+        if (exams) {
+            return exams[0];
+        }
+        
     };
 
 

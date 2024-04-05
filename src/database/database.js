@@ -64,8 +64,8 @@ function initDB() {
                 .run(`CREATE TABLE IF NOT EXISTS mark (
                     name TEXT NOT NULL,
                     mark INTEGER NOT NULL,
-                    studentNumber INTEGER REFERENCES student (studentNumber),
-                    classID INTEGER REFERENCES class (id),
+                    studentNumber INTEGER REFERENCES student (studentNumber) ON DELETE CASCADE,
+                    classID INTEGER REFERENCES class (id) ON DELETE CASCADE,
                     PRIMARY KEY (name, studentNumber, classID)
                     )`);
         });
@@ -190,6 +190,18 @@ function insertStudent(name, studentNumber, age) {
                 return reject(err);
             }
             return resolve(this.lastID);
+        });
+    });
+}
+
+function updateStudentName(name, studentNumber) {
+    return new Promise((resolve, reject) => {
+        const sql = 'UPDATE student SET name = ? WHERE studentNumber = ?';
+        db.run(sql, [name, studentNumber], function (err) {
+            if (err) {
+                return reject(err);
+            }
+            return resolve(this.changes);
         });
     });
 }
@@ -417,6 +429,18 @@ function deleteClass(id) {
 
 // mark related
 
+function updateMark(newMark, studentNumber, name, classID) {
+    return new Promise((resolve, reject) => {
+        const sql = 'UPDATE mark SET mark = ? WHERE studentNumber = ? AND name = ? AND classID = ?';
+        db.run(sql, [newMark, studentNumber, name,  classID], function (err) {
+            if (err) {
+                return reject(err);
+            }
+            return resolve(this.changes);
+        });
+    });
+}
+
 function insertMark(name, mark, studentNumber, classID) {
     return new Promise((resolve, reject) => {
         const sql = 'INSERT INTO mark (name, mark, studentNumber, classID) VALUES(?, ?, ?, ?)';
@@ -581,7 +605,9 @@ function getStudentAndMarkByClass(classID) {
     
                 let marks = await getStudentMarkByClass(studentNumber, classID);
                 for (let j = 0; j < marks.length; j++) {
-                    studentMark[marks[j].name] = marks[j].mark;
+                    if (marks[j].name !== '__assign_class__') {
+                        studentMark[marks[j].name] = marks[j].mark;
+                    }
                 }
                 res.push(studentMark);
             }
@@ -590,6 +616,16 @@ function getStudentAndMarkByClass(classID) {
     });
 }
 
+// Row related
+function updateRow(diff) {
+    if ('studentName' in diff) {
+        updateStudentName(diff.studentName, diff.id);
+    } else {
+        /* eslint-disable no-unused-vars */
+        const { classId, className, id, ...rest} = diff;
+        updateMark(Object.values(rest)[0], diff.id,  Object.keys(rest)[0], diff.classId);
+    }
+}
 
 module.exports = {
     // Database
@@ -637,4 +673,6 @@ module.exports = {
     deleteMark,
     // Mixed
     getStudentAndMarkByClass,
+    updateRow
+
 };

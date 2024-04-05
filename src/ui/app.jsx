@@ -24,6 +24,7 @@ import Admin from './admin.jsx';
 const App = () => {
     // React state to manage login status
     const [isLoggedIn, setIsLoggedIn] = React.useState(false);
+    const [teacherName, setTeacherName] = React.useState('');
 
     // React state to track the currently logged-in users' classes
     const [classesForTeacher, setClassesForTeacher] = React.useState([]);
@@ -65,6 +66,7 @@ const App = () => {
 
         //TEMP - SET TEACHERID BY LOGIN ID
         setUserIsAdmin(userInfo.isAdmin);
+        setTeacherName(userInfo.teacherName);
         window.api.send('get-classes-by-teacher', userInfo.teacherId);
     };
 
@@ -86,7 +88,7 @@ const App = () => {
                 <Route
                     path="/dashboard"
                     element={isLoggedIn ?
-                        <Homepage onLogout={handleLogout} classes={classesForTeacher} userIsAdmin={userIsAdmin}/> :
+                        <Homepage onLogout={handleLogout} classes={classesForTeacher} userIsAdmin={userIsAdmin} teacherName={teacherName}/> :
                         <Navigate replace to="/login"/>}
                 />
                 <Route
