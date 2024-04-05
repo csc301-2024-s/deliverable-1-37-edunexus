@@ -81,6 +81,8 @@ async function main() {
     await init();
     await fillData();
     await printAll();
+    console.log('Database created successfully!');
 }
 
 main();
+

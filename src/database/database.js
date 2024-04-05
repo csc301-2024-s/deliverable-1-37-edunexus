@@ -64,8 +64,8 @@ function initDB() {
                 .run(`CREATE TABLE IF NOT EXISTS mark (
                     name TEXT NOT NULL,
                     mark INTEGER NOT NULL,
-                    studentNumber INTEGER REFERENCES student (studentNumber),
-                    classID INTEGER REFERENCES class (id),
+                    studentNumber INTEGER REFERENCES student (studentNumber) ON DELETE CASCADE,
+                    classID INTEGER REFERENCES class (id) ON DELETE CASCADE,
                     PRIMARY KEY (name, studentNumber, classID)
                     )`);
         });
