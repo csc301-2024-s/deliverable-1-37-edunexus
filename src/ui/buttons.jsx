@@ -110,6 +110,10 @@ function Buttons({selectedRow, classData, className}) {
     };
 
     const handleGenerateReports = () => {
+        if (selectedRow.length === 0) {
+            alert('Please select at least one student to generate a report.');
+            return;
+        }
 
         const dataWithAverages = addAverageScoresToStudentData(classData);
 

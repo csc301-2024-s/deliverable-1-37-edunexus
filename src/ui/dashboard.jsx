@@ -34,7 +34,11 @@ const Dashboard = ({classes, selectedClass, classColumns, classData}) => {
         <div>
             <h2>{className.name}</h2>
             <DataGridDemo classColumns={classColumns} className={className} classData={classData} setSelectedRow={setSelectedRow} selectedRow={selectedRow}/>
-            <Buttons selectedRow={selectedRow}/>
+            <Buttons 
+                selectedRow={selectedRow} 
+                classData={classData}
+                className={className.name}
+            />
 
         </div>
     );
