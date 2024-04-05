@@ -581,7 +581,9 @@ function getStudentAndMarkByClass(classID) {
     
                 let marks = await getStudentMarkByClass(studentNumber, classID);
                 for (let j = 0; j < marks.length; j++) {
-                    studentMark[marks[j].name] = marks[j].mark;
+                    if (marks[j].name !== 'assign_class') {
+                        studentMark[marks[j].name] = marks[j].mark;
+                    }
                 }
                 res.push(studentMark);
             }
