@@ -11,7 +11,7 @@ let validChannels = [
     'get-student',
     'get-student-marks',
     'login-authentication',
-    'update-row'
+    'update-row',
     'insert-student',
     'insert-student-to-class',
     'insert-user',
@@ -34,7 +34,7 @@ let validReceiveChannels = [
     'get-student-marks-response',
     'login-failed',
     'login-success',
-    'update-row-response'
+    'update-row-response',
     'insert-student-response',
     'insert-student-to-class-response',
     'insert-user-response',
