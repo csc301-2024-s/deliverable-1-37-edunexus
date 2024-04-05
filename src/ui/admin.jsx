@@ -18,6 +18,8 @@ function Admin() {
     const [deleteStudentNumber, setDeleteStudentNumber] = useState('');
     const [deleteTeacherNumber, setDeleteTeacherNumber] = useState('');
     const [deleteClassID, setDeleteClassID] = useState('');
+    const [classNumber, setClassNumber] = useState('');
+    const [classStudentNumber, setClassStudentNumber] = useState('');
 
     // Success and Error states
     const [userAddSuccess, setUserAddSuccess] = useState('');
@@ -28,6 +30,8 @@ function Admin() {
     const [classAddError, setClassAddError] = useState('');
     const [teacherAddSuccess, setTeacherAddSuccess] = useState('');
     const [teacherAddError, setTeacherAddError] = useState('');
+    const [classAddStudentSuccess, setClassAddStudentSuccess] = useState('');
+    const [classAddStudentError, setClassAddStudentError] = useState('');
 
     const [userDeleteSuccess, setUserDeleteSuccess] = useState('');
     const [userDeleteError, setUserDeleteError] = useState('');
@@ -117,6 +121,25 @@ function Admin() {
         window.api.receive('insert-teacher-response', responseHandler);
         return () => {
             window.api.remove('insert-teacher-response', responseHandler);
+        };
+    };
+
+    const handleAddStudentToClass = () => {
+        const responseHandler = (response) => {
+            if (response.error) {
+                setClassAddStudentError('Error adding student to class. Please try again');
+                setClassAddStudentSuccess('');
+            } else {
+                setClassAddStudentError('');
+                setClassAddStudentSuccess('Student added to class successfully');
+            }
+        };
+
+        window.api.send('insert-student-to-class', {classNumber: classNumber, classStudentNumber: classStudentNumber});
+        const remove_listener = window.api.recieve('insert-student-to-class-response', responseHandler);
+
+        return () => {
+            remove_listener();
         };
     };
 
@@ -355,6 +378,34 @@ function Admin() {
                     {classAddError && <p style={{color: 'red'}}>{classAddError}</p>}
                 </Grid>
 
+
+                <Grid item>
+                    <h2>Add Student To Class</h2>
+                    <TextField
+                        type="text"
+                        placeholder="Class Number"
+                        value={classNumber}
+                        onChange={(e) => setClassNumber(e.target.value)}
+                        sx={{marginBottom: 1}}
+                    />
+                    <br/>
+                    <br/>
+                    <TextField
+                        type="text"
+                        placeholder="Student number"
+                        value={classStudentNumber}
+                        onChange={(e) => setClassStudentNumber(e.target.value)}
+                        sx={{marginBottom: 1}}
+                    />
+                    <br/>
+                    <Button
+                        variant="contained"
+                        style={{backgroundColor: '#76ABAE', color: '#EEEEEE'}}
+                        onClick={handleAddStudentToClass}>Add Class
+                    </Button>
+                    {classAddStudentSuccess && <p style={{color: 'green'}}>{classAddStudentSuccess}</p>}
+                    {classAddStudentError && <p style={{color: 'red'}}>{classAddStudentError}</p>}
+                </Grid>
 
                 <Grid item>
                     <h2>Delete User</h2>
