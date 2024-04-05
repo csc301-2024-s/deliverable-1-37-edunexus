@@ -136,8 +136,8 @@ function Admin() {
             }
         };
 
-        window.api.send('insert-student-to-class', {classNumber: classNumber, classStudentNumber: classStudentNumber});
-        const remove_listener = window.api.recieve('insert-student-to-class-response', responseHandler);
+        window.api.send('insert-student-to-class', {classId: classNumber, studentId: classStudentNumber});
+        const remove_listener = window.api.receive('insert-student-to-class-response', responseHandler);
 
         return () => {
             remove_listener();
@@ -397,8 +397,6 @@ function Admin() {
                     {classAddSuccess && <p style={{color: 'green'}}>{classAddSuccess}</p>}
                     {classAddError && <p style={{color: 'red'}}>{classAddError}</p>}
                 </Grid>
-
-                <Grid item xs={3}/>
 
                 <Grid item>
                     <h2>Add Student To Class</h2>

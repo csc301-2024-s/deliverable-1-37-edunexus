@@ -285,9 +285,10 @@ ipcMain.on('delete-teacher', async (event, teacher) => {
 });
 
 
-ipcMain.on('insert-student-to-class', async (event, classId, studentId) => {
+ipcMain.on('insert-student-to-class', async (event, info) => {
     try {
-        const response = await db.insertMark('__assign_class__', 100, studentId, classId);
+        const response = await db.insertMark('__assign_class__', 100, parseInt(info.studentId), parseInt(info.classId));
+        console.log(response);
         event.sender.send('insert-student-to-class-response', response);
     } catch (error) {
         event.sender.send('insert-student-to-class-response', {error: error.message});
