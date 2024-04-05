@@ -135,8 +135,11 @@ ipcMain.on('login-authentication', async (event, data) => {
 
     if (loginSuccess) {
         const userInfo = await db.getUser(username);
+        const teacherInfo = await db.getTeacher(userInfo.teacherNumber);
 
-        event.sender.send('login-success', {isAdmin: userInfo.admin, teacherId: userInfo.teacherNumber});
+        console.log(teacherInfo);
+
+        event.sender.send('login-success', {isAdmin: userInfo.admin, teacherId: userInfo.teacherNumber, teacherName: teacherInfo['name']});
     } else {
         event.sender.send('login-failed');
     }
@@ -214,8 +217,14 @@ ipcMain.on('insert-student', async (event, student) => {
 
 ipcMain.on('insert-user', async (event, user) => {
     try {
-        const response = await db.insertUser(user.username, user.password, 0, 101);
-        event.sender.send('insert-user-response', response);
+        const response = await db.insertUser(user.username, user.password, 0, user.newTeacherId);
+
+        try {
+            await db.insertTeacher(user.teacherName, user.newTeacherId);
+            event.sender.send('insert-user-response', response);
+        } catch (error_2) {
+            event.sender.send('insert-user-response', {error: error_2.message});
+        }
     } catch (error) {
         event.sender.send('insert-user-response', {error: error.message});
     }
