@@ -47,8 +47,8 @@ export function Login({ onLogin }) {
         window.api.send('login-authentication', data);
 
         // If login was successful, call onLogin and navigate to dashboard
-        window.api.receive('login-success', () => {
-            onLogin();
+        window.api.receive('login-success', (user_info) => {
+            onLogin(user_info);
             navigate('/dashboard');
         });
 

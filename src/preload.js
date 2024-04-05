@@ -12,6 +12,14 @@ let validChannels = [
     'get-student-marks',
     'login-authentication',
     'update-row'
+    'insert-student',
+    'insert-user',
+    'insert-class',
+    'insert-teacher',
+    'delete-student',
+    'delete-user',
+    'delete-class',
+    'delete-teacher'
 ];
 
 let validReceiveChannels = [
@@ -26,6 +34,14 @@ let validReceiveChannels = [
     'login-failed',
     'login-success',
     'update-row-response'
+    'insert-student-response',
+    'insert-user-response',
+    'insert-class-response',
+    'insert-teacher-response',
+    'delete-student-response',
+    'delete-user-response',
+    'delete-class-response',
+    'delete-teacher-response'
 ];
 
 

@@ -36,9 +36,10 @@ function renameStudentNumberToId(students) {
  * @param {Object} props - The properties passed to the component.
  * @param {Function} props.onLogout - The function to call when logging out.
  * @param {Object[]} props.classes - The list of classes to display in the sidebar for selection.
+ * @param {boolean} userIsAdmin - Whether the currently logged-in user is an admin
  * @returns {React.ReactElement} The Homepage component.
  */
-const Homepage = ({ onLogout, classes }) => {
+const Homepage = ({ onLogout, classes , userIsAdmin}) => {
     const [selectedClass, setSelectedClass] = useState(1);
 
 
@@ -95,7 +96,7 @@ const Homepage = ({ onLogout, classes }) => {
     return (
         <Box className="grid-container">
             {/* Navigation Sidebar */}
-            <NavigationSidebar user={user} classes={classes} onClassChange={setSelectedClass} onLogout={onLogout}/>
+            <NavigationSidebar user={user} admin={userIsAdmin} classes={classes} onClassChange={setSelectedClass} onLogout={onLogout} userIsAdmin={userIsAdmin}/>
 
             {/* Main Content Area */}
             <Box component="main" sx={{ p: 3 }}>
