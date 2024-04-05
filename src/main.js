@@ -284,6 +284,17 @@ ipcMain.on('get-student-marks', async (event, studentNumber) => {
     }
 });
 
+
+// Used to update the row of a student in the database
+ipcMain.on('update-row', async (event, row_data) => {
+    try {
+        await db.updateRow(row_data);
+    } catch (error) {
+        event.sender.send('update-row-response', {error: error.message});
+    }
+});
+
+
 ipcMain.on('insert-student', async (event, student) => {
     try {
         const response = await db.insertStudent(student.name, student.studentNumber, student.age);

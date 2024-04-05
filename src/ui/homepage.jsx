@@ -51,6 +51,7 @@ const Homepage = ({ onLogout, classes, userIsAdmin, teacherName}) => {
     React.useEffect(() => {
         // Function to handle the data received from the main process
 
+        // staticColumns are the columns in which there is no number incrementor or decrementor?
         const staticColumns = [
             {field: 'id', headerName: 'Student ID', width: 90, editable: false,
                 align: 'center',
@@ -90,7 +91,7 @@ const Homepage = ({ onLogout, classes, userIsAdmin, teacherName}) => {
         return () => {
             removeListener();
         };
-    }, [selectedClass]);
+    }, [selectedClass]); 
 
     return (
         <Box className="grid-container">

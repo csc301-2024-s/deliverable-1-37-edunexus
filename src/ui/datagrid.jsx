@@ -2,6 +2,7 @@ import * as React from 'react';
 import Box from '@mui/material/Box';
 import { DataGrid } from '@mui/x-data-grid';
 
+
 /**
  * DataGridDemo component renders a data grid using Material-UI's DataGrid component.
  * This component displays a set of data in a tabular format with features including
@@ -14,12 +15,32 @@ import { DataGrid } from '@mui/x-data-grid';
  *                                  item represents one row.
  * @returns {React.Element} A Box element containing the DataGrid or a loading message.
  */
-export default function DataGridDemo({classColumns, classData, selectedRow, setSelectedRow}) {
+export default function DataGridDemo({classColumns, classData, selectedRow, setSelectedRow, className}) {
+    const handleRowEditCommit = (row_data, original_row) => {
+        let diff = Object.keys(original_row).reduce((diff, key) => {
+            if (original_row[key] === row_data[key]) return diff;
+            return {
+                ...diff,
+                [key]: row_data[key]
+            };
+        }, {});
+
+        diff.classId = className.id;
+        diff.className = className.name;
+        diff.id = row_data.id;
+
+        // Call an API to update the student with the new data, sending the new data
+        window.api.send('update-row', diff);
+        return diff;
+    };
+
+
     return (
         <Box sx={{height: 600, width: '100%'}}>
             {/* Conditional rendering to check if there is data and columns present */}
             {classData && classData.length > 0 && classColumns.length > 0 ? (
-                <DataGrid
+                <DataGrid 
+                    processRowUpdate={handleRowEditCommit}
                     rows={classData}
                     columns={classColumns}
                     initialState={{
