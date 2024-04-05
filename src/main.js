@@ -294,7 +294,6 @@ ipcMain.on('update-row', async (event, row_data) => {
     }
 });
 
-=======
 ipcMain.on('insert-student', async (event, student) => {
     try {
         const response = await db.insertStudent(student.name, student.studentNumber, student.age);
