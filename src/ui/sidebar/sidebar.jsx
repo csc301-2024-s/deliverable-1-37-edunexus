@@ -29,9 +29,10 @@ import SchoolIcon from '@mui/icons-material/School'; // For class icons
  * @param {Function} props.onClassChange - Function to be called when a class is selected.
  * @param {Function} props.onLogout - Function to be called when the logout button is clicked.
  */
-const NavigationSidebar = ({user, classes, onClassChange, onLogout, userIsAdmin}) => {
+const NavigationSidebar = ({user, classes, onClassChange, onLogout, userIsAdmin, teacherName}) => {
     const navigate = useNavigate();
     const [searchText, setSearchText] = useState('');
+    console.log(user);
 
     /**
      * Handles the search text field change event.
@@ -137,9 +138,9 @@ const NavigationSidebar = ({user, classes, onClassChange, onLogout, userIsAdmin}
                             >
                                 <CardContent>
                                     <Typography color="#EEEEEE" variant="h6" component="div">
-                                        {user.name}
+                                        {teacherName}
                                     </Typography>
-                                    <Typography color="#EEEEEE">{user.role}</Typography>
+                                    <Typography color="#EEEEEE">{userIsAdmin === 1 ? 'Administrator' : 'Instructor'}</Typography>
                                 </CardContent>
                             </Card>
                             <Divider/>
