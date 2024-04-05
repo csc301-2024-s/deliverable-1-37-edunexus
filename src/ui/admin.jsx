@@ -5,8 +5,9 @@ import {Button, TextField, Grid} from '@mui/material';
 function Admin() {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [newTeacherId, setNewTeacherId] = useState(0);
     const [teacherName, setTeacherName] = useState('');
-    const [teacherNumber, setTeacherNumber] = useState('');
+    // const [teacherNumber, setTeacherNumber] = useState('');
     const [studentName, setStudentName] = useState('');
     const [age, setAge] = useState('');
     const [studentNumber, setStudentNumber] = useState('');
@@ -18,6 +19,8 @@ function Admin() {
     const [deleteStudentNumber, setDeleteStudentNumber] = useState('');
     const [deleteTeacherNumber, setDeleteTeacherNumber] = useState('');
     const [deleteClassID, setDeleteClassID] = useState('');
+    const [classNumber, setClassNumber] = useState('');
+    const [classStudentNumber, setClassStudentNumber] = useState('');
 
     // Success and Error states
     const [userAddSuccess, setUserAddSuccess] = useState('');
@@ -26,8 +29,10 @@ function Admin() {
     const [studentAddError, setStudentAddError] = useState('');
     const [classAddSuccess, setClassAddSuccess] = useState('');
     const [classAddError, setClassAddError] = useState('');
-    const [teacherAddSuccess, setTeacherAddSuccess] = useState('');
-    const [teacherAddError, setTeacherAddError] = useState('');
+    // const [teacherAddSuccess, setTeacherAddSuccess] = useState('');
+    // const [teacherAddError, setTeacherAddError] = useState('');
+    const [classAddStudentSuccess, setClassAddStudentSuccess] = useState('');
+    const [classAddStudentError, setClassAddStudentError] = useState('');
 
     const [userDeleteSuccess, setUserDeleteSuccess] = useState('');
     const [userDeleteError, setUserDeleteError] = useState('');
@@ -53,7 +58,7 @@ function Admin() {
             }
         };
 
-        window.api.send('insert-user', {username: username, password: password});
+        window.api.send('insert-user', {username: username, password: password, newTeacherId: newTeacherId, teacherName: teacherName});
         window.api.receive('insert-user-response', responseHandler);
         return () => {
             window.api.remove('insert-user-response', responseHandler);
@@ -100,23 +105,42 @@ function Admin() {
         };
     };
 
-    const handleAddTeacher = () => {
+    // const handleAddTeacher = () => {
+    //     const responseHandler = (response) => {
+    //         if (response.error) {
+    //             // Error occurred
+    //             setTeacherAddError('Error adding teacher: teacher number is already used');
+    //             setTeacherAddSuccess('');
+    //         } else {
+    //             // Object created successfully
+    //             setTeacherAddSuccess('Teacher added successfully');
+    //             setTeacherAddError('');
+    //         }
+    //     };
+    //
+    //     window.api.send('insert-teacher', {name: teacherName, teacherNumber: teacherNumber});
+    //     window.api.receive('insert-teacher-response', responseHandler);
+    //     return () => {
+    //         window.api.remove('insert-teacher-response', responseHandler);
+    //     };
+    // };
+
+    const handleAddStudentToClass = () => {
         const responseHandler = (response) => {
             if (response.error) {
-                // Error occurred
-                setTeacherAddError('Error adding teacher: teacher number is already used');
-                setTeacherAddSuccess('');
+                setClassAddStudentError('Error adding student to class. Please try again');
+                setClassAddStudentSuccess('');
             } else {
-                // Object created successfully
-                setTeacherAddSuccess('Teacher added successfully');
-                setTeacherAddError('');
+                setClassAddStudentError('');
+                setClassAddStudentSuccess('Student added to class successfully');
             }
         };
 
-        window.api.send('insert-teacher', {name: teacherName, teacherNumber: teacherNumber});
-        window.api.receive('insert-teacher-response', responseHandler);
+        window.api.send('insert-student-to-class', {classId: classNumber, studentId: classStudentNumber});
+        const remove_listener = window.api.receive('insert-student-to-class-response', responseHandler);
+
         return () => {
-            window.api.remove('insert-teacher-response', responseHandler);
+            remove_listener();
         };
     };
 
@@ -221,8 +245,17 @@ function Admin() {
         <div>
             <h1>Admin Settings</h1>
             <Grid container spacing={2}>
-                <Grid item>
+                <Grid item xs={3}>
                     <h2>Add User</h2>
+                    <TextField
+                        type="text"
+                        placeholder="Teacher Name"
+                        value={teacherName}
+                        onChange={(e) => setTeacherName(e.target.value)}
+                        sx={{marginBottom: 1}}
+                    />
+                    <br/>
+
                     <TextField
                         type="text"
                         placeholder="Username"
@@ -240,6 +273,16 @@ function Admin() {
                         sx={{marginBottom: 1}}
                     />
                     <br/>
+
+                    <TextField
+                        type="number"
+                        placeholder="Teacher ID"
+                        value={newTeacherId}
+                        onChange={(e) => setNewTeacherId(e.target.value)}
+                        sx={{marginBottom: 1}}
+                    />
+                    <br/>
+
                     <Button
                         variant="contained"
                         style={{backgroundColor: '#76ABAE', color: '#EEEEEE'}}
@@ -249,34 +292,34 @@ function Admin() {
                     {userAddError && <p style={{color: 'red'}}>{userAddError}</p>}
                 </Grid>
 
-                <Grid item>
-                    <h2>Add Teacher</h2>
-                    <TextField
-                        type="text"
-                        placeholder="Name"
-                        value={teacherName}
-                        onChange={(e) => setTeacherName(e.target.value)}
-                        sx={{marginBottom: 1}}
-                    />
-                    <br/>
-                    <TextField
-                        type="text"
-                        placeholder="Teacher number"
-                        value={teacherNumber}
-                        onChange={(e) => setTeacherNumber(e.target.value)}
-                        sx={{marginBottom: 1}}
-                    />
-                    <br/>
-                    <Button
-                        variant="contained"
-                        style={{backgroundColor: '#76ABAE', color: '#EEEEEE'}}
-                        onClick={handleAddTeacher}>Add Teacher
-                    </Button>
-                    {teacherAddSuccess && <p style={{color: 'green'}}>{teacherAddSuccess}</p>}
-                    {teacherAddError && <p style={{color: 'red'}}>{teacherAddError}</p>}
-                </Grid>
+                {/*<Grid item xs={3}>*/}
+                {/*    <h2>Add Teacher</h2>*/}
+                {/*    <TextField*/}
+                {/*        type="text"*/}
+                {/*        placeholder="Name"*/}
+                {/*        value={teacherName}*/}
+                {/*        onChange={(e) => setTeacherName(e.target.value)}*/}
+                {/*        sx={{marginBottom: 1}}*/}
+                {/*    />*/}
+                {/*    <br/>*/}
+                {/*    <TextField*/}
+                {/*        type="text"*/}
+                {/*        placeholder="Teacher number"*/}
+                {/*        value={teacherNumber}*/}
+                {/*        onChange={(e) => setTeacherNumber(e.target.value)}*/}
+                {/*        sx={{marginBottom: 1}}*/}
+                {/*    />*/}
+                {/*    <br/>*/}
+                {/*    <Button*/}
+                {/*        variant="contained"*/}
+                {/*        style={{backgroundColor: '#76ABAE', color: '#EEEEEE'}}*/}
+                {/*        onClick={handleAddTeacher}>Add Teacher*/}
+                {/*    </Button>*/}
+                {/*    {teacherAddSuccess && <p style={{color: 'green'}}>{teacherAddSuccess}</p>}*/}
+                {/*    {teacherAddError && <p style={{color: 'red'}}>{teacherAddError}</p>}*/}
+                {/*</Grid>*/}
 
-                <Grid item>
+                <Grid item xs={3}>
                     <h2>Add Student</h2>
                     <TextField
                         type="text"
@@ -312,7 +355,7 @@ function Admin() {
                     {studentAddError && <p style={{color: 'red'}}>{studentAddError}</p>}
                 </Grid>
 
-                <Grid item>
+                <Grid item xs={3}>
                     <h2>Add Class</h2>
                     <TextField
                         type="text"
@@ -355,8 +398,36 @@ function Admin() {
                     {classAddError && <p style={{color: 'red'}}>{classAddError}</p>}
                 </Grid>
 
+                <Grid item>
+                    <h2>Add Student To Class</h2>
+                    <TextField
+                        type="text"
+                        placeholder="Class Number"
+                        value={classNumber}
+                        onChange={(e) => setClassNumber(e.target.value)}
+                        sx={{marginBottom: 1}}
+                    />
+                    <br/>
+                    <br/>
+                    <TextField
+                        type="text"
+                        placeholder="Student number"
+                        value={classStudentNumber}
+                        onChange={(e) => setClassStudentNumber(e.target.value)}
+                        sx={{marginBottom: 1}}
+                    />
+                    <br/>
+                    <Button
+                        variant="contained"
+                        style={{backgroundColor: '#76ABAE', color: '#EEEEEE'}}
+                        onClick={handleAddStudentToClass}>Add Class
+                    </Button>
+                    {classAddStudentSuccess && <p style={{color: 'green'}}>{classAddStudentSuccess}</p>}
+                    {classAddStudentError && <p style={{color: 'red'}}>{classAddStudentError}</p>}
+                </Grid>
 
                 <Grid item>
+
                     <h2>Delete User</h2>
                     <TextField
                         type="text"
@@ -375,7 +446,7 @@ function Admin() {
                     {userDeleteError && <p style={{color: 'red'}}>{userDeleteError}</p>}
                 </Grid>
 
-                <Grid item>
+                <Grid item xs={3}>
                     <h2>Delete Teacher</h2>
                     <TextField
                         type="text"
@@ -394,7 +465,7 @@ function Admin() {
                     {teacherDeleteError && <p style={{color: 'red'}}>{teacherDeleteError}</p>}
                 </Grid>
 
-                <Grid item>
+                <Grid item xs={3}>
                     <h2>Delete Student</h2>
                     <TextField
                         type="text"
@@ -414,7 +485,7 @@ function Admin() {
                     {studentDeleteError && <p style={{color: 'red'}}>{studentDeleteError}</p>}
                 </Grid>
 
-                <Grid item>
+                <Grid item xs={3}>
                     <h2>Delete Class</h2>
                     <TextField
                         type="text"
