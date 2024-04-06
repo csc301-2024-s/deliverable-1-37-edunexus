@@ -13,36 +13,43 @@ npm install
 ```bash
 npm start
 ```
+will start the electron application in development mode. There is live reload to any changes made to the frontend - so any files in [/src/ui](/src/ui) - but you must reload the application for any changes to the backend to take effect. 
 
 **Package Electron App**
 
 ```bash
 npm run package
 ```
+This packages into a platform specific bundle but **is not** intended for distribution.
 
 **Build Electron Executable**
 
 ```bash
-npm run build
+npm run make
 ```
+This packages to a platform specific executable bundle that **is** intended for distribution. 
 
-Note: `npm package` will only package for the platform you are currently running. It will return:
+Note: `npm run package` and `npm run make` will only package for the platform you are currently running. It will return:
 
 - `.app` for MacOS
 - `.exe` for Windows
 - `.deb` for any flavour of Linux (more configuration is possible)
 
 ### Using the pre-packaged database
-Admin username: admin
-Password: password
+Admin username: `admin`
+Password: `password`
 
 ## Tech Stack
 
-- [Electron](https://www.electronjs.org/r) - Framework enabling cross-platform dev
+- [Electron](https://www.electronjs.org/r) - Framework enabling cross-platform developments
 - [Electron Forge](https://www.electronforge.io/) - For packaging Electron
   - [Webpak](https://webpack.js.org/) - For package, asset, and dependency management
 - [React](https://react.dev/) - For reactive UI
-- [Material UI](https://mui.com/material-ui/) - For UI components
+- [Material UI](https://mui.com/material-ui/) - For UI components- 
+
+Our app is an Electron app. Electron apps have two primary processes: Main and Renderer. The main process deals with handling requests from the frontend running in the renderer process. For more information on the details of our tech stack within electron, see [readme in src](/src/README.md)
+
+For more deatil about our database implementation, see [readme in src/database](/src/database/README.md).
 
 ## Useful References
 
